@@ -1,0 +1,16 @@
+.main-page{
+  background-color: rgba(12, 6, 34, 0.726);
+  width: 100%;
+  height: 100%;
+  overflow: auto;
+  
+}
+
+.projectList{
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  
+}
+
+

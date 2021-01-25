@@ -1,0 +1,46 @@
+
+.project{
+  background: rgba(65, 105, 225, 0.438);
+  margin: 30px 0px 0px 30px;
+  min-width:  300px;
+  min-height: 150px;
+  align-items: center;
+  border-radius: 5px;
+}
+
+.project:hover{
+    background-color: rgba(65, 206, 225, 0.438);
+  
+}
+
+.title{
+  color: aliceblue;
+  text-align: left;
+  font-size: 25px;
+  padding: 20px 0px 10px 30px;
+  font-family: 'Noto Sans JP', sans-serif;
+  font-weight: 400;
+}
+
+.description{
+  color: aliceblue;
+  font-family: 'Open Sans', sans-serif;
+  padding: 0px 0px 0px 15px;
+  font-size: 16px;
+  margin: auto;
+}
+
+.date{
+  color: aliceblue;
+  font-family: monospace;
+  margin: auto;
+  text-align: center;
+  padding-top: 15px;
+}
+
+.t{
+  display: inline-block;
+  width: 140px;
+  text-align: left;
+}
+
