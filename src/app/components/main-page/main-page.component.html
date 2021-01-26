@@ -2,9 +2,11 @@
 
 <div class="main-page">
   <div class="projectList">
-    <div *ngFor="let i of [].constructor(5)" class="project">
-        <project></project>
+    <div *ngFor="let i of [].constructor(5)">
+        <project-card></project-card>
     </div>
+
+    <button (click) ="getAll()">Click</button>
     
   </div>
 

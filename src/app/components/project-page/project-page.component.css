@@ -1,0 +1,47 @@
+.project-page{
+  background-color: rgba(12, 6, 34, 0.726);
+  width: 100%;
+  height: 100%;
+  overflow: auto;
+}
+
+.header{
+  display: flex;
+  justify-content: left;
+  align-items: center;
+  overflow: hidden;
+
+}
+
+.header h1{
+  box-sizing: border-box;
+  color: aliceblue;
+  font-size: 38px;
+  padding: 20px 0px 0px 30px;
+  font-family: 'Noto Sans JP', sans-serif;
+  font-weight: 400;
+  margin: 0px;
+  height: 70px;
+}
+
+.date{
+  box-sizing: border-box;
+  color: aliceblue;
+  font-family: monospace;
+  font-size: 16px;
+  padding: 20px 0px 0px 30px;
+  height: 70px;
+
+}
+
+.t{
+  display: inline-block;
+  text-align: left;
+  width: 140px;
+}
+
+.sectionList{
+  display: flex;
+  flex-direction: row;
+  overflow: auto;
+}
