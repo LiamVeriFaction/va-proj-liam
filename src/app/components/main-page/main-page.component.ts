@@ -11,16 +11,16 @@ export class MainPageComponent implements OnInit {
 
   
 
-  constructor(private authService : AuthenticationService) { }
+  constructor(private authService : AuthenticationService) { 
+
+  }
 
   ngOnInit(): void {
     this.authService.login('liam','9ZmvnqK1G4rgPrTCJX').pipe(first()).subscribe();
   }
 
   getAll(){
-    this.authService.getAll().pipe(first()).subscribe((data) => {
-      console.log(data);
-    });
+    this.authService.getAll().subscribe();
   }
 
 }
