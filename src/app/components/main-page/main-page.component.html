@@ -1,13 +1,13 @@
 
-
 <div class="main-page">
-  <div class="projectList">
-    <div *ngFor="let i of [].constructor(5)">
-        <project-card></project-card>
+  <div *ngIf="isLoggedIn()">
+  <div class="project-list">
+    <div *ngFor="let project of projectList$ | async">
+        <project-card [id] = "project.id"> </project-card>
     </div>
 
-    <button (click) ="getAll()">Click</button>
     
   </div>
 
+</div>
 </div>

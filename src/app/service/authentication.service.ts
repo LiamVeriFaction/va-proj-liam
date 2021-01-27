@@ -4,22 +4,28 @@ import { map } from 'rxjs/operators';
 import { interval, Observable, ReplaySubject, EMPTY } from 'rxjs';
 
 import { User } from '../models/user';
+import { Project } from '../models/project';
+import { APIUrl } from '../models/api';
 
 @Injectable({
   providedIn: 'root',
 })
 export class AuthenticationService {
-  private currentUserSubject!: ReplaySubject<User>; 
+  private currentUserSubject!: ReplaySubject<User>;
   private refreshInterval = interval(4 * 60 * 1000); //Refresh every 4 minutes
 
+  public loggedIn: boolean;
+
   constructor(private http: HttpClient) {
+    this.loggedIn = false;
+
     this.currentUserSubject = new ReplaySubject<User>(1);
     let currentUser = localStorage.getItem('currentUser');
 
     if (currentUser) {
       console.log('Existing token found: ', JSON.parse(currentUser));
       this.currentUserSubject.next(JSON.parse(currentUser));
-
+      this.loggedIn = true;
     }
 
     const refreshSub = this.refreshInterval.subscribe((n) => {
@@ -33,12 +39,13 @@ export class AuthenticationService {
 
   login(username: string, password: string) {
     return this.http
-      .post<any>(`${API}/token/`, { username, password })
+      .post<any>(`${APIUrl}/token/`, { username, password })
       .pipe(
         map((user) => {
           localStorage.setItem('loginTime', new Date().getTime().toString());
           localStorage.setItem('currentUser', JSON.stringify(user));
           this.currentUserSubject.next(user);
+          this.loggedIn = true;
           return user;
         })
       );
@@ -50,7 +57,7 @@ export class AuthenticationService {
       console.log('Refreshing token');
       let refresh = JSON.parse(currentUser).refresh;
       return this.http
-        .post<any>(`${API}/token/refresh/`, { refresh })
+        .post<any>(`${APIUrl}/token/refresh/`, { refresh })
         .pipe(
           map((token) => {
             let user = JSON.parse(localStorage.getItem('currentUser')!);
@@ -64,15 +71,4 @@ export class AuthenticationService {
     }
     return EMPTY;
   }
-
-  getAll() {
-    return this.http.get<User[]>(`${API}/project/`).pipe(
-      map((data: any) => {
-        console.log(data);
-        return data.data;
-      })
-    );
-  }
 }
-
-export const API = 'https://vaproj.itstudio.ie/api';

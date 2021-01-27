@@ -1,4 +1,7 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, Input, OnInit } from '@angular/core';
+import { Observable } from 'rxjs';
+import { Project } from 'src/app/models/project';
+import { ProjectService } from 'src/app/service/project.service';
 
 @Component({
   selector: 'project-card',
@@ -7,9 +10,16 @@ import { Component, OnInit } from '@angular/core';
 })
 export class ProjectCardComponent implements OnInit {
 
-  constructor() { }
+  @Input() id! : number
+  project$! : Observable<Project>
+
+
+  constructor(private projectService : ProjectService) {
+
+   }
 
   ngOnInit(): void {
+    this.project$ = this.projectService.getProject(this.id);
   }
 
 }

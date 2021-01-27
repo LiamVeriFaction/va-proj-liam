@@ -26,7 +26,7 @@
 .description{
   color: aliceblue;
   font-family: 'Open Sans', sans-serif;
-  padding: 0px 0px 0px 15px;
+  padding: 0px 0px 0px 30px;
   font-size: 16px;
   margin: auto;
 }
@@ -35,8 +35,8 @@
   color: aliceblue;
   font-family: monospace;
   margin: auto;
-  text-align: center;
-  padding-top: 15px;
+  text-align: left;
+  padding: 10px 0px 0px 30px;
 }
 
 .t{
