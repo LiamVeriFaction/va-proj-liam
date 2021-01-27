@@ -1,8 +1,18 @@
-<div [routerLink]="['/projects', 2]" class="project" *ngIf="project$ |async as project">
-  <div class="title">{{project.project_name}}</div>
-  <div class="description">{{project.description}}</div>
+<div
+  [routerLink]="['/projects', project.id]"
+  class="project"
+  *ngIf="project$ | async as project"
+>
+  <div class="title">{{ project.project_name }}</div>
+  <div class="description">{{ project.description }}</div>
   <div class="date">
-    <div><span class="t">Start Date:</span> {{project.start_date | date:'shortDate'}}</div>
-    <div><span class="t">Target Date:</span> {{project.target_date | date: 'shortDate'}}</div>
+    <div>
+      <span class="t">Start Date:</span>
+      {{ project.start_date | date: "shortDate" }}
+    </div>
+    <div>
+      <span class="t">Target Date:</span>
+      {{ project.target_date | date: "shortDate" }}
+    </div>
   </div>
 </div>

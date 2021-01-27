@@ -4,5 +4,6 @@ export interface Project{
   description: string;
   start_date: string;
   target_date: string;
+  sections : string;
 
 }

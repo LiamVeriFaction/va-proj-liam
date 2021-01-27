@@ -40,7 +40,7 @@
   width: 140px;
 }
 
-.sectionList{
+.section-list{
   display: flex;
   flex-direction: row;
   overflow: auto;
