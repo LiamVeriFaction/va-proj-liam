@@ -1,12 +1,19 @@
 <div class="navbar">
-  <div class="navbar-left">
-    <a href="">Home</a>
-    <a href="">Projects</a>
+  <div class="navbar-left" *ngIf = "isLoggedIn()">
+    <a routerLink="/main">Home</a>
+    <a routerLink="/main">Projects</a>
   </div>
 
   <div class="title">Liam's Trello Clone</div>
   
-  <div class="navbar-right">
-    <a href="#user">User</a>
+  <div class="navbar-right" *ngIf = "isLoggedIn()">
+
+    <a routerLink="/user">
+      <span *ngIf="user$ | async as user">{{user.first_name}}</span>
+    </a>
+
+    <a routerLink="/login">
+      <span>Logout</span>
+    </a>
   </div>
 </div>

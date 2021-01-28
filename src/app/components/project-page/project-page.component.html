@@ -1,14 +1,14 @@
 <div class="project-page" *ngIf="project$ | async as project">
   <div class="header">
-    <h1>Sandwich</h1>
+    <h1>{{project.project_name}}</h1>
     <div class="date">
-      <div><span class="t">Start Date:</span> 2020/12/21</div>
-      <div><span class="t">Target Date:</span> 2021/02/05</div>
+      <div><span class="t">Start Date:</span>  {{ project.start_date | date: "mediumDate" }}</div>
+      <div><span class="t">Target Date:</span>  {{ project.target_date | date: "mediumDate" }}</div>
     </div>
   </div>
-  <div class="section-list" *ngIf="sectionList$ | async as sectionList">
-    <div *ngFor="let i of [].constructor(5)">
-      <section></section>
+  <div class="section-list">
+    <div *ngFor ="let section of sectionList$ | async">
+      <section [id] = section.id></section>
     </div>
   </div>
 </div>

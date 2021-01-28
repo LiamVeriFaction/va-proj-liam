@@ -11,8 +11,14 @@ import { SectionComponent } from './components/section/section.component';
 import { TaskComponent } from './components/task/task.component';
 import { HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
 import { ProjectPageComponent } from './components/project-page/project-page.component';
-import {MatCardModule} from '@angular/material/card';
+import { MatCardModule } from '@angular/material/card';
+import { MatInputModule } from '@angular/material/input';
+import { MatButtonModule } from '@angular/material/button';
+import { MatSnackBarModule } from '@angular/material/snack-bar';
 import { JwtInterceptor } from './helpers/jwt.interceptor';
+import { UserPageComponent } from './components/user-page/user-page.component';
+import { LoginComponent } from './components/login/login.component';
+import { ReactiveFormsModule } from '@angular/forms';
 
 @NgModule({
   declarations: [
@@ -22,14 +28,20 @@ import { JwtInterceptor } from './helpers/jwt.interceptor';
     ProjectCardComponent,
     SectionComponent,
     TaskComponent,
-    ProjectPageComponent
+    ProjectPageComponent,
+    UserPageComponent,
+    LoginComponent
   ],
   imports: [
     BrowserModule,
     AppRoutingModule,
     BrowserAnimationsModule,
+    ReactiveFormsModule,
     HttpClientModule,
     MatCardModule,
+    MatInputModule,
+    MatButtonModule,
+    MatSnackBarModule,
   ],
   providers: [{provide: HTTP_INTERCEPTORS, useClass: JwtInterceptor, multi: true}],
   bootstrap: [AppComponent]

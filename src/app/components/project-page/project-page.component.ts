@@ -1,9 +1,10 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute, Params } from '@angular/router';
 import { Observable } from 'rxjs';
-import { map, switchMap } from 'rxjs/operators';
+import { map } from 'rxjs/operators';
 import { Project } from 'src/app/models/project';
 import { Section } from 'src/app/models/section';
+import { AuthenticationService } from 'src/app/service/authentication.service';
 import { ProjectService } from 'src/app/service/project.service';
 import { SectionService } from 'src/app/service/section.service';
 
@@ -18,10 +19,13 @@ export class ProjectPageComponent implements OnInit {
   constructor(
     private route: ActivatedRoute,
     private sectionService: SectionService,
-    private projectService: ProjectService
+    private projectService: ProjectService,
+    private authService: AuthenticationService
   ) {}
 
   ngOnInit(): void {
+    this.authService.login('liam','9ZmvnqK1G4rgPrTCJX').subscribe();
+
     this.route.params.forEach((params: Params) => {
       this.project$ = this.projectService.getProject(+params['id']).pipe(
         map((project: Project) => {

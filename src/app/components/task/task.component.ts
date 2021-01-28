@@ -1,4 +1,7 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, Input, OnInit } from '@angular/core';
+import { Observable } from 'rxjs';
+import { Task } from 'src/app/models/task';
+import { TaskService } from 'src/app/service/task.service';
 
 @Component({
   selector: 'task',
@@ -7,9 +10,14 @@ import { Component, OnInit } from '@angular/core';
 })
 export class TaskComponent implements OnInit {
 
-  constructor() { }
+  @Input() id! : number;
+  task$! : Observable<Task>;
+
+  constructor(private taskService : TaskService) { }
 
   ngOnInit(): void {
+    this.task$ = this.taskService.getTask(this.id);
+
   }
 
 }

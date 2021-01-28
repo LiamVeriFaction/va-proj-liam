@@ -1,11 +1,9 @@
-<div class="section">
-  <h2>To Do</h2>
+<div class="section" *ngIf="section$ | async as section">
+  <h2>{{ section.heading }}</h2>
 
   <div class="tasklist">
-    <div *ngFor="let i of [].constructor(5)">
-      <task></task>
+    <div *ngFor="let task of taskList$ | async">
+      <task [id] = "task.id"></task>
+    </div>
   </div>
-
-  </div>
-
 </div>
