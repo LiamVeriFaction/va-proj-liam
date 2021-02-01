@@ -5,18 +5,16 @@ import { APIUrl } from '../models/api';
 import { Project } from '../models/project';
 
 @Injectable({
-  providedIn: 'root'
+  providedIn: 'root',
 })
 export class ProjectService {
-
-  constructor(private http: HttpClient) { }
-
+  constructor(private http: HttpClient) {}
 
   getProjects(): Observable<Project[]> {
-    return this.http.get<Project[]>(`${APIUrl}/project/`)
+    return this.http.get<Project[]>(`${APIUrl}/project/`);
   }
 
-  getProject(id:number) : Observable<Project>{
-    return this.http.get<Project>(`${APIUrl}/project/${id}/`)
+  getProject(id: number): Observable<Project> {
+    return this.http.get<Project>(`${APIUrl}/project/${id}/`);
   }
 }

@@ -33,7 +33,7 @@ import { MatDialogModule } from '@angular/material/dialog';
     ProjectPageComponent,
     UserPageComponent,
     LoginComponent,
-    TaskInputBoxComponent
+    TaskInputBoxComponent,
   ],
   imports: [
     BrowserModule,
@@ -48,7 +48,9 @@ import { MatDialogModule } from '@angular/material/dialog';
     MatDialogModule,
     FormsModule,
   ],
-  providers: [{provide: HTTP_INTERCEPTORS, useClass: JwtInterceptor, multi: true}],
-  bootstrap: [AppComponent]
+  providers: [
+    { provide: HTTP_INTERCEPTORS, useClass: JwtInterceptor, multi: true },
+  ],
+  bootstrap: [AppComponent],
 })
-export class AppModule { }
+export class AppModule {}

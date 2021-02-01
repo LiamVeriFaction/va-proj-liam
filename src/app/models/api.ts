@@ -1,5 +1,1 @@
-
-
-  export const APIUrl : string = 'https://vaproj.itstudio.ie/api';
-
-
+export const APIUrl: string = 'https://vaproj.itstudio.ie/api';

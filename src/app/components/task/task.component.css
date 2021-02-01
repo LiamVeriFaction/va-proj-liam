@@ -1,26 +1,23 @@
-.task{
+.task {
   max-width: 500px;
   background: rgb(232, 232, 248);
   margin: 15px;
   margin-bottom: 20px;
-
 }
 
-.task:hover{
+.task:hover {
   background-color: #f06292;
-
 }
 
-.title{
-
+.title {
   color: rgb(0, 0, 0);
-  font-family: 'Open Sans', sans-serif;
+  font-family: "Open Sans", sans-serif;
   font-size: 18px;
   padding: 5px;
   padding-left: 15px;
   font-weight: 600;
 }
 
-.task-card:hover{
+.task-card:hover {
   background-color: rgb(46, 43, 226);
 }

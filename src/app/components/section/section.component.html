@@ -3,8 +3,15 @@
 
   <div class="tasklist">
     <div *ngFor="let task of taskList$ | async">
-      <task [id] = "task.id"></task>
+      <task [id]="task.id"></task>
     </div>
   </div>
-  <button mat-stroked-button color="primary" class="addButton" (click)="openDialog(section.id)">Add Task</button>
+  <button
+    mat-stroked-button
+    color="primary"
+    class="addButton"
+    (click)="openDialog(section.id)"
+  >
+    Add Task
+  </button>
 </div>

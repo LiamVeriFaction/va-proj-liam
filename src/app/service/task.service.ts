@@ -1,8 +1,7 @@
 import { HttpClient } from '@angular/common/http';
-import { partitionArray } from '@angular/compiler/src/util';
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
-import { catchError, switchMap } from 'rxjs/operators';
+import { switchMap } from 'rxjs/operators';
 import { APIUrl } from '../models/api';
 import { TaskData } from '../models/dialog-data/task-data';
 import { Task } from '../models/task';
@@ -21,10 +20,18 @@ export class TaskService {
     return this.http.get<Task[]>(`${APIUrl}/section/${id}/task/`);
   }
 
+  /**
+   *
+   * @param id The task ID
+   */
   getTask(id: number): Observable<Task> {
     return this.http.get<Task>(`${APIUrl}/task/${id}/`);
   }
 
+  /**
+   *
+   * @param id The section ID
+   */
   addTask(task: TaskData, id: number): Observable<Task[]> {
     task.user = +localStorage.getItem('userID')!;
     return this.http.post<Task>(`${APIUrl}/section/${id}/task/`, task).pipe(

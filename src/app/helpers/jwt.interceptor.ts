@@ -17,11 +17,9 @@ export class JwtInterceptor implements HttpInterceptor {
     request: HttpRequest<unknown>,
     next: HttpHandler
   ): Observable<HttpEvent<unknown>> {
-
     const isApiUrl = request.url.startsWith('https://vaproj.itstudio.ie/api');
     if (isApiUrl) {
-      this.authService.getCurrentToken().subscribe((token:Token) => {
-
+      this.authService.getCurrentToken().subscribe((token: Token) => {
         request = request.clone({
           setHeaders: {
             Authorization: `Bearer ${token.access}`,

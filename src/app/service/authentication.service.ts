@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
-import { catchError, map, switchMap, tap } from 'rxjs/operators';
+import { switchMap, tap } from 'rxjs/operators';
 import { timer, Observable, ReplaySubject, EMPTY, BehaviorSubject } from 'rxjs';
 
 import { APIUrl } from '../models/api';
@@ -37,19 +37,19 @@ export class AuthenticationService {
     return this.currentTokenSubject.asObservable();
   }
 
-  public getLoggedIn() : Observable<boolean>{
+  public getLoggedIn(): Observable<boolean> {
     return this.loggedIn.asObservable();
   }
 
-  public changeLoggedIn(status : boolean){
+  public changeLoggedIn(status: boolean) {
     this.loggedIn.next(status);
   }
 
-  login(username: string, password: string) : Observable<User> {
+  login(username: string, password: string): Observable<User> {
     return this.http
       .post<Token>(`${APIUrl}/token/`, { username, password })
       .pipe(
-        switchMap((token :Token) => {
+        switchMap((token: Token) => {
           this.loggedIn.next(true);
           this.currentTokenSubject.next(token);
           localStorage.setItem('currentToken', JSON.stringify(token));
@@ -59,7 +59,6 @@ export class AuthenticationService {
   }
 
   refresh(): Observable<any> {
-
     let currentToken = localStorage.getItem('currentToken');
     if (currentToken) {
       console.log('Refreshing token');
@@ -67,7 +66,7 @@ export class AuthenticationService {
       return this.http
         .post<any>(`${APIUrl}/token/refresh/`, { refresh })
         .pipe(
-          tap((newToken : Token) => {
+          tap((newToken: Token) => {
             let token = JSON.parse(localStorage.getItem('currentToken')!);
             token.access = newToken.access;
             localStorage.setItem('currentToken', JSON.stringify(token));

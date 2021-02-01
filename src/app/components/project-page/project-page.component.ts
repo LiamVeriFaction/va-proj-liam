@@ -23,8 +23,8 @@ export class ProjectPageComponent implements OnInit {
     private authService: AuthenticationService
   ) {}
 
-  ngOnInit(): void {-+
-    this.route.params.forEach((params: Params) => {
+  ngOnInit(): void {
+    -+this.route.params.forEach((params: Params) => {
       this.project$ = this.projectService.getProject(+params['id']).pipe(
         map((project: Project) => {
           this.sectionList$ = this.sectionService.getSections(project.id);

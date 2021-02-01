@@ -1,46 +1,44 @@
-.project-page{
+.project-page {
   background-color: rgb(28, 20, 58);
   width: 100%;
   height: 100%;
   overflow: auto;
 }
 
-.header{
+.header {
   display: flex;
   justify-content: left;
   align-items: center;
   overflow: hidden;
-
 }
 
-.header h1{
+.header h1 {
   box-sizing: border-box;
   color: aliceblue;
   font-size: 38px;
   padding: 20px 0px 0px 30px;
-  font-family: 'Noto Sans JP', sans-serif;
+  font-family: "Noto Sans JP", sans-serif;
   font-weight: 400;
   margin: 0px;
   height: 70px;
 }
 
-.date{
+.date {
   box-sizing: border-box;
   color: aliceblue;
   font-family: monospace;
   font-size: 16px;
   padding: 20px 0px 0px 30px;
   height: 70px;
-
 }
 
-.t{
+.t {
   display: inline-block;
   text-align: left;
   width: 140px;
 }
 
-.section-list{
+.section-list {
   display: flex;
   flex-direction: row;
   overflow: auto;

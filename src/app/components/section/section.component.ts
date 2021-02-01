@@ -3,7 +3,6 @@ import { MatDialog } from '@angular/material/dialog';
 import { Observable } from 'rxjs';
 import { Section } from 'src/app/models/section';
 import { Task } from 'src/app/models/task';
-import { User } from 'src/app/models/user';
 import { SectionService } from 'src/app/service/section.service';
 import { TaskService } from 'src/app/service/task.service';
 import { TaskInputBoxComponent } from '../dialogs/task-input-box/task-input-box.component';
@@ -38,7 +37,7 @@ export class SectionComponent implements OnInit {
 
     taskDialog.afterClosed().subscribe((task) => {
       if (task) {
-        this.taskList$ = this.taskService.addTask(task,id);
+        this.taskList$ = this.taskService.addTask(task, id);
       }
     });
   }
