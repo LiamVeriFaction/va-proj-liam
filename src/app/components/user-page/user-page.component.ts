@@ -1,4 +1,7 @@
 import { Component, OnInit } from '@angular/core';
+import { Observable } from 'rxjs';
+import { User } from 'src/app/models/user';
+import { UserService } from 'src/app/service/user.service';
 
 @Component({
   selector: 'app-user-page',
@@ -7,9 +10,13 @@ import { Component, OnInit } from '@angular/core';
 })
 export class UserPageComponent implements OnInit {
 
-  constructor() { }
+  user$! : Observable<User>;
+
+  constructor(private userService : UserService) {
+   }
 
   ngOnInit(): void {
+    this.user$ = this.userService.getCurrentUser();
   }
 
 }

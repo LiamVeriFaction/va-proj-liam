@@ -1,13 +1,13 @@
 .task{
   max-width: 500px;
-  background: rgba(244, 244, 245, 0.438);
+  background: rgb(232, 232, 248);
   margin: 15px;
   margin-bottom: 20px;
 
 }
 
 .task:hover{
-  background-color: rgba(65, 206, 225, 0.438);
+  background-color: #f06292;
 
 }
 

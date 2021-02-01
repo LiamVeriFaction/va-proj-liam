@@ -1,0 +1,16 @@
+<h1 mat-dialog-title>Create a Task</h1>
+<div mat-dialog-content>
+  <mat-form-field>
+    <mat-label>Heading</mat-label>
+    <input matInput [(ngModel)]="data.heading">
+  </mat-form-field>
+  <mat-form-field>
+    <mat-label>Description</mat-label>
+    <input matInput [(ngModel)]="data.description">
+  </mat-form-field>
+</div>
+
+<div mat-dialog-actions>
+  <button mat-button color="primary" (click)="onNoClick()">Cancel</button>
+  <button mat-button cdkFocusInitial color="accent" [mat-dialog-close]="data">Create</button>
+</div>

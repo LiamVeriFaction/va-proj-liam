@@ -23,9 +23,7 @@ export class ProjectPageComponent implements OnInit {
     private authService: AuthenticationService
   ) {}
 
-  ngOnInit(): void {
-    this.authService.login('liam','9ZmvnqK1G4rgPrTCJX').subscribe();
-
+  ngOnInit(): void {-+
     this.route.params.forEach((params: Params) => {
       this.project$ = this.projectService.getProject(+params['id']).pipe(
         map((project: Project) => {

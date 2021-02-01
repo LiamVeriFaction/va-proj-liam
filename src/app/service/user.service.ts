@@ -14,10 +14,5 @@ export class UserService {
 
   getCurrentUser(): Observable<User> {
     return this.http.get<User>(`${APIUrl}/currentuser/`).pipe();
-    // return this.http.get<User[]>(`${APIUrl}/user/`).pipe(
-    //   mergeAll(),
-    //   first((user : User)  => user.username === currentUser
-    //   )
-    // )
   }
 }

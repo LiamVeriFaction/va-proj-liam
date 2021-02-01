@@ -1,7 +1,9 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
+import { catchError } from 'rxjs/operators';
 import { APIUrl } from '../models/api';
+import { TaskData } from '../models/dialog-data/task-data';
 import { Task } from '../models/task';
 
 @Injectable({
@@ -17,5 +19,9 @@ export class TaskService {
 
   getTask(id: number) : Observable<Task>{
     return this.http.get<Task>(`${APIUrl}/task/${id}/`)
+  }
+
+  addTask(task : TaskData, id :number) : Observable<Task>{
+    return this.http.post<Task>(`${APIUrl}/section/${id}/task/`,task);
   }
 }

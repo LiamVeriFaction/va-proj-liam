@@ -18,7 +18,9 @@ import { MatSnackBarModule } from '@angular/material/snack-bar';
 import { JwtInterceptor } from './helpers/jwt.interceptor';
 import { UserPageComponent } from './components/user-page/user-page.component';
 import { LoginComponent } from './components/login/login.component';
-import { ReactiveFormsModule } from '@angular/forms';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
+import { TaskInputBoxComponent } from './components/dialogs/task-input-box/task-input-box.component';
+import { MatDialogModule } from '@angular/material/dialog';
 
 @NgModule({
   declarations: [
@@ -30,7 +32,8 @@ import { ReactiveFormsModule } from '@angular/forms';
     TaskComponent,
     ProjectPageComponent,
     UserPageComponent,
-    LoginComponent
+    LoginComponent,
+    TaskInputBoxComponent
   ],
   imports: [
     BrowserModule,
@@ -42,6 +45,8 @@ import { ReactiveFormsModule } from '@angular/forms';
     MatInputModule,
     MatButtonModule,
     MatSnackBarModule,
+    MatDialogModule,
+    FormsModule,
   ],
   providers: [{provide: HTTP_INTERCEPTORS, useClass: JwtInterceptor, multi: true}],
   bootstrap: [AppComponent]

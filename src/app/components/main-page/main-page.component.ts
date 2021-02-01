@@ -12,14 +12,14 @@ import { ProjectService } from 'src/app/service/project.service';
 })
 export class MainPageComponent implements OnInit {
 
-  projectList$ : Observable<Project[]>;
+  projectList$! : Observable<Project[]>;
   
   constructor(private authService : AuthenticationService, private projectService : ProjectService) { 
-    this.projectList$  = projectService.getProjects();
+    
   }
 
   ngOnInit(): void {
-    this.authService.login('liam','9ZmvnqK1G4rgPrTCJX').subscribe();
+    this.projectList$  = this.projectService.getProjects();
   }
 
   isLoggedIn() : boolean{
