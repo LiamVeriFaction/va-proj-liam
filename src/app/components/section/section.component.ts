@@ -38,10 +38,7 @@ export class SectionComponent implements OnInit {
 
     taskDialog.afterClosed().subscribe((task) => {
       if (task) {
-        this.taskService.addTask(task, id).subscribe((task) => {
-          console.log('Added new task');
-          this.taskList$ = this.taskService.getTasks(this.id);
-        });
+        this.taskList$ = this.taskService.addTask(task,id);
       }
     });
   }

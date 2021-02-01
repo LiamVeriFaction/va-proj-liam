@@ -16,8 +16,9 @@ export class UserService {
     return this.http.get<User>(`${APIUrl}/currentuser/`).pipe(
       tap((user: User) => {
         localStorage.setItem('currentUser', JSON.stringify(user));
+        localStorage.setItem('userID',user.id+"")
       })
     );
   }
-  
+
 }

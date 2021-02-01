@@ -1,30 +1,36 @@
 import { HttpClient } from '@angular/common/http';
+import { partitionArray } from '@angular/compiler/src/util';
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
-import { catchError } from 'rxjs/operators';
+import { catchError, switchMap } from 'rxjs/operators';
 import { APIUrl } from '../models/api';
 import { TaskData } from '../models/dialog-data/task-data';
 import { Task } from '../models/task';
 
 @Injectable({
-  providedIn: 'root'
+  providedIn: 'root',
 })
 export class TaskService {
+  constructor(private http: HttpClient) {}
 
-
-  constructor(private http: HttpClient) { }
-
-  getTasks(id : number) : Observable<Task[]>{
-    return this.http.get<Task[]>(`${APIUrl}/section/${id}/task/`)
+  /**
+   *
+   * @param id The section ID
+   */
+  getTasks(id: number): Observable<Task[]> {
+    return this.http.get<Task[]>(`${APIUrl}/section/${id}/task/`);
   }
 
-
-  getTask(id: number) : Observable<Task>{
-    return this.http.get<Task>(`${APIUrl}/task/${id}/`)
+  getTask(id: number): Observable<Task> {
+    return this.http.get<Task>(`${APIUrl}/task/${id}/`);
   }
 
-  addTask(task : TaskData, id :number) : Observable<Task>{
+  addTask(task: TaskData, id: number): Observable<Task[]> {
     task.user = +localStorage.getItem('userID')!;
-    return this.http.post<Task>(`${APIUrl}/section/${id}/task/`,task);
+    return this.http.post<Task>(`${APIUrl}/section/${id}/task/`, task).pipe(
+      switchMap(() => {
+        return this.getTasks(id);
+      })
+    );
   }
 }
