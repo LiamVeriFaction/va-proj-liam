@@ -12,7 +12,17 @@ import { User } from '../models/user';
 export class UserService {
   constructor(private http: HttpClient) {}
 
+  storeCurrentUser(): Observable<User> {
+    return this.http.get<User>(`${APIUrl}/currentuser/`).pipe(
+      map((user: User) => {
+        localStorage.setItem('userID',user.id+"");
+        localStorage.setItem('username',user.username);
+        return user;
+      })
+    );
+  }
+
   getCurrentUser(): Observable<User> {
-    return this.http.get<User>(`${APIUrl}/currentuser/`).pipe();
+    return this.http.get<User>(`${APIUrl}/currentuser/`);
   }
 }

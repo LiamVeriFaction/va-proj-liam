@@ -1,4 +1,4 @@
-<div class="navbar">
+<div class="navbar" [ngStyle]="{'justify-content':isLoggedIn()? 'space-between' : ''}">
   <div class="navbar-left" *ngIf = "isLoggedIn()">
     <a routerLink="/main">Home</a>
     <a routerLink="/main">Projects</a>
@@ -9,7 +9,7 @@
   <div class="navbar-right" *ngIf = "isLoggedIn()">
 
     <a routerLink="/user">
-      <span *ngIf="user$ | async as user">{{user.first_name}}</span>
+      <span>{{currentUser}}</span>
     </a>
 
     <a routerLink="/login">

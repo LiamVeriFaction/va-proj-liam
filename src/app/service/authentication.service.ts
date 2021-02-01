@@ -5,6 +5,7 @@ import { interval, Observable, ReplaySubject, EMPTY } from 'rxjs';
 
 import { APIUrl } from '../models/api';
 import { Token } from '../models/token';
+import { UserService } from './user.service';
 
 
 @Injectable({
@@ -16,7 +17,7 @@ export class AuthenticationService {
 
   public loggedIn: boolean;
 
-  constructor(private http: HttpClient) {
+  constructor(private http: HttpClient, private userService : UserService) {
     this.loggedIn = false;
 
     this.currentTokenSubject = new ReplaySubject<Token>(1);
@@ -45,8 +46,8 @@ export class AuthenticationService {
           localStorage.setItem('loginTime', new Date().getTime().toString());
           localStorage.setItem('currentToken', JSON.stringify(token));
           localStorage.setItem('username', username);
+          this.userService.storeCurrentUser().subscribe();
           this.currentTokenSubject.next(token);
-          this.refresh().subscribe();
           this.loggedIn = true;
           return token;
          

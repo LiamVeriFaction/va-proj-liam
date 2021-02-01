@@ -22,6 +22,7 @@ export class TaskService {
   }
 
   addTask(task : TaskData, id :number) : Observable<Task>{
+    task.user = +localStorage.getItem('userID')!;
     return this.http.post<Task>(`${APIUrl}/section/${id}/task/`,task);
   }
 }
