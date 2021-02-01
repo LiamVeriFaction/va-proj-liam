@@ -30,7 +30,7 @@ export class SectionComponent implements OnInit {
     this.taskList$ = this.taskService.getTasks(this.id);
   }
 
-  openDialog(id : number) {
+  openDialog(id: number) {
     let taskDialog = this.dialog.open(TaskInputBoxComponent, {
       width: '250px',
       data: { heading: '', description: '' },
@@ -38,7 +38,10 @@ export class SectionComponent implements OnInit {
 
     taskDialog.afterClosed().subscribe((task) => {
       if (task) {
-      this.taskService.addTask(task,id).subscribe((task) => console.log(task))
+        this.taskService.addTask(task, id).subscribe((task) => {
+          console.log('Added new task');
+          this.taskList$ = this.taskService.getTasks(this.id);
+        });
       }
     });
   }
