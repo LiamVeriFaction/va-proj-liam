@@ -10,3 +10,16 @@
   flex-wrap: wrap;
   justify-content: center;
 }
+
+.addButton {
+  margin-top: 30px;
+  border-color: rgb(240, 248, 255);
+  margin-left: 50%;
+  transform: translateX(-50%);
+  position: pos;
+  color: rgb(240, 248, 255);
+  text-align: center
+}
+.addButton:hover {
+  background-color: #f06292;
+}

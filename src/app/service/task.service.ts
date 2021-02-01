@@ -1,4 +1,4 @@
-import { HttpClient } from '@angular/common/http';
+import { HttpClient, HttpParams } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
 import { switchMap } from 'rxjs/operators';
@@ -17,7 +17,8 @@ export class TaskService {
    * @param id The section ID
    */
   getTasks(id: number): Observable<Task[]> {
-    return this.http.get<Task[]>(`${APIUrl}/section/${id}/task/`);
+    let p = new HttpParams().set("ordering","heading")
+    return this.http.get<Task[]>(`${APIUrl}/section/${id}/task/`,{params: p });
   }
 
   /**

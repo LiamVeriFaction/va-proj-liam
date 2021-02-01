@@ -1,7 +1,9 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
+import { switchMap } from 'rxjs/operators';
 import { APIUrl } from '../models/api';
+import { SectionData } from '../models/dialog-data/section-data';
 import { Section } from '../models/section';
 
 @Injectable({
@@ -25,5 +27,13 @@ export class SectionService {
    */
   getSection(id: number): Observable<Section> {
     return this.http.get<Section>(`${APIUrl}/section/${id}/`);
+  }
+
+  addSection(section : SectionData, id:number): Observable<Section[]>{
+    return this.http.post<Section>(`${APIUrl}/project/${id}/section/`,section).pipe(
+      switchMap(()=>{
+        return this.getSections(id);
+      })
+    )
   }
 }

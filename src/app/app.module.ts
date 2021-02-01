@@ -21,6 +21,10 @@ import { LoginComponent } from './components/login/login.component';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { TaskInputBoxComponent } from './components/dialogs/task-input-box/task-input-box.component';
 import { MatDialogModule } from '@angular/material/dialog';
+import { ProjectInputBoxComponent } from './components/dialogs/project-input-box/project-input-box.component';
+import {MatDatepickerModule} from '@angular/material/datepicker';
+import { MatNativeDateModule } from '@angular/material/core';
+import { SectionInputBoxComponent } from './components/dialogs/section-input-box/section-input-box.component';
 
 @NgModule({
   declarations: [
@@ -34,6 +38,8 @@ import { MatDialogModule } from '@angular/material/dialog';
     UserPageComponent,
     LoginComponent,
     TaskInputBoxComponent,
+    ProjectInputBoxComponent,
+    SectionInputBoxComponent,
   ],
   imports: [
     BrowserModule,
@@ -47,9 +53,12 @@ import { MatDialogModule } from '@angular/material/dialog';
     MatSnackBarModule,
     MatDialogModule,
     FormsModule,
+    MatDatepickerModule,
+    MatNativeDateModule,
   ],
   providers: [
     { provide: HTTP_INTERCEPTORS, useClass: JwtInterceptor, multi: true },
+    MatDatepickerModule,
   ],
   bootstrap: [AppComponent],
 })
