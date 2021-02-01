@@ -11,11 +11,13 @@ import { Task } from '../models/task';
 })
 export class TaskService {
 
+
   constructor(private http: HttpClient) { }
 
   getTasks(id : number) : Observable<Task[]>{
     return this.http.get<Task[]>(`${APIUrl}/section/${id}/task/`)
   }
+
 
   getTask(id: number) : Observable<Task>{
     return this.http.get<Task>(`${APIUrl}/task/${id}/`)

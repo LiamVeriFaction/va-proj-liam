@@ -1,32 +1,31 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
-import { map } from 'rxjs/operators';
-import { interval, Observable, ReplaySubject, EMPTY } from 'rxjs';
+import { catchError, map, switchMap, tap } from 'rxjs/operators';
+import { timer, Observable, ReplaySubject, EMPTY, BehaviorSubject } from 'rxjs';
 
 import { APIUrl } from '../models/api';
 import { Token } from '../models/token';
 import { UserService } from './user.service';
-
+import { User } from '../models/user';
 
 @Injectable({
   providedIn: 'root',
 })
 export class AuthenticationService {
   private currentTokenSubject!: ReplaySubject<Token>;
-  private refreshInterval = interval(4 * 60 * 1000); //Refresh every 4 minutes
+  private refreshInterval = timer(0, 4 * 60 * 1000); //Refreshing once and then every 4 minutes
+  private loggedIn: BehaviorSubject<boolean>;
 
-  public loggedIn: boolean;
-
-  constructor(private http: HttpClient, private userService : UserService) {
-    this.loggedIn = false;
+  constructor(private http: HttpClient, private userService: UserService) {
+    this.loggedIn = new BehaviorSubject<boolean>(false);
 
     this.currentTokenSubject = new ReplaySubject<Token>(1);
-    let currentToken = localStorage.getItem('currentToken');
 
+    let currentToken = localStorage.getItem('currentToken');
     if (currentToken) {
       console.log('Existing token found: ', JSON.parse(currentToken));
       this.currentTokenSubject.next(JSON.parse(currentToken));
-      this.loggedIn = true;
+      this.loggedIn.next(true);
     }
 
     const refreshSub = this.refreshInterval.subscribe((n) => {
@@ -38,24 +37,29 @@ export class AuthenticationService {
     return this.currentTokenSubject.asObservable();
   }
 
-  login(username: string, password: string) {
+  public getLoggedIn() : Observable<boolean>{
+    return this.loggedIn.asObservable();
+  }
+
+  public changeLoggedIn(status : boolean){
+    this.loggedIn.next(status);
+  }
+
+  login(username: string, password: string) : Observable<User> {
     return this.http
-      .post<any>(`${APIUrl}/token/`, { username, password })
+      .post<Token>(`${APIUrl}/token/`, { username, password })
       .pipe(
-        map((token) => {
-          localStorage.setItem('loginTime', new Date().getTime().toString());
-          localStorage.setItem('currentToken', JSON.stringify(token));
-          localStorage.setItem('username', username);
-          this.userService.storeCurrentUser().subscribe();
+        switchMap((token :Token) => {
+          this.loggedIn.next(true);
           this.currentTokenSubject.next(token);
-          this.loggedIn = true;
-          return token;
-         
+          localStorage.setItem('currentToken', JSON.stringify(token));
+          return this.userService.storeCurrentUser();
         })
       );
   }
 
   refresh(): Observable<any> {
+
     let currentToken = localStorage.getItem('currentToken');
     if (currentToken) {
       console.log('Refreshing token');
@@ -63,13 +67,11 @@ export class AuthenticationService {
       return this.http
         .post<any>(`${APIUrl}/token/refresh/`, { refresh })
         .pipe(
-          map((newToken) => {
+          tap((newToken : Token) => {
             let token = JSON.parse(localStorage.getItem('currentToken')!);
             token.access = newToken.access;
-            localStorage.setItem('loginTime', new Date().getTime().toString());
             localStorage.setItem('currentToken', JSON.stringify(token));
             this.currentTokenSubject.next(token);
-            return newToken;
           })
         );
     }

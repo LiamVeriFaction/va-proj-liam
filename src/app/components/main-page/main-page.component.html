@@ -1,6 +1,6 @@
 
 <div class="main-page">
-  <div *ngIf="isLoggedIn()">
+  <div *ngIf="loggedIn">
   <div class="project-list">
     <div *ngFor="let project of projectList$ | async">
         <project-card [id] = "project.id"> </project-card>

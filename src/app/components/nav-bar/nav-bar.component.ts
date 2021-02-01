@@ -12,21 +12,23 @@ import { UserService } from 'src/app/service/user.service';
 export class NavBarComponent implements OnInit {
 
   currentUser!: string;
+  loggedIn! : boolean;
 
-  constructor(private authService : AuthenticationService, private userService : UserService) { }
+  constructor(private authService : AuthenticationService, private userService : UserService) {}
 
   ngOnInit(): void {
+    this.authService.getLoggedIn().subscribe((status) => (this.loggedIn = status));
+    
   }
 
   isLoggedIn() : boolean{
 
-    if (this.authService.loggedIn){
-      this.currentUser = localStorage.getItem('username')!;
+    if (this.loggedIn && localStorage.getItem('currentUser')){
+      this.currentUser = JSON.parse(localStorage.getItem('currentUser')!).username;
+      return true;
     }
-  
 
-    return this.authService.loggedIn;
-
+    return false
   }
 
 

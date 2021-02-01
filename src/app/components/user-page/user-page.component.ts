@@ -10,13 +10,13 @@ import { UserService } from 'src/app/service/user.service';
 })
 export class UserPageComponent implements OnInit {
 
-  user$! : Observable<User>;
+  user! : User;
 
   constructor(private userService : UserService) {
    }
 
   ngOnInit(): void {
-    this.user$ = this.userService.getCurrentUser();
+    this.user = JSON.parse(localStorage.getItem('currentUser')!)
   }
 
 }

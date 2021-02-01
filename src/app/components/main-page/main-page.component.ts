@@ -13,6 +13,7 @@ import { ProjectService } from 'src/app/service/project.service';
 export class MainPageComponent implements OnInit {
 
   projectList$! : Observable<Project[]>;
+  loggedIn! : boolean
   
   constructor(private authService : AuthenticationService, private projectService : ProjectService) { 
     
@@ -20,11 +21,9 @@ export class MainPageComponent implements OnInit {
 
   ngOnInit(): void {
     this.projectList$  = this.projectService.getProjects();
+    this.authService.getLoggedIn().subscribe((status) => (this.loggedIn = status));
   }
 
-  isLoggedIn() : boolean{
-    return this.authService.loggedIn;
-  }
 
 
 
