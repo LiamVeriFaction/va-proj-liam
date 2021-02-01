@@ -1,29 +1,51 @@
 <h1 mat-dialog-title>Create a Project</h1>
-<div mat-dialog-content class = "dialog">
+<div mat-dialog-content class="dialog" [formGroup]="form">
   <mat-form-field class="field">
     <mat-label>Project Name</mat-label>
-    <input matInput [(ngModel)]="data.project_name" />
+    <input
+      matInput
+      [(ngModel)]="data.project_name"
+      formControlName="project_name"
+    />
   </mat-form-field>
 
   <mat-form-field class="field">
     <mat-label>Description</mat-label>
-    <input matInput [(ngModel)]="data.description" />
+    <input
+      matInput
+      [(ngModel)]="data.description"
+      formControlName="description"
+    />
   </mat-form-field>
 
   <mat-form-field appearance="fill" class="field">
     <mat-label>Enter a start and target date</mat-label>
     <mat-date-range-input [rangePicker]="picker">
-      <input matStartDate [(ngModel)]="data.start_date">
-      <input matEndDate [(ngModel)]="data.target_date">
+      <input
+        matStartDate
+        [(ngModel)]="data.start_date"
+        formControlName="start_date"
+      />
+      <input
+        matEndDate
+        [(ngModel)]="data.target_date"
+        formControlName="target_date"
+      />
     </mat-date-range-input>
     <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
     <mat-date-range-picker #picker></mat-date-range-picker>
   </mat-form-field>
-</div>
 
-<div mat-dialog-actions>
-  <button mat-button color="primary" (click)="onNoClick()">Cancel</button>
-  <button mat-button cdkFocusInitial color="accent" [mat-dialog-close]="data">
-    Create
-  </button>
+  <div mat-dialog-actions class = "button">
+    <button mat-button color="primary" (click)="onNoClick()">Cancel</button>
+    <button
+      mat-button
+      cdkFocusInitial
+      color="accent"
+      (click)="save()"
+      [disabled]="form.invalid"
+    >
+      Create
+    </button>
+  </div>
 </div>
