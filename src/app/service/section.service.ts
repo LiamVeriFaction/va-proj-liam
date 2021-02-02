@@ -29,11 +29,13 @@ export class SectionService {
     return this.http.get<Section>(`${APIUrl}/section/${id}/`);
   }
 
-  addSection(section : SectionData, id:number): Observable<Section[]>{
-    return this.http.post<Section>(`${APIUrl}/project/${id}/section/`,section).pipe(
-      switchMap(()=>{
-        return this.getSections(id);
-      })
-    )
+  addSection(section: SectionData, id: number): Observable<Section[]> {
+    return this.http
+      .post<Section>(`${APIUrl}/project/${id}/section/`, section)
+      .pipe(
+        switchMap(() => {
+          return this.getSections(id);
+        })
+      );
   }
 }

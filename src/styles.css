@@ -31,7 +31,7 @@ body {
   color: white !important;
 }
 
-.mat-stroked-button:disabled{
+.mat-stroked-button:disabled {
   border-color: gray !important;
   color: gray !important;
 }
@@ -50,7 +50,5 @@ body {
 }
 
 .mat-form-field-ripple {
-  background-color: white!important;
+  background-color: white !important;
 }
-
-

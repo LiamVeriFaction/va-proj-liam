@@ -11,9 +11,7 @@ import { TaskService } from 'src/app/service/task.service';
 export class TaskComponent implements OnInit {
   @Input() task!: Task;
 
-
   constructor() {}
 
-  ngOnInit(): void {
-  }
+  ngOnInit(): void {}
 }

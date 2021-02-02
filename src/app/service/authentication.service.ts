@@ -18,7 +18,6 @@ export class AuthenticationService {
   constructor(private http: HttpClient, private userService: UserService) {
     this.loggedIn = new BehaviorSubject<boolean>(false);
 
-
     let currentToken = localStorage.getItem('currentToken');
     if (currentToken) {
       console.log('Existing token found: ', JSON.parse(currentToken));
@@ -29,7 +28,6 @@ export class AuthenticationService {
       this.refresh().subscribe(); //Calls refresh every 4 minutes
     });
   }
-
 
   public getLoggedIn(): Observable<boolean> {
     return this.loggedIn.asObservable();

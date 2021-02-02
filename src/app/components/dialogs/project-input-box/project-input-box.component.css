@@ -1,4 +1,4 @@
-.dialog{
+.dialog {
   height: 400px;
 }
 
@@ -15,8 +15,7 @@ h1 {
   text-align: center;
 }
 
-.options{
+.options {
   display: flex;
   justify-content: center;
 }
-

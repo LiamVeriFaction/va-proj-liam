@@ -31,12 +31,17 @@ export class MainPageComponent implements OnInit {
   openDialog() {
     let projectDialog = this.dialog.open(ProjectInputBoxComponent, {
       width: '400px',
-      data: { project_name: '', description: '', start_date: '', target_date: '' },
+      data: {
+        project_name: '',
+        description: '',
+        start_date: '',
+        target_date: '',
+      },
     });
 
     projectDialog.afterClosed().subscribe((project) => {
       if (project) {
-        this.projectList$ = this.projectService.addProject(project)
+        this.projectList$ = this.projectService.addProject(project);
       }
     });
   }

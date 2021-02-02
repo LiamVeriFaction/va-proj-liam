@@ -26,7 +26,6 @@
   justify-content: flex-end;
 }
 
-
 .title {
   color: #f2f2f2;
   text-decoration: none;
@@ -36,7 +35,6 @@
   box-sizing: border-box;
   text-align: center;
 }
-
 
 .navbar a {
   display: block;
@@ -48,5 +46,5 @@
 }
 
 .navbar a:hover {
-  background-color: var(--orange)  
+  background-color: var(--orange);
 }

@@ -1,4 +1,4 @@
-export interface SectionData{
-    heading: string;
-    description: string;
+export interface SectionData {
+  heading: string;
+  description: string;
 }

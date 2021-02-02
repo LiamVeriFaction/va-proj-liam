@@ -20,13 +20,10 @@ export class TaskInputBoxComponent {
     this.heading = new FormControl('', Validators.required);
     this.description = new FormControl('', Validators.required);
 
-
     this.form = new FormGroup({
-      heading : this.heading,
-      description : this.description
-    })
-
-
+      heading: this.heading,
+      description: this.description,
+    });
   }
 
   onNoClick(): void {

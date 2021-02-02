@@ -22,7 +22,7 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { TaskInputBoxComponent } from './components/dialogs/task-input-box/task-input-box.component';
 import { MatDialogModule } from '@angular/material/dialog';
 import { ProjectInputBoxComponent } from './components/dialogs/project-input-box/project-input-box.component';
-import {MatDatepickerModule} from '@angular/material/datepicker';
+import { MatDatepickerModule } from '@angular/material/datepicker';
 import { MatNativeDateModule } from '@angular/material/core';
 import { SectionInputBoxComponent } from './components/dialogs/section-input-box/section-input-box.component';
 import { ErrorInterceptor } from './helpers/error.interceptor';
@@ -40,7 +40,7 @@ import { ErrorInterceptor } from './helpers/error.interceptor';
     LoginComponent,
     TaskInputBoxComponent,
     ProjectInputBoxComponent,
-    SectionInputBoxComponent
+    SectionInputBoxComponent,
   ],
   imports: [
     BrowserModule,
@@ -59,7 +59,7 @@ import { ErrorInterceptor } from './helpers/error.interceptor';
   ],
   providers: [
     { provide: HTTP_INTERCEPTORS, useClass: JwtInterceptor, multi: true },
-    { provide: HTTP_INTERCEPTORS, useClass: ErrorInterceptor, multi: true},
+    { provide: HTTP_INTERCEPTORS, useClass: ErrorInterceptor, multi: true },
     MatDatepickerModule,
   ],
   bootstrap: [AppComponent],

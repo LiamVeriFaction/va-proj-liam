@@ -17,8 +17,10 @@ export class TaskService {
    * @param id The section ID
    */
   getTasks(id: number): Observable<Task[]> {
-    let p = new HttpParams().set("ordering","heading")
-    return this.http.get<Task[]>(`${APIUrl}/section/${id}/task/`,{params: p });
+    let p = new HttpParams().set('ordering', 'heading');
+    return this.http.get<Task[]>(`${APIUrl}/section/${id}/task/`, {
+      params: p,
+    });
   }
 
   /**

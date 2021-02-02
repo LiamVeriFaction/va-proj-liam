@@ -20,11 +20,11 @@ export class ProjectService {
     return this.http.get<Project>(`${APIUrl}/project/${id}/`);
   }
 
-  addProject(project : ProjectData) : Observable<Project[]>{
+  addProject(project: ProjectData): Observable<Project[]> {
     return this.http.post<Project>(`${APIUrl}/project/`, project).pipe(
       switchMap(() => {
         return this.getProjects();
       })
-    )
+    );
   }
 }

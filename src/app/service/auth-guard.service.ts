@@ -12,7 +12,7 @@ export class AuthGuardService implements CanActivate {
   constructor(
     private authService: AuthenticationService,
     private router: Router,
-    private snackBar : MatSnackBar
+    private snackBar: MatSnackBar
   ) {
     authService.getLoggedIn().subscribe((status) => (this.loggedIn = status));
   }

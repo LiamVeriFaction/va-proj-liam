@@ -1,5 +1,5 @@
 .project-page {
-  background-color:var(--background);
+  background-color: var(--background);
   width: 100%;
   height: 100%;
   overflow: auto;
@@ -44,9 +44,8 @@
   overflow: auto;
 }
 
-.section-list-options{
+.section-list-options {
   margin-top: 30px;
   display: flex;
   justify-content: center;
 }
-
