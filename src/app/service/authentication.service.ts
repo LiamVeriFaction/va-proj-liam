@@ -12,19 +12,16 @@ import { User } from '../models/user';
   providedIn: 'root',
 })
 export class AuthenticationService {
-  private currentTokenSubject!: ReplaySubject<Token>;
   private refreshInterval = timer(0, 4 * 60 * 1000); //Refreshing once and then every 4 minutes
   private loggedIn: BehaviorSubject<boolean>;
 
   constructor(private http: HttpClient, private userService: UserService) {
     this.loggedIn = new BehaviorSubject<boolean>(false);
 
-    this.currentTokenSubject = new ReplaySubject<Token>(1);
 
     let currentToken = localStorage.getItem('currentToken');
     if (currentToken) {
       console.log('Existing token found: ', JSON.parse(currentToken));
-      this.currentTokenSubject.next(JSON.parse(currentToken));
       this.loggedIn.next(true);
     }
 
@@ -33,9 +30,6 @@ export class AuthenticationService {
     });
   }
 
-  public getCurrentToken(): Observable<Token> {
-    return this.currentTokenSubject.asObservable();
-  }
 
   public getLoggedIn(): Observable<boolean> {
     return this.loggedIn.asObservable();
@@ -51,7 +45,6 @@ export class AuthenticationService {
       .pipe(
         switchMap((token: Token) => {
           this.loggedIn.next(true);
-          this.currentTokenSubject.next(token);
           localStorage.setItem('currentToken', JSON.stringify(token));
           return this.userService.storeCurrentUser();
         })
@@ -70,7 +63,6 @@ export class AuthenticationService {
             let token = JSON.parse(localStorage.getItem('currentToken')!);
             token.access = newToken.access;
             localStorage.setItem('currentToken', JSON.stringify(token));
-            this.currentTokenSubject.next(token);
           })
         );
     }

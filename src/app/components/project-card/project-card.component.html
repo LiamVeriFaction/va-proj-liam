@@ -1,7 +1,7 @@
 <div
   [routerLink]="['/projects', project.id]"
   class="project"
-  *ngIf="project$ | async as project"
+  *ngIf="project"
 >
   <div class="title">{{ project.project_name }}</div>
   <div class="description">{{ project.description }}</div>

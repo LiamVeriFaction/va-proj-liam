@@ -9,12 +9,11 @@ import { TaskService } from 'src/app/service/task.service';
   styleUrls: ['./task.component.css'],
 })
 export class TaskComponent implements OnInit {
-  @Input() id!: number;
-  task$!: Observable<Task>;
+  @Input() task!: Task;
 
-  constructor(private taskService: TaskService) {}
+
+  constructor() {}
 
   ngOnInit(): void {
-    this.task$ = this.taskService.getTask(this.id);
   }
 }

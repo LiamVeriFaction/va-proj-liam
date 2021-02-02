@@ -2,7 +2,7 @@
   <div *ngIf="loggedIn">
     <div class="project-list">
       <div *ngFor="let project of projectList$ | async">
-        <project-card [id]="project.id"> </project-card>
+        <project-card [project]="project"> </project-card>
       </div>
     </div>
     <button

@@ -2,7 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
 import { ActivatedRoute, Params } from '@angular/router';
 import { Observable } from 'rxjs';
-import { map } from 'rxjs/operators';
+import { map, switchMap } from 'rxjs/operators';
 import { Project } from 'src/app/models/project';
 import { Section } from 'src/app/models/section';
 import { AuthenticationService } from 'src/app/service/authentication.service';
@@ -17,7 +17,7 @@ import { SectionInputBoxComponent } from '../dialogs/section-input-box/section-i
 })
 export class ProjectPageComponent implements OnInit {
   sectionList$!: Observable<Section[]>;
-  project$!: Observable<Project>;
+  project!: Project;
   projectID!: number;
 
   constructor(
@@ -29,29 +29,31 @@ export class ProjectPageComponent implements OnInit {
   ) {}
 
   ngOnInit(): void {
-    this.route.params.forEach((params: Params) => {
-      this.project$ = this.projectService.getProject(+params['id']).pipe(
-        map((project: Project) => {
-          this.projectID = project.id;
-          this.sectionList$ = this.sectionService.getSections(project.id);
-          return project;
-        })
-      );
+    this.route.paramMap.subscribe((params: Params) => {
+      this.sectionList$ = this.projectService
+        .getProject(+params.get('id'))
+        .pipe(
+          switchMap((project: Project) => {
+            this.project = project;
+            return this.sectionService.getSections(project.id);
+          })
+        );
     });
   }
 
   openDialog() {
     let projectDialog = this.dialog.open(SectionInputBoxComponent, {
       width: '250px',
-      data: {heading : '', description : ''}
+      data: { heading: '', description: '' },
     });
 
     projectDialog.afterClosed().subscribe((section) => {
       if (section) {
-        this.sectionList$ = this.sectionService.addSection(section, this.projectID)
+        this.sectionList$ = this.sectionService.addSection(
+          section,
+          this.projectID
+        );
       }
     });
   }
-
-
 }

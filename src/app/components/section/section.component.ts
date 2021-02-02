@@ -13,9 +13,8 @@ import { TaskInputBoxComponent } from '../dialogs/task-input-box/task-input-box.
   styleUrls: ['./section.component.css'],
 })
 export class SectionComponent implements OnInit {
-  @Input() id!: number;
+  @Input() section!: Section;
 
-  section$!: Observable<Section>;
   taskList$!: Observable<Task[]>;
 
   constructor(
@@ -25,8 +24,7 @@ export class SectionComponent implements OnInit {
   ) {}
 
   ngOnInit(): void {
-    this.section$ = this.sectionService.getSection(this.id);
-    this.taskList$ = this.taskService.getTasks(this.id);
+    this.taskList$ = this.taskService.getTasks(this.section.id);
   }
 
   openDialog(id: number) {

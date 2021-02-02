@@ -25,6 +25,7 @@ import { ProjectInputBoxComponent } from './components/dialogs/project-input-box
 import {MatDatepickerModule} from '@angular/material/datepicker';
 import { MatNativeDateModule } from '@angular/material/core';
 import { SectionInputBoxComponent } from './components/dialogs/section-input-box/section-input-box.component';
+import { ErrorInterceptor } from './helpers/error.interceptor';
 
 @NgModule({
   declarations: [
@@ -58,6 +59,7 @@ import { SectionInputBoxComponent } from './components/dialogs/section-input-box
   ],
   providers: [
     { provide: HTTP_INTERCEPTORS, useClass: JwtInterceptor, multi: true },
+    { provide: HTTP_INTERCEPTORS, useClass: ErrorInterceptor, multi: true},
     MatDatepickerModule,
   ],
   bootstrap: [AppComponent],

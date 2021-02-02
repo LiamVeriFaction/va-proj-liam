@@ -1,9 +1,9 @@
-<div class="section" *ngIf="section$ | async as section">
+<div class="section" *ngIf="section">
   <h2>{{ section.heading }}</h2>
 
   <div class="tasklist">
     <div *ngFor="let task of taskList$ | async">
-      <task [id]="task.id"></task>
+      <task [task]="task"></task>
     </div>
   </div>
   <button

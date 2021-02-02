@@ -1,4 +1,4 @@
-<div class="project-page" *ngIf="project$ | async as project">
+<div class="project-page"  *ngIf="sectionList$ | async as sectionList">
   <div class="header">
     <h1>{{ project.project_name }}</h1>
     <div class="date">
@@ -13,8 +13,8 @@
     </div>
   </div>
   <div class="section-list">
-    <div *ngFor="let section of sectionList$ | async">
-      <section [id]="section.id"></section>
+    <div *ngFor="let section of sectionList">
+      <section [section]="section"></section>
     </div>
   </div>
   <button

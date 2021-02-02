@@ -18,13 +18,12 @@ export class JwtInterceptor implements HttpInterceptor {
     next: HttpHandler
   ): Observable<HttpEvent<unknown>> {
     const isApiUrl = request.url.startsWith('https://vaproj.itstudio.ie/api');
-    if (isApiUrl) {
-      this.authService.getCurrentToken().subscribe((token: Token) => {
-        request = request.clone({
-          setHeaders: {
-            Authorization: `Bearer ${token.access}`,
-          },
-        });
+    if (isApiUrl && localStorage.getItem('currentToken')) {
+      let token = JSON.parse(localStorage.getItem('currentToken')!);
+      request = request.clone({
+        setHeaders: {
+          Authorization: `Bearer ${token.access}`,
+        },
       });
     }
     return next.handle(request);

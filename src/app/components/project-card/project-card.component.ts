@@ -9,12 +9,10 @@ import { ProjectService } from 'src/app/service/project.service';
   styleUrls: ['./project-card.component.css'],
 })
 export class ProjectCardComponent implements OnInit {
-  @Input() id!: number;
-  project$!: Observable<Project>;
+  @Input() project!: Project;
 
-  constructor(private projectService: ProjectService) {}
+  constructor() {}
 
   ngOnInit(): void {
-    this.project$ = this.projectService.getProject(this.id);
   }
 }
