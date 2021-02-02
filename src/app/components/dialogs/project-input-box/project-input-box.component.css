@@ -1,12 +1,22 @@
 .dialog{
-    justify-content: center;
-    min-height: 300px;
+  height: 400px;
 }
 
-.field{
-    padding-top: 10px;
-    padding-left: 60px;
+.field {
+  padding: 15px 0px;
+  margin-left: 60px;
 }
-.button{
-    margin: 0px 25%;
+
+.button {
+  margin: 0px 10px;
 }
+
+h1 {
+  text-align: center;
+}
+
+.options{
+  display: flex;
+  justify-content: center;
+}
+

@@ -1,4 +1,4 @@
-<div class="project-page"  *ngIf="sectionList$ | async as sectionList">
+<div class="project-page" *ngIf="sectionList$ | async as sectionList">
   <div class="header">
     <h1>{{ project.project_name }}</h1>
     <div class="date">
@@ -17,12 +17,9 @@
       <section [section]="section"></section>
     </div>
   </div>
-  <button
-  mat-stroked-button
-  color="primary"
-  class="addButton"
-  (click)="openDialog()"
->
-  Add Section
-</button>
+  <div class="section-list-options">
+    <button mat-stroked-button class="button" (click)="openDialog()">
+      Add Section
+    </button>
+  </div>
 </div>

@@ -40,7 +40,7 @@ import { ErrorInterceptor } from './helpers/error.interceptor';
     LoginComponent,
     TaskInputBoxComponent,
     ProjectInputBoxComponent,
-    SectionInputBoxComponent,
+    SectionInputBoxComponent
   ],
   imports: [
     BrowserModule,

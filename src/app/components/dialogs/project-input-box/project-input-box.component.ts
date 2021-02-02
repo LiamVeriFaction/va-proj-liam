@@ -15,17 +15,25 @@ import { ProjectData } from 'src/app/models/dialog-data/project.data';
 })
 export class ProjectInputBoxComponent {
   form: FormGroup;
+  project_name: FormControl;
+  description: FormControl;
+  start_date: FormControl;
+  target_date: FormControl;
 
   constructor(
-    formBuilder: FormBuilder,
     public dialogRef: MatDialogRef<ProjectInputBoxComponent>,
     @Inject(MAT_DIALOG_DATA) public data: ProjectData
   ) {
-    this.form = formBuilder.group({
-      project_name: [data.project_name, [Validators.required]],
-      description: [data.description, [Validators.required]],
-      start_date: [data.start_date, [Validators.required]],
-      target_date: [data.target_date, [Validators.required]],
+    this.project_name = new FormControl('', Validators.required);
+    this.description = new FormControl('', Validators.required);
+    this.start_date = new FormControl('', Validators.required);
+    this.target_date = new FormControl('', Validators.required);
+
+    this.form = new FormGroup({
+      project_name: this.project_name,
+      description: this.description,
+      start_date: this.start_date,
+      target_date: this.target_date,
     });
   }
 
@@ -33,9 +41,9 @@ export class ProjectInputBoxComponent {
     this.dialogRef.close();
   }
 
-  save(): void{
-    const {value, valid} = this.form;
-    if(valid){
+  save(): void {
+    const { value, valid } = this.form;
+    if (valid) {
       this.dialogRef.close(value);
     }
   }

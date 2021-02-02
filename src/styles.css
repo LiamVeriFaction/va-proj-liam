@@ -2,15 +2,55 @@
 @import url("https://fonts.googleapis.com/css2?family=Open+Sans:wght@300;600&display=swap");
 @import url("https://fonts.googleapis.com/css2?family=Noto+Sans+JP&display=swap");
 
+:root {
+  --blue: #016fb9;
+  --orange: #ff9505;
+  --red: #ec4e20;
+  --pink: #f991cc;
+  --clear: #ffffff00;
+  --background: #0a1128;
+}
+
 html,
 body {
   height: 100%;
 }
 body {
   margin: 0;
-  font-family: Roboto, "Helvetica Neue", sans-serif;
+  padding: 0;
+  font-family: "Noto Sans JP", sans-serif;
 }
 
-#pink {
-  color: #f06292;
+.input-field {
+  padding: 20px 0px;
 }
+
+.mat-stroked-button {
+  background-color: var(--clear) !important;
+  border-color: white !important;
+  color: white !important;
+}
+
+.mat-stroked-button:disabled{
+  border-color: gray !important;
+  color: gray !important;
+}
+
+.mat-stroked-button:hover:enabled {
+  background-color: var(--orange) !important;
+  border-color: var(--orange) !important;
+}
+
+.mat-form-field-label {
+  color: white !important;
+}
+
+.mat-form-field-underline {
+  background-color: white !important;
+}
+
+.mat-form-field-ripple {
+  background-color: white!important;
+}
+
+

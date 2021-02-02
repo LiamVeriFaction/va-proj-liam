@@ -1,5 +1,5 @@
 .project-page {
-  background-color: rgb(28, 20, 58);
+  background-color:var(--background);
   width: 100%;
   height: 100%;
   overflow: auto;
@@ -14,7 +14,7 @@
 
 .header h1 {
   box-sizing: border-box;
-  color: aliceblue;
+  color: white;
   font-size: 38px;
   padding: 20px 0px 0px 30px;
   font-family: "Noto Sans JP", sans-serif;
@@ -44,15 +44,9 @@
   overflow: auto;
 }
 
-.addButton {
+.section-list-options{
   margin-top: 30px;
-  border-color: rgb(240, 248, 255);
-  margin-left: 50%;
-  transform: translateX(-50%);
-  position: pos;
-  color: rgb(240, 248, 255);
-  text-align: center
+  display: flex;
+  justify-content: center;
 }
-.addButton:hover {
-  background-color: #f06292;
-}
+

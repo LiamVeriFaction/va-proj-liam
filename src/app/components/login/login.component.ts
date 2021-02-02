@@ -13,6 +13,7 @@ export class LoginComponent implements OnInit {
   loginForm!: FormGroup;
   username!: FormControl;
   password!: FormControl;
+  color = "";
 
   constructor(
     private authService: AuthenticationService,
@@ -21,6 +22,7 @@ export class LoginComponent implements OnInit {
   ) {}
 
   ngOnInit(): void {
+
     localStorage.clear();
     this.authService.changeLoggedIn(false);
     this.username = new FormControl('liam', Validators.required);

@@ -6,7 +6,7 @@
 }
 
 .task:hover {
-  background-color: #f06292;
+  background-color: var(--orange);
 }
 
 .title {
@@ -18,6 +18,4 @@
   font-weight: 600;
 }
 
-.task-card:hover {
-  background-color: rgb(46, 43, 226);
-}
+

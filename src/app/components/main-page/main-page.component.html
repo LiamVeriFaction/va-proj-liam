@@ -5,13 +5,11 @@
         <project-card [project]="project"> </project-card>
       </div>
     </div>
-    <button
-      mat-stroked-button
-      color="primary"
-      class="addButton"
-      (click)="openDialog()"
-    >
-      Add Project
-    </button>
+
+    <div class="project-options">
+      <button mat-stroked-button class="button" (click)="openDialog()">
+        Add Project
+      </button>
+    </div>
   </div>
 </div>

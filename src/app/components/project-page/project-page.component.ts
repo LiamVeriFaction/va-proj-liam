@@ -18,13 +18,11 @@ import { SectionInputBoxComponent } from '../dialogs/section-input-box/section-i
 export class ProjectPageComponent implements OnInit {
   sectionList$!: Observable<Section[]>;
   project!: Project;
-  projectID!: number;
 
   constructor(
     private route: ActivatedRoute,
     private sectionService: SectionService,
     private projectService: ProjectService,
-    private authService: AuthenticationService,
     private dialog: MatDialog
   ) {}
 
@@ -51,7 +49,7 @@ export class ProjectPageComponent implements OnInit {
       if (section) {
         this.sectionList$ = this.sectionService.addSection(
           section,
-          this.projectID
+          this.project.id
         );
       }
     });

@@ -6,12 +6,14 @@
       <task [task]="task"></task>
     </div>
   </div>
-  <button
-    mat-stroked-button
-    color="primary"
-    class="addButton"
-    (click)="openDialog(section.id)"
-  >
-    Add Task
-  </button>
+  <div class="section-options">
+    <button
+      mat-stroked-button
+      color="primary"
+      class="addButton"
+      (click)="openDialog(section.id)"
+    >
+      Add Task
+    </button>
+  </div>
 </div>
