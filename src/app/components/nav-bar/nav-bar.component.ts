@@ -1,8 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 import { Observable } from 'rxjs';
 import { User } from 'src/app/models/user';
+import { UserSession } from 'src/app/models/user-session';
 import { AuthenticationService } from 'src/app/service/authentication.service';
-import { UserService } from 'src/app/service/user.service';
 
 @Component({
   selector: 'nav-bar',
@@ -10,24 +10,19 @@ import { UserService } from 'src/app/service/user.service';
   styleUrls: ['./nav-bar.component.css'],
 })
 export class NavBarComponent implements OnInit {
-  currentUser$!: Observable<User>;
+  currentUserSession!: UserSession;
   loggedIn!: boolean;
 
   constructor(
     private authService: AuthenticationService,
-    private userService: UserService
   ) {}
 
   ngOnInit(): void {
-    this.authService
-      .getLoggedIn()
-      .subscribe((status) => (this.loggedIn = status));
-
-      this.currentUser$ = this.userService.newLogin();
+      this.authService.getCurrentSession().subscribe((session) => (this.currentUserSession = session));
   }
 
   isLoggedIn(): boolean {
-    if (this.loggedIn) {
+    if (this.currentUserSession) {
       return true;
     }
 

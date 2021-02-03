@@ -1,24 +1,25 @@
 import { Injectable } from '@angular/core';
 import { MatSnackBar, _SnackBarContainer } from '@angular/material/snack-bar';
 import { CanActivate, Router } from '@angular/router';
+import { UserSession } from '../models/user-session';
 import { AuthenticationService } from './authentication.service';
 
 @Injectable({
   providedIn: 'root',
 })
 export class AuthGuardService implements CanActivate {
-  loggedIn!: boolean;
+  userSession! : UserSession;
 
   constructor(
     private authService: AuthenticationService,
     private router: Router,
     private snackBar: MatSnackBar
   ) {
-    authService.getLoggedIn().subscribe((status) => (this.loggedIn = status));
+    authService.getCurrentSession().subscribe((session) => (this.userSession = session));
   }
 
   canActivate() {
-    if (this.loggedIn) {
+    if (this.userSession.access) {
       return true;
     } else {
       this.snackBar.open('Please login first', '', {

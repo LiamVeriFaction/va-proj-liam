@@ -1,16 +1,16 @@
 <div
   class="navbar"
-  [ngStyle]="{ 'justify-content': isLoggedIn() ? 'space-between' : 'center' }"
+  [ngStyle]="{ 'justify-content': currentUserSession.access ? 'space-between' : 'center' }"
 >
-  <div class="navbar-left" *ngIf="isLoggedIn()">
+  <div class="navbar-left" *ngIf="currentUserSession.access">
     <a routerLink="/main">Home</a>
     <a routerLink="/main">Projects</a>
   </div>
 
   <div class="title">Liam's Trello Clone</div>
 
-  <div class="navbar-right" *ngIf="isLoggedIn()">
-    <a routerLink="/user" *ngIf ="currentUser$ | async as user">{{ user.username }}</a>
+  <div class="navbar-right" *ngIf="currentUserSession.access">
+    <a routerLink="/user"> {{ currentUserSession.username }}</a>
     <a routerLink="/login"> Logout </a>
   </div>
 </div>

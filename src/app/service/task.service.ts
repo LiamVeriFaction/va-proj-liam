@@ -36,7 +36,6 @@ export class TaskService {
    * @param id The section ID
    */
   addTask(task: TaskData, id: number): Observable<Task[]> {
-    task.user = +localStorage.getItem('userID')!;
     return this.http.post<Task>(`${APIUrl}/section/${id}/task/`, task).pipe(
       switchMap(() => {
         return this.getTasks(id);

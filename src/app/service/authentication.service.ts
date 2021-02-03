@@ -1,30 +1,28 @@
 import { Injectable } from '@angular/core';
-import { HttpClient } from '@angular/common/http';
-import { switchMap, tap } from 'rxjs/operators';
-import { timer, Observable, ReplaySubject, EMPTY, BehaviorSubject } from 'rxjs';
+import { HttpClient, HttpHeaders } from '@angular/common/http';
+import { map, switchMap, tap } from 'rxjs/operators';
+import { timer, Observable, EMPTY, BehaviorSubject } from 'rxjs';
 
 import { APIUrl } from '../models/api';
 import { Token } from '../models/token';
 import { UserService } from './user.service';
 import { User } from '../models/user';
+import { UserSession } from '../models/user-session';
 
 @Injectable({
   providedIn: 'root',
 })
 export class AuthenticationService {
   private refreshInterval = timer(0, 4 * 60 * 1000); //Refreshing once and then every 4 minutes
-  public loggedIn: BehaviorSubject<boolean>;
-  public currentTokenSubject: BehaviorSubject<Token>
+  public currentSessionSubject: BehaviorSubject<UserSession>;
 
   constructor(private http: HttpClient, private userService: UserService) {
-    this.loggedIn = new BehaviorSubject<boolean>(false);
-    this.currentTokenSubject = new BehaviorSubject<Token>({} as Token);
-    let currentToken = localStorage.getItem('currentToken');
+    this.currentSessionSubject = new BehaviorSubject<UserSession>({} as UserSession);
+    let currentSession = localStorage.getItem('currentSession');
 
-    if (currentToken) {
-      console.log('Existing token found: ', JSON.parse(currentToken));
-      this.loggedIn.next(true);
-      this.currentTokenSubject.next(JSON.parse(currentToken));
+    if (currentSession) {
+      console.log('Existing token found');
+      this.currentSessionSubject.next(JSON.parse(currentSession));
     }
 
     const refreshSub = this.refreshInterval.subscribe((n) => {
@@ -32,39 +30,62 @@ export class AuthenticationService {
     });
   }
 
-  public getLoggedIn(): Observable<boolean> {
-    return this.loggedIn.asObservable();
+  public getCurrentSession(): Observable<UserSession>{
+    return this.currentSessionSubject.asObservable();
   }
 
-  public changeLoggedIn(status: boolean) {
-    this.loggedIn.next(status);
+
+  public logout() {
+    this.currentSessionSubject.next({} as UserSession);
   }
 
-  login(username: string, password: string): Observable<User> {
+  //Joins together user token and user info into single user session object
+  //Populates the loggedInSubject with true and currentSessionSubject with the user session
+  login(username: string, password: string) {
     return this.http
       .post<Token>(`${APIUrl}/token/`, { username, password })
       .pipe(
         switchMap((token: Token) => {
-          this.loggedIn.next(true);
-          localStorage.setItem('currentToken', JSON.stringify(token));
-          return this.userService.newLogin();
+          console.log('Token Received');
+          let header = new HttpHeaders({
+            Authorization: `Bearer ${token.access}`,
+          }); //Manually intercept since userSessionSubject is still blank
+          return this.http
+            .get<User>(`${APIUrl}/currentuser/`, { headers: header })
+            .pipe(
+              map((user: User) => {
+                console.log('User Info Received');
+                let currentSession:UserSession = { ...user, ...token };
+                this.currentSessionSubject.next(currentSession);
+                localStorage.setItem(
+                  'currentSession',
+                  JSON.stringify(currentSession)
+                );
+                return this.currentSessionSubject.value;
+              })
+            );
         })
       );
   }
 
-  refresh(): Observable<any> {
-    let currentToken = this.currentTokenSubject.value
-    if (currentToken) {
+  //Every four minutes, this is called to refresh access
+  //Called at bootstrap, not run unless there is existing access token
+  refresh() {
+    let currentSession = this.currentSessionSubject.value;
+    if (currentSession.access) {
       console.log('Refreshing token');
-      let refresh = currentToken.refresh;
       return this.http
-        .post<any>(`${APIUrl}/token/refresh/`, { refresh })
+        .post<any>(`${APIUrl}/token/refresh/`, {
+          refresh: currentSession.refresh,
+        })
         .pipe(
           tap((newAccess: Token) => {
-            let currentToken = this.currentTokenSubject.value;
-            currentToken.access = newAccess.access;
-            this.currentTokenSubject.next(currentToken);
-            localStorage.setItem('currentToken', JSON.stringify(currentToken));
+            currentSession.access = newAccess.access;
+            this.currentSessionSubject.next(currentSession);
+            localStorage.setItem(
+              'currentSession',
+              JSON.stringify(currentSession)
+            );
           })
         );
     }

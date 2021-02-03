@@ -24,7 +24,7 @@ export class LoginComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    this.authService.changeLoggedIn(false);
+    this.authService.logout();
     this.username = new FormControl('liam', Validators.required);
     this.password = new FormControl('9ZmvnqK1G4rgPrTCJX', Validators.required);
 

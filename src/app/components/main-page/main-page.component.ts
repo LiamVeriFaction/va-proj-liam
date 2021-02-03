@@ -13,7 +13,6 @@ import { ProjectInputBoxComponent } from '../dialogs/project-input-box/project-i
 })
 export class MainPageComponent implements OnInit {
   projectList$!: Observable<Project[]>;
-  loggedIn!: boolean;
 
   constructor(
     private authService: AuthenticationService,
@@ -23,9 +22,6 @@ export class MainPageComponent implements OnInit {
 
   ngOnInit(): void {
     this.projectList$ = this.projectService.getProjects();
-    this.authService
-      .getLoggedIn()
-      .subscribe((status) => (this.loggedIn = status));
   }
 
   openDialog() {
