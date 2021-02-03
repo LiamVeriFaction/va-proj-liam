@@ -10,7 +10,7 @@
   <div class="title">Liam's Trello Clone</div>
 
   <div class="navbar-right" *ngIf="isLoggedIn()">
-    <a routerLink="/user">{{ currentUser }}</a>
+    <a routerLink="/user" *ngIf ="currentUser$ | async as user">{{ user.username }}</a>
     <a routerLink="/login"> Logout </a>
   </div>
 </div>

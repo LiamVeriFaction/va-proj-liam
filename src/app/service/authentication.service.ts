@@ -13,15 +13,18 @@ import { User } from '../models/user';
 })
 export class AuthenticationService {
   private refreshInterval = timer(0, 4 * 60 * 1000); //Refreshing once and then every 4 minutes
-  private loggedIn: BehaviorSubject<boolean>;
+  public loggedIn: BehaviorSubject<boolean>;
+  public currentTokenSubject: BehaviorSubject<Token>
 
   constructor(private http: HttpClient, private userService: UserService) {
     this.loggedIn = new BehaviorSubject<boolean>(false);
-
+    this.currentTokenSubject = new BehaviorSubject<Token>({} as Token);
     let currentToken = localStorage.getItem('currentToken');
+
     if (currentToken) {
       console.log('Existing token found: ', JSON.parse(currentToken));
       this.loggedIn.next(true);
+      this.currentTokenSubject.next(JSON.parse(currentToken));
     }
 
     const refreshSub = this.refreshInterval.subscribe((n) => {
@@ -44,23 +47,24 @@ export class AuthenticationService {
         switchMap((token: Token) => {
           this.loggedIn.next(true);
           localStorage.setItem('currentToken', JSON.stringify(token));
-          return this.userService.storeCurrentUser();
+          return this.userService.newLogin();
         })
       );
   }
 
   refresh(): Observable<any> {
-    let currentToken = localStorage.getItem('currentToken');
+    let currentToken = this.currentTokenSubject.value
     if (currentToken) {
       console.log('Refreshing token');
-      let refresh = JSON.parse(currentToken).refresh;
+      let refresh = currentToken.refresh;
       return this.http
         .post<any>(`${APIUrl}/token/refresh/`, { refresh })
         .pipe(
-          tap((newToken: Token) => {
-            let token = JSON.parse(localStorage.getItem('currentToken')!);
-            token.access = newToken.access;
-            localStorage.setItem('currentToken', JSON.stringify(token));
+          tap((newAccess: Token) => {
+            let currentToken = this.currentTokenSubject.value;
+            currentToken.access = newAccess.access;
+            this.currentTokenSubject.next(currentToken);
+            localStorage.setItem('currentToken', JSON.stringify(currentToken));
           })
         );
     }

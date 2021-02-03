@@ -19,10 +19,11 @@ export class LoginComponent implements OnInit {
     private authService: AuthenticationService,
     private router: Router,
     private snackBar: MatSnackBar
-  ) {}
+  ) {
+    localStorage.clear();
+  }
 
   ngOnInit(): void {
-    localStorage.clear();
     this.authService.changeLoggedIn(false);
     this.username = new FormControl('liam', Validators.required);
     this.password = new FormControl('9ZmvnqK1G4rgPrTCJX', Validators.required);

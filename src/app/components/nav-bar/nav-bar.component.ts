@@ -1,4 +1,6 @@
 import { Component, OnInit } from '@angular/core';
+import { Observable } from 'rxjs';
+import { User } from 'src/app/models/user';
 import { AuthenticationService } from 'src/app/service/authentication.service';
 import { UserService } from 'src/app/service/user.service';
 
@@ -8,7 +10,7 @@ import { UserService } from 'src/app/service/user.service';
   styleUrls: ['./nav-bar.component.css'],
 })
 export class NavBarComponent implements OnInit {
-  currentUser!: string;
+  currentUser$!: Observable<User>;
   loggedIn!: boolean;
 
   constructor(
@@ -20,13 +22,12 @@ export class NavBarComponent implements OnInit {
     this.authService
       .getLoggedIn()
       .subscribe((status) => (this.loggedIn = status));
+
+      this.currentUser$ = this.userService.newLogin();
   }
 
   isLoggedIn(): boolean {
-    if (this.loggedIn && localStorage.getItem('currentUser')) {
-      this.currentUser = JSON.parse(
-        localStorage.getItem('currentUser')!
-      ).username;
+    if (this.loggedIn) {
       return true;
     }
 

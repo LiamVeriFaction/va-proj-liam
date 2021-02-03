@@ -1,7 +1,7 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
-import { switchMap } from 'rxjs/operators';
+import { switchMap, tap } from 'rxjs/operators';
 import { APIUrl } from '../models/api';
 import { SectionData } from '../models/dialog-data/section-data';
 import { Section } from '../models/section';
@@ -18,7 +18,7 @@ export class SectionService {
    */
 
   getSections(id: number): Observable<Section[]> {
-    return this.http.get<Section[]>(`${APIUrl}/project/${id}/section/`);
+    return this.http.get<Section[]>(`${APIUrl}/project/${id}/section/`)
   }
 
   /**

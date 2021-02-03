@@ -39,4 +39,8 @@ export class SectionComponent implements OnInit {
       }
     });
   }
+
+  updateTaskOrder(taskList : Task[]){
+    this.taskService.updateOrder(taskList).subscribe();
+  }
 }

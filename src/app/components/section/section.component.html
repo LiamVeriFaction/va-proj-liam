@@ -1,19 +1,22 @@
-<div class="section" *ngIf="section">
+<div class="section" *ngIf ="taskList$ | async as taskList">
   <h2>{{ section.heading }}</h2>
 
   <div class="tasklist">
-    <div *ngFor="let task of taskList$ | async">
+    <div *ngFor="let task of taskList">
       <task [task]="task"></task>
     </div>
   </div>
   <div class="section-options">
     <button
       mat-stroked-button
-      color="primary"
       class="addButton"
       (click)="openDialog(section.id)"
     >
       Add Task
+    </button>
+
+    <button mat-stroked-button class="button" (click)="updateTaskOrder(taskList)">
+      Update Task Order
     </button>
   </div>
 </div>

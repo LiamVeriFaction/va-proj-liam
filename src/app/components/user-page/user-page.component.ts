@@ -19,21 +19,6 @@ export class UserPageComponent implements OnInit {
   constructor(private userService: UserService) {}
 
   ngOnInit(): void {
-    this.user = JSON.parse(localStorage.getItem('currentUser')!);
 
-    this.username = new FormControl(this.user.first_name, Validators.required);
-    this.first_name = new FormControl(
-      this.user.first_name,
-      Validators.required
-    );
-    this.last_name = new FormControl(this.user.first_name, Validators.required);
-    this.email! = new FormControl(this.user.first_name, Validators.required);
-
-    this.form = new FormGroup({
-      username: this.username,
-      first_name: this.first_name,
-      last_name: this.last_name,
-      email: this.email,
-    });
   }
 }
