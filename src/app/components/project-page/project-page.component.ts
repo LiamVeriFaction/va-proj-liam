@@ -16,27 +16,29 @@ import { SectionInputBoxComponent } from '../dialogs/section-input-box/section-i
   styleUrls: ['./project-page.component.css'],
 })
 export class ProjectPageComponent implements OnInit {
-  sectionList$!: Observable<Section[]>;
+
+  sectionList! : Section[];
   project!: Project;
 
   constructor(
     private route: ActivatedRoute,
-    private sectionService: SectionService,
     private projectService: ProjectService,
     private dialog: MatDialog
   ) {}
 
   ngOnInit(): void {
-    this.route.paramMap.subscribe((params: Params) => {
-      this.sectionList$ = this.projectService
-        .getProject(+params.get('id'))
-        .pipe(
-          switchMap((project: Project) => {
-            this.project = project;
-            return this.sectionService.getSections(project.id);
-          })
-        );
-    });
+    this.route.paramMap.subscribe((params: Params) =>{
+      this.projectService.getProject(+params.get('id')).subscribe(
+        (project: Project) =>{
+          this.project = project;
+          this.projectService.getSections(project.id).subscribe(
+            (sections : Section[]) => {
+              this.sectionList = sections;
+            }
+          )
+        }
+      )
+    })
   }
 
   openDialog() {
@@ -47,10 +49,9 @@ export class ProjectPageComponent implements OnInit {
 
     projectDialog.afterClosed().subscribe((section) => {
       if (section) {
-        this.sectionList$ = this.sectionService.addSection(
-          section,
-          this.project.id
-        );
+      this.projectService.addSection(section,this.project.id).subscribe((sections: Section[])=>{
+        this.sectionList = sections;
+      });
       }
     });
   }
@@ -60,8 +61,6 @@ export class ProjectPageComponent implements OnInit {
       return section.id + '';
     });
   }
+  
 
-  taskMove() {
-     this.sectionList$ = this.sectionService.getSections(this.project.id);
-  }
 }

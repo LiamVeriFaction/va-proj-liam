@@ -12,7 +12,7 @@ import { ProjectInputBoxComponent } from '../dialogs/project-input-box/project-i
   styleUrls: ['./main-page.component.css'],
 })
 export class MainPageComponent implements OnInit {
-  projectList$!: Observable<Project[]>;
+  projectList!: Project[];
 
   constructor(
     private authService: AuthenticationService,
@@ -21,7 +21,9 @@ export class MainPageComponent implements OnInit {
   ) {}
 
   ngOnInit(): void {
-    this.projectList$ = this.projectService.getProjects();
+    this.projectService.getProjects().subscribe((projects: Project[]) =>{
+      this.projectList = projects;
+    });
   }
 
   openDialog() {
@@ -37,7 +39,9 @@ export class MainPageComponent implements OnInit {
 
     projectDialog.afterClosed().subscribe((project) => {
       if (project) {
-        this.projectList$ = this.projectService.addProject(project);
+        this.projectService.addProject(project).subscribe((projects: Project[]) =>{
+          this.projectList = projects;
+        });
       }
     });
   }

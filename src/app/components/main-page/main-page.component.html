@@ -1,6 +1,6 @@
 <div class="main-page">
-    <div class="project-list">
-      <div *ngFor="let project of projectList$ | async">
+    <div class="project-list" *ngIf = "projectList">
+      <div *ngFor="let project of projectList">
         <project-card [project]="project"> </project-card>
       </div>
     </div>

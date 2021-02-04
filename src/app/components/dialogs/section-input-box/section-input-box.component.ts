@@ -29,4 +29,8 @@ export class SectionInputBoxComponent {
   onNoClick(): void {
     this.dialogRef.close();
   }
+
+  submit(){
+    this.dialogRef.close(this.form.value);
+  }
 }

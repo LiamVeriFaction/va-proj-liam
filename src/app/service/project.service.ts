@@ -4,7 +4,9 @@ import { Observable } from 'rxjs';
 import { switchMap } from 'rxjs/operators';
 import { APIUrl } from '../models/api';
 import { ProjectData } from '../models/dialog-data/project.data';
+import { SectionData } from '../models/dialog-data/section-data';
 import { Project } from '../models/project';
+import { Section } from '../models/section';
 
 @Injectable({
   providedIn: 'root',
@@ -26,5 +28,24 @@ export class ProjectService {
         return this.getProjects();
       })
     );
+  }
+
+  addSection(section: SectionData, id: number): Observable<Section[]> {
+    return this.http
+      .post<Section>(`${APIUrl}/project/${id}/section/`, section)
+      .pipe(
+        switchMap(() => {
+          return this.getSections(id);
+        })
+      );
+  }
+
+    /**
+   *
+   * @param id the project id
+   */
+
+  getSections(id: number): Observable<Section[]> {
+    return this.http.get<Section[]>(`${APIUrl}/project/${id}/section/`)
   }
 }

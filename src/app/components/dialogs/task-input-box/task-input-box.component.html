@@ -1,29 +1,23 @@
-<h1 mat-dialog-title>Create a Task</h1>
-<div mat-dialog-content [formGroup]="form">
-  <mat-form-field class="field">
-    <mat-label>Heading</mat-label>
-    <mat-error *ngIf="heading.invalid">Required</mat-error>
-    <input matInput [(ngModel)]="data.heading" formControlName="heading" />
-  </mat-form-field>
-  <mat-form-field class="field">
-    <mat-label>Description</mat-label>
-    <mat-error *ngIf="description.invalid">Required</mat-error>
-    <input
-      matInput
-      [(ngModel)]="data.description"
-      formControlName="description"
-    />
-  </mat-form-field>
-</div>
+<form [formGroup]="form" (ngSubmit)="submit()">
+  <h1 mat-dialog-title>Create a Task</h1>
+  <div mat-dialog-content>
+    <mat-form-field class="field">
+      <mat-label>Heading</mat-label>
+      <mat-error *ngIf="heading.invalid">Required</mat-error>
+      <input matInput formControlName="heading" required />
+    </mat-form-field>
 
-<div mat-dialog-actions class="options">
-  <button mat-stroked-button (click)="onNoClick()">Cancel</button>
-  <button
-    mat-stroked-button
-    cdkFocusInitial
-    [mat-dialog-close]="data"
-    [disabled]="form.invalid"
-  >
-    Create
-  </button>
-</div>
+    <mat-form-field class="field">
+      <mat-label>Description</mat-label>
+      <mat-error *ngIf="description.invalid">Required</mat-error>
+      <input matInput formControlName="description" required />
+    </mat-form-field>
+  </div>
+
+  <div mat-dialog-actions class="options">
+    <button mat-stroked-button (click)="onNoClick()">Cancel</button>
+    <button type="submit" mat-stroked-button [disabled]="form.invalid">
+      Create
+    </button>
+  </div>
+</form>

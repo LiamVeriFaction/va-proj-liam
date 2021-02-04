@@ -52,3 +52,17 @@ body {
 .mat-form-field-ripple {
   background-color: white !important;
 }
+
+.cdk-drag-placeholder {
+  opacity: 0;
+}
+
+
+.cdk-drag-animating {
+  transition: transform 250ms cubic-bezier(0, 0, 0.2, 1);
+}
+
+.cdk-drop-list-dragging .cdk-drag {
+  transition: transform 250ms cubic-bezier(0, 0, 0.2, 1);
+}
+

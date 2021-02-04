@@ -1,4 +1,4 @@
-<div class="project-page" *ngIf="sectionList$ | async as sectionList">
+<div class="project-page" *ngIf="project">
   <div class="header">
     <h1>{{ project.project_name }}</h1>
     <div class="date">
@@ -14,7 +14,7 @@
   </div>
   <div class="section-list">
     <div *ngFor="let section of sectionList">
-      <section [section]="section" [connectedLists]="getSectionIDs(sectionList)" (taskMove) = "taskMove()"></section>
+      <section [section]="section" [connectedLists]="getSectionIDs(sectionList)"></section>
     </div>
   </div>
   <div class="section-list-options">

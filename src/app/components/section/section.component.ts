@@ -19,22 +19,31 @@ import { TaskInputBoxComponent } from '../dialogs/task-input-box/task-input-box.
 export class SectionComponent implements OnInit {
   @Input() section!: Section;
   @Input() connectedLists!: string[];
-  @Output() taskMove : EventEmitter<any> = new EventEmitter();
 
-  taskList$!: Observable<Task[]>;
   userSession!: UserSession;
+  taskList!: Task[];
 
   constructor(
-    private taskService: TaskService,
+    private sectionService: SectionService,
     private dialog: MatDialog,
     private authService: AuthenticationService
   ) {}
 
   ngOnInit(): void {
-    this.taskList$ = this.taskService.getTasks(this.section.id);
+    this.refreshTasks();
     this.authService
       .getCurrentSession()
-      .subscribe((session) => (this.userSession = session));
+      .subscribe((session: UserSession) => (this.userSession = session));
+
+    this.sectionService.updateAlertSubject.subscribe((update) => {
+      if (update[0] === this.section.id) {
+        if(update[1] === 'update' ){
+        this.refreshTasks();
+        }else if(update[1]==='tempUpdate'){
+          this.taskList = update[2];
+        }
+      }
+    });
   }
 
   addTaskDialog(id: number) {
@@ -46,35 +55,23 @@ export class SectionComponent implements OnInit {
     taskDialog.afterClosed().subscribe((task: TaskData) => {
       if (task) {
         task.user = this.userSession.id;
-        this.taskList$ = this.taskService.addTask(task, id);
+        this.sectionService
+          .addTask(task, id)
+          .subscribe(() => this.refreshTasks());
       }
     });
   }
 
   drop(event: CdkDragDrop<Task[]>) {
-    let newSectionID = event.container.id;
-    let taskID = event.previousContainer.data[event.previousIndex].id + '';
-    let currentID = event.currentIndex;
-    let previousId = event.previousIndex;
-    let followID;
-    //If move happening within section the followID depends on the direction the task is moved (up or down)
-    //If no task to follow set to 0
-    if (newSectionID === event.previousContainer.id) {
-      if (previousId < currentID) {
-        followID = event.container.data[event.currentIndex]
-          ? event.container.data[event.currentIndex].id + ''
-          : '0';
-      } else {
-        followID = event.container.data[event.currentIndex - 1]
-          ? event.container.data[event.currentIndex - 1].id + ''
-          : '0';
-      }
-    } else {
-      followID = event.container.data[event.currentIndex - 1]
-        ? event.container.data[event.currentIndex - 1].id + ''
-        : '0';
-    }
-    let task = event.previousContainer.data[event.previousIndex];
-    this.taskService.moveTask(newSectionID,taskID,followID,task).subscribe(()=>(this.taskMove.emit()))
+    this.sectionService
+      .moveTask(event)
+      .subscribe();
+
+  }
+
+  refreshTasks() {
+    this.sectionService
+      .getTasks(this.section.id)
+      .subscribe((taskList: Task[]) => (this.taskList = taskList));
   }
 }

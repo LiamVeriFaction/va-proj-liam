@@ -41,10 +41,7 @@ export class ProjectInputBoxComponent {
     this.dialogRef.close();
   }
 
-  save(): void {
-    const { value, valid } = this.form;
-    if (valid) {
-      this.dialogRef.close(value);
-    }
+  submit(){
+    this.dialogRef.close(this.form.value);
   }
 }
