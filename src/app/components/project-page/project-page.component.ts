@@ -55,5 +55,13 @@ export class ProjectPageComponent implements OnInit {
     });
   }
 
+  getSectionIDs(slist: Section[]): string[] {
+    return slist.map((section: Section) => {
+      return section.id + '';
+    });
+  }
 
+  taskMove() {
+     this.sectionList$ = this.sectionService.getSections(this.project.id);
+  }
 }

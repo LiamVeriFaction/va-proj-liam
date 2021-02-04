@@ -14,7 +14,7 @@
   </div>
   <div class="section-list">
     <div *ngFor="let section of sectionList">
-      <section [section]="section"></section>
+      <section [section]="section" [connectedLists]="getSectionIDs(sectionList)" (taskMove) = "taskMove()"></section>
     </div>
   </div>
   <div class="section-list-options">

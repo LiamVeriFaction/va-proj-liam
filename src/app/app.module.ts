@@ -26,6 +26,7 @@ import { MatDatepickerModule } from '@angular/material/datepicker';
 import { MatNativeDateModule } from '@angular/material/core';
 import { SectionInputBoxComponent } from './components/dialogs/section-input-box/section-input-box.component';
 import { ErrorInterceptor } from './helpers/error.interceptor';
+import {DragDropModule} from '@angular/cdk/drag-drop'
 
 @NgModule({
   declarations: [
@@ -56,6 +57,7 @@ import { ErrorInterceptor } from './helpers/error.interceptor';
     FormsModule,
     MatDatepickerModule,
     MatNativeDateModule,
+    DragDropModule,
   ],
   providers: [
     { provide: HTTP_INTERCEPTORS, useClass: JwtInterceptor, multi: true },

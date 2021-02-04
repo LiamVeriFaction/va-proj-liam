@@ -1,9 +1,17 @@
-<div class="section" *ngIf ="taskList$ | async as taskList">
+<div cdkDropListGroup class="section" *ngIf ="taskList$ | async as taskList">
   <h2>{{ section.heading }}</h2>
 
-  <div class="tasklist">
+  <div
+  cdkDropList
+  id="{{section.id}}"
+  (cdkDropListDropped) ="drop($event)"
+  [cdkDropListData]="taskList"
+  [cdkDropListConnectedTo] = "connectedLists"
+  class="tasklist">
     <div *ngFor="let task of taskList">
+      <div cdkDrag>
       <task [task]="task"></task>
+    </div>
     </div>
   </div>
   <div class="section-options">

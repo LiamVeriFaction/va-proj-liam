@@ -43,18 +43,9 @@ export class TaskService {
     );
   }
 
-  updateTask(task: Task) : Observable<Task>{
-    return  this.http.patch<Task>(`${APIUrl}/task/${task.id}/`,task)
+  moveTask(sectionID : string, taskID : string, followsID: string, task : Task){
+    return this.http.patch<Task>(`${APIUrl}/section/${sectionID}/task/${taskID}/insert_after/${followsID}/`, task);
   }
 
-  updateOrder(taskList : Task[]) : Observable<Task[]>{
 
-     return of(taskList.map((task:Task, index:number) =>{
-      task.task_order = (index+1)*1000;
-      this.updateTask(task).subscribe();
-      return task;
-    }))
-    
-
-  }
 }
