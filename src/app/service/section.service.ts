@@ -8,21 +8,13 @@ import { SectionData } from '../models/dialog-data/section-data';
 import { TaskData } from '../models/dialog-data/task-data';
 import { Section } from '../models/section';
 import { Task } from '../models/task';
+import { AlertService } from './alert.service';
 
 @Injectable({
   providedIn: 'root',
 })
 export class SectionService {
-  updateAlertSubject: BehaviorSubject<[number,string,Task[]]>;
-
-  constructor(private http: HttpClient) {
-    this.updateAlertSubject = new BehaviorSubject<[number,string,Task[]]>([-1,'',{} as Task[]]);
-  }
-
-  getUpdateAlert(): Observable<[number,string,Task[]]> {
-    return this.updateAlertSubject.asObservable();
-  }
-
+  constructor(private http: HttpClient, private alertService: AlertService) {}
   /**
    *
    * @param id the section id
@@ -50,13 +42,7 @@ export class SectionService {
     );
   }
 
-  tempUpdate(taskList : Task[], id : number){
-    this.updateAlertSubject.next([id,'tempUpdate',taskList]);
-    
-  }
-
   moveTask(event: CdkDragDrop<Task[]>) {
-
     let prevSectionID = +event.previousContainer.id;
     let sectionID = event.container.id;
     let currentID = event.currentIndex;
@@ -80,6 +66,20 @@ export class SectionService {
         ? event.container.data[event.currentIndex - 1].id + ''
         : '0';
     }
+    
+    let tempNewData = event.container.data
+    let tempOldData = event.previousContainer.data;
+
+    if(prevSectionID !== +sectionID){
+      tempOldData.splice(previousId,1);
+      tempNewData.splice(currentID,0,task);
+      this.alertService.tasksUpdate(currentID,'tempUpdate',tempNewData);
+      this.alertService.tasksUpdate(prevSectionID,'tempUpdate',tempOldData);
+    }else{
+      tempNewData.splice(previousId,1);
+      tempNewData.splice(currentID,0,task)
+      this.alertService.tasksUpdate(prevSectionID,'tempUpdate',tempNewData);
+    }
 
     return this.http
       .patch<Task>(
@@ -88,11 +88,15 @@ export class SectionService {
       )
       .pipe(
         tap(() => {
-          this.updateAlertSubject.next([prevSectionID,'update',{} as Task[]]);
-          if(prevSectionID !== +sectionID){
-            this.updateAlertSubject.next([+sectionID,'update',{} as Task[]]);
+            this.alertService.tasksUpdate(prevSectionID, 'update', {} as Task[]);
+          if (prevSectionID !== +sectionID) {
+            this.alertService.tasksUpdate(+sectionID, 'update', {} as Task[]);
           }
         })
       );
   }
+
+
+
+
 }

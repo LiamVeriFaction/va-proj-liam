@@ -6,6 +6,7 @@ import { TaskData } from 'src/app/models/dialog-data/task-data';
 import { Section } from 'src/app/models/section';
 import { Task } from 'src/app/models/task';
 import { UserSession } from 'src/app/models/user-session';
+import { AlertService } from 'src/app/service/alert.service';
 import { AuthenticationService } from 'src/app/service/authentication.service';
 import { SectionService } from 'src/app/service/section.service';
 import { TaskService } from 'src/app/service/task.service';
@@ -26,7 +27,8 @@ export class SectionComponent implements OnInit {
   constructor(
     private sectionService: SectionService,
     private dialog: MatDialog,
-    private authService: AuthenticationService
+    private authService: AuthenticationService,
+    private alertService : AlertService,
   ) {}
 
   ngOnInit(): void {
@@ -35,7 +37,7 @@ export class SectionComponent implements OnInit {
       .getCurrentSession()
       .subscribe((session: UserSession) => (this.userSession = session));
 
-    this.sectionService.updateAlertSubject.subscribe((update) => {
+    this.alertService.getTaskUpdateAlert().subscribe((update) => {
       if (update[0] === this.section.id) {
         if(update[1] === 'update' ){
         this.refreshTasks();
