@@ -1,9 +1,7 @@
-import { HttpClient, HttpParams } from '@angular/common/http';
+import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { Observable, of } from 'rxjs';
-import { switchMap, tap } from 'rxjs/operators';
+import { Observable } from 'rxjs';
 import { APIUrl } from '../models/api';
-import { TaskData } from '../models/dialog-data/task-data';
 import { Task } from '../models/task';
 
 @Injectable({
@@ -11,7 +9,7 @@ import { Task } from '../models/task';
 })
 export class TaskService {
   constructor(private http: HttpClient) {}
-  
+
   /**
    *
    * @param id The task ID
@@ -19,8 +17,4 @@ export class TaskService {
   getTask(id: number): Observable<Task> {
     return this.http.get<Task>(`${APIUrl}/task/${id}/`);
   }
-
-
-
-
 }

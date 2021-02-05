@@ -17,7 +17,10 @@ export class AuthenticationService {
   public currentSessionSubject: BehaviorSubject<UserSession>;
 
   constructor(private http: HttpClient, private userService: UserService) {
-    this.currentSessionSubject = new BehaviorSubject<UserSession>({} as UserSession);
+    this.currentSessionSubject = new BehaviorSubject<UserSession>(
+      {} as UserSession
+    );
+    //Check if already signed in
     let currentSession = localStorage.getItem('currentSession');
 
     if (currentSession) {
@@ -30,10 +33,9 @@ export class AuthenticationService {
     });
   }
 
-  public getCurrentSession(): Observable<UserSession>{
+  public getCurrentSession(): Observable<UserSession> {
     return this.currentSessionSubject.asObservable();
   }
-
 
   public logout() {
     this.currentSessionSubject.next({} as UserSession);
@@ -55,7 +57,7 @@ export class AuthenticationService {
             .pipe(
               map((user: User) => {
                 console.log('User Info Received');
-                let currentSession:UserSession = { ...user, ...token };
+                let currentSession: UserSession = { ...user, ...token };
                 this.currentSessionSubject.next(currentSession);
                 localStorage.setItem(
                   'currentSession',

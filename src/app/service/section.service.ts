@@ -1,10 +1,9 @@
 import { CdkDragDrop } from '@angular/cdk/drag-drop';
 import { HttpClient, HttpParams } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { BehaviorSubject, Observable } from 'rxjs';
+import { Observable } from 'rxjs';
 import { switchMap, tap } from 'rxjs/operators';
 import { APIUrl } from '../models/api';
-import { SectionData } from '../models/dialog-data/section-data';
 import { TaskData } from '../models/dialog-data/task-data';
 import { Section } from '../models/section';
 import { Task } from '../models/task';
@@ -15,10 +14,7 @@ import { AlertService } from './alert.service';
 })
 export class SectionService {
   constructor(private http: HttpClient, private alertService: AlertService) {}
-  /**
-   *
-   * @param id the section id
-   */
+
   getSection(id: number): Observable<Section> {
     return this.http.get<Section>(`${APIUrl}/section/${id}/`);
   }
@@ -30,10 +26,6 @@ export class SectionService {
     });
   }
 
-  /**
-   *
-   * @param id The section ID
-   */
   addTask(task: TaskData, id: number): Observable<Task[]> {
     return this.http.post<Task>(`${APIUrl}/section/${id}/task/`, task).pipe(
       switchMap(() => {
@@ -66,19 +58,23 @@ export class SectionService {
         ? event.container.data[event.currentIndex - 1].id + ''
         : '0';
     }
-    
-    let tempNewData = event.container.data
+
+    //While app waits for App response, make the changes locally so there is no delay.
+    //Temp Data is overwritten by refresh API calls.
+    let tempNewData = event.container.data;
     let tempOldData = event.previousContainer.data;
 
-    if(prevSectionID !== +sectionID){
-      tempOldData.splice(previousId,1);
-      tempNewData.splice(currentID,0,task);
-      this.alertService.tasksUpdate(currentID,'tempUpdate',tempNewData);
-      this.alertService.tasksUpdate(prevSectionID,'tempUpdate',tempOldData);
-    }else{
-      tempNewData.splice(previousId,1);
-      tempNewData.splice(currentID,0,task)
-      this.alertService.tasksUpdate(prevSectionID,'tempUpdate',tempNewData);
+    //If moving to another section
+    if (prevSectionID !== +sectionID) {
+      tempOldData.splice(previousId, 1);
+      tempNewData.splice(currentID, 0, task);
+      this.alertService.tasksUpdate(currentID, 'tempUpdate', tempNewData);
+      this.alertService.tasksUpdate(prevSectionID, 'tempUpdate', tempOldData);
+    } else {
+      //If moving within section
+      tempNewData.splice(previousId, 1);
+      tempNewData.splice(currentID, 0, task);
+      this.alertService.tasksUpdate(prevSectionID, 'tempUpdate', tempNewData);
     }
 
     return this.http
@@ -88,15 +84,12 @@ export class SectionService {
       )
       .pipe(
         tap(() => {
-            this.alertService.tasksUpdate(prevSectionID, 'update', {} as Task[]);
+          //This updates will overwrite the previous local changes, ensuring alignment with API
+          this.alertService.tasksUpdate(prevSectionID, 'update', {} as Task[]);
           if (prevSectionID !== +sectionID) {
             this.alertService.tasksUpdate(+sectionID, 'update', {} as Task[]);
           }
         })
       );
   }
-
-
-
-
 }

@@ -1,58 +1,44 @@
 <form [formGroup]="form" (ngSubmit)="submit()">
-<h1 mat-dialog-title>Create a Project</h1>
-<div mat-dialog-content class="dialog">
-  <mat-form-field class="field">
-    <mat-label>Project Name</mat-label>
-    <mat-error *ngIf="project_name.invalid">Required</mat-error>
-    <input
-      matInput
-      formControlName="project_name"
-      required
-    />
-  </mat-form-field>
+  <h1 mat-dialog-title>Create a Project</h1>
+  <div mat-dialog-content class="dialog">
+    <mat-form-field class="field">
+      <mat-label>Project Name</mat-label>
+      <mat-error *ngIf="project_name.invalid">Required</mat-error>
+      <input matInput formControlName="project_name" required />
+    </mat-form-field>
 
-  <mat-form-field class="field">
-    <mat-label>Description</mat-label>
-    <mat-error *ngIf="description.invalid">Required</mat-error>
-    <input
-      matInput
-      formControlName="description"
-      required
-    />
-  </mat-form-field>
+    <mat-form-field class="field">
+      <mat-label>Description</mat-label>
+      <mat-error *ngIf="description.invalid">Required</mat-error>
+      <input matInput formControlName="description" required />
+    </mat-form-field>
 
-  <mat-form-field appearance="fill" class="field">
-    <mat-label>Enter a start and target date</mat-label>
-    <mat-error *ngIf="start_date.invalid || target_date.invalid"
-      >Start and End Date Required</mat-error
-    >
-    <mat-date-range-input [rangePicker]="picker">
-      <input
-        matStartDate
-        formControlName="start_date"
-      />
+    <mat-form-field appearance="fill" class="field">
+      <mat-label>Enter a start and target date</mat-label>
+      <mat-error *ngIf="start_date.invalid || target_date.invalid"
+        >Start and End Date Required</mat-error
+      >
+      <mat-date-range-input [rangePicker]="picker">
+        <input matStartDate formControlName="start_date" />
 
-      <input
-        matEndDate
-        formControlName="target_date"
-      />
-    </mat-date-range-input>
-    <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
-    <mat-date-range-picker #picker></mat-date-range-picker>
-  </mat-form-field>
+        <input matEndDate formControlName="target_date" />
+      </mat-date-range-input>
+      <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
+      <mat-date-range-picker #picker></mat-date-range-picker>
+    </mat-form-field>
 
-  <div mat-dialog-actions class="options">
-    <button mat-stroked-button (click)="onNoClick()" class="button">
-      Cancel
-    </button>
-    <button
-      mat-stroked-button
-      type="submit"
-      [disabled]="form.invalid"
-      class="button"
-    >
-      Create
-    </button>
+    <div mat-dialog-actions class="options">
+      <button mat-stroked-button (click)="onNoClick()" class="button">
+        Cancel
+      </button>
+      <button
+        mat-stroked-button
+        type="submit"
+        [disabled]="form.invalid"
+        class="button"
+      >
+        Create
+      </button>
+    </div>
   </div>
-</div>
 </form>

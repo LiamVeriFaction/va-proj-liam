@@ -8,16 +8,19 @@ import { AuthenticationService } from './authentication.service';
   providedIn: 'root',
 })
 export class AuthGuardService implements CanActivate {
-  userSession! : UserSession;
+  userSession!: UserSession;
 
   constructor(
     private authService: AuthenticationService,
     private router: Router,
     private snackBar: MatSnackBar
   ) {
-    authService.getCurrentSession().subscribe((session) => (this.userSession = session));
+    authService
+      .getCurrentSession()
+      .subscribe((session) => (this.userSession = session));
   }
 
+  //Stops users getting to pages manually if they not logged in
   canActivate() {
     if (this.userSession.access) {
       return true;

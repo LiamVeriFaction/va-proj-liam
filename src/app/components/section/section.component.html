@@ -1,17 +1,18 @@
-<div cdkDropListGroup class="section" *ngIf ="taskList">
+<div cdkDropListGroup class="section" *ngIf="taskList">
   <h2>{{ section.heading }}</h2>
 
   <div
-  cdkDropList
-  id="{{section.id}}"
-  (cdkDropListDropped) ="drop($event)"
-  [cdkDropListData]="taskList"
-  [cdkDropListConnectedTo] = "connectedLists"
-  class="tasklist">
+    cdkDropList
+    id="{{ section.id }}"
+    (cdkDropListDropped)="drop($event)"
+    [cdkDropListData]="taskList"
+    [cdkDropListConnectedTo]="connectedLists"
+    class="tasklist"
+  >
     <div *ngFor="let task of taskList">
       <div cdkDrag>
-      <task [task]="task"></task>
-    </div>
+        <task [task]="task"></task>
+      </div>
     </div>
   </div>
   <div class="section-options">

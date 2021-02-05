@@ -5,7 +5,11 @@ import { Task } from '../models/task';
 @Injectable({
   providedIn: 'root',
 })
+
+//Alert Service Subject is subscribed to by Sections.
+//The alert passes alerts to sections
 export class AlertService {
+  //Subject contains section ID, updateType and the new Task Data
   updateTasksAlertSubject: BehaviorSubject<[number, string, Task[]]>;
 
   constructor() {

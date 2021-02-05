@@ -30,7 +30,7 @@ export class TaskInputBoxComponent {
     this.dialogRef.close();
   }
 
-  submit(){
+  submit() {
     this.dialogRef.close(this.form.value);
   }
 }

@@ -14,13 +14,15 @@
   </div>
   <div class="section-list">
     <div *ngFor="let section of sectionList">
-      <section [section]="section" [connectedLists]="getSectionIDs(sectionList)"></section>
+      <section
+        [section]="section"
+        [connectedLists]="getSectionIDs(sectionList)"
+      ></section>
     </div>
   </div>
   <div class="section-list-options">
-    <button mat-stroked-button class="button" (click)="openDialog()">
+    <button mat-stroked-button class="button" (click)="addSectionDialog()">
       Add Section
     </button>
-
   </div>
 </div>

@@ -1,4 +1,4 @@
-import { Component, Inject, OnInit } from '@angular/core';
+import { Component, Inject } from '@angular/core';
 import {
   FormBuilder,
   FormControl,
@@ -41,7 +41,7 @@ export class ProjectInputBoxComponent {
     this.dialogRef.close();
   }
 
-  submit(){
+  submit() {
     this.dialogRef.close(this.form.value);
   }
 }

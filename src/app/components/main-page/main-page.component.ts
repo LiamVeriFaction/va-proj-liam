@@ -1,8 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
-import { Observable } from 'rxjs';
 import { Project } from 'src/app/models/project';
-import { AuthenticationService } from 'src/app/service/authentication.service';
 import { ProjectService } from 'src/app/service/project.service';
 import { ProjectInputBoxComponent } from '../dialogs/project-input-box/project-input-box.component';
 
@@ -15,18 +13,17 @@ export class MainPageComponent implements OnInit {
   projectList!: Project[];
 
   constructor(
-    private authService: AuthenticationService,
     private projectService: ProjectService,
     private dialog: MatDialog
   ) {}
 
   ngOnInit(): void {
-    this.projectService.getProjects().subscribe((projects: Project[]) =>{
+    this.projectService.getProjects().subscribe((projects: Project[]) => {
       this.projectList = projects;
     });
   }
 
-  openDialog() {
+  addProjectDialog() {
     let projectDialog = this.dialog.open(ProjectInputBoxComponent, {
       width: '400px',
       data: {
@@ -39,9 +36,11 @@ export class MainPageComponent implements OnInit {
 
     projectDialog.afterClosed().subscribe((project) => {
       if (project) {
-        this.projectService.addProject(project).subscribe((projects: Project[]) =>{
-          this.projectList = projects;
-        });
+        this.projectService
+          .addProject(project)
+          .subscribe((projects: Project[]) => {
+            this.projectList = projects;
+          });
       }
     });
   }

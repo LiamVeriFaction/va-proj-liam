@@ -1,6 +1,8 @@
 <div
   class="navbar"
-  [ngStyle]="{ 'justify-content': currentUserSession.access ? 'space-between' : 'center' }"
+  [ngStyle]="{
+    'justify-content': currentUserSession.access ? 'space-between' : 'center'
+  }"
 >
   <div class="navbar-left" *ngIf="currentUserSession.access">
     <a routerLink="/main">Home</a>

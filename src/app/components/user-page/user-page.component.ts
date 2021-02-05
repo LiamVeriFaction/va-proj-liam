@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { FormControl, FormGroup, Validators } from '@angular/forms';
+import { FormControl, FormGroup } from '@angular/forms';
 import { User } from 'src/app/models/user';
 import { UserService } from 'src/app/service/user.service';
 
@@ -18,7 +18,5 @@ export class UserPageComponent implements OnInit {
 
   constructor(private userService: UserService) {}
 
-  ngOnInit(): void {
-
-  }
+  ngOnInit(): void {}
 }

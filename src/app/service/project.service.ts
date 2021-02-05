@@ -40,12 +40,7 @@ export class ProjectService {
       );
   }
 
-    /**
-   *
-   * @param id the project id
-   */
-
   getSections(id: number): Observable<Section[]> {
-    return this.http.get<Section[]>(`${APIUrl}/project/${id}/section/`)
+    return this.http.get<Section[]>(`${APIUrl}/project/${id}/section/`);
   }
 }

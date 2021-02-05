@@ -1,4 +1,4 @@
-import { Component, Inject, OnInit } from '@angular/core';
+import { Component, Inject } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { SectionData } from 'src/app/models/dialog-data/section-data';
@@ -30,7 +30,7 @@ export class SectionInputBoxComponent {
     this.dialogRef.close();
   }
 
-  submit(){
+  submit() {
     this.dialogRef.close(this.form.value);
   }
 }
