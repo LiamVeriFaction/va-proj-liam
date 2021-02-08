@@ -17,6 +17,7 @@
       <section
         [section]="section"
         [connectedLists]="getSectionIDs(sectionList)"
+        (changeSection) = "changeSection($event)"
       ></section>
     </div>
   </div>

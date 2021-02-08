@@ -1,5 +1,5 @@
-<form [formGroup]="form" (ngSubmit)="submit()">
-  <h1 mat-dialog-title>Create a Task</h1>
+<form [formGroup]="form" (ngSubmit)="submit()" (keydown.enter)="submit()">
+  <h1 mat-dialog-title>{{data.heading ? 'Edit Task' : 'Create a Task'}}</h1>
   <div mat-dialog-content>
     <mat-form-field class="field">
       <mat-label>Heading</mat-label>
@@ -17,7 +17,7 @@
   <div mat-dialog-actions class="options">
     <button mat-stroked-button (click)="onNoClick()">Cancel</button>
     <button type="submit" mat-stroked-button [disabled]="form.invalid">
-      Create
+      {{data.heading ? 'Save Edit' : 'Create'}}
     </button>
   </div>
 </form>

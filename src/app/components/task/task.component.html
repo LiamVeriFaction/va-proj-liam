@@ -8,10 +8,14 @@
     <mat-expansion-panel-header>
       <mat-panel-title>
         <div class="title">{{ task.heading }}</div>
-        <span class="material-icons" *ngIf="panelOpenState"> expand_less </span>
-        <span class="material-icons" *ngIf="!panelOpenState">
-          expand_more
-        </span>
+        <div class="drop-down">
+          <span class="material-icons" *ngIf="panelOpenState">
+            expand_less
+          </span>
+          <span class="material-icons" *ngIf="!panelOpenState">
+            expand_more
+          </span>
+        </div>
       </mat-panel-title>
     </mat-expansion-panel-header>
     <div *ngIf="noteList">
@@ -20,13 +24,11 @@
       </div>
     </div>
     <div class="task-options">
-      <button
-        mat-stroked-button
-        class="addButton"
-        (click)="addNoteDialog(task.id)"
-      >
-        Add Note
-      </button>
+      <span class="material-icons" (click)="addNoteDialog(task.id)">
+        add_box
+      </span>
+      <span class="material-icons" (click)="editTask()"> create</span>
+      <span class="material-icons" (click)="deleteTask()"> delete </span>
     </div>
   </mat-expansion-panel>
 </mat-accordion>

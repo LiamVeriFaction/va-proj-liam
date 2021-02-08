@@ -1,5 +1,5 @@
 import { CdkDragDrop } from '@angular/cdk/drag-drop';
-import { Component, Input, OnInit } from '@angular/core';
+import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
 import { TaskData } from 'src/app/models/dialog-data/task-data';
 import { Section } from 'src/app/models/section';
@@ -8,6 +8,7 @@ import { UserSession } from 'src/app/models/user-session';
 import { AlertService } from 'src/app/service/alert.service';
 import { AuthenticationService } from 'src/app/service/authentication.service';
 import { SectionService } from 'src/app/service/section.service';
+import { TaskService } from 'src/app/service/task.service';
 import { TaskInputBoxComponent } from '../dialogs/task-input-box/task-input-box.component';
 
 @Component({
@@ -18,6 +19,7 @@ import { TaskInputBoxComponent } from '../dialogs/task-input-box/task-input-box.
 export class SectionComponent implements OnInit {
   @Input() section!: Section;
   @Input() connectedLists!: string[];
+  @Output() changeSection : EventEmitter<[string,Section]> = new EventEmitter();
 
   userSession!: UserSession;
   taskList!: Task[];
@@ -26,7 +28,8 @@ export class SectionComponent implements OnInit {
     private sectionService: SectionService,
     private dialog: MatDialog,
     private authService: AuthenticationService,
-    private alertService: AlertService
+    private alertService: AlertService,
+    private taskService: TaskService,
   ) {}
 
   ngOnInit(): void {
@@ -74,4 +77,40 @@ export class SectionComponent implements OnInit {
       .getTasks(this.section.id)
       .subscribe((taskList: Task[]) => (this.taskList = taskList));
   }
+
+  editSection(){
+    this.changeSection.emit(["edit",this.section]);
+  }
+
+  deleteSection(){
+    this.changeSection.emit(["delete",this.section]);
+  }
+
+  changeTask(event: [string, Task]) {
+
+    //On edit, reopen the dialog for input but put current value in data
+    if (event[0] === 'edit') {
+
+      let taskDialog = this.dialog.open(TaskInputBoxComponent, {
+        width: '250px',
+        data: { heading: event[1].heading, description: event[1].description },
+      });
+  
+      taskDialog.afterClosed().subscribe((task: TaskData) => {
+
+        if (task.heading) {
+          task.user = this.userSession.id;
+          this.taskService.editTask(event[1].id,task).subscribe(() => this.refreshTasks());
+        }
+      });
+
+
+    } else if (event[0] === 'delete') {
+      this.taskService
+        .deleteTask(event[1].id)
+        .subscribe(() => this.refreshTasks());
+    }
+  }
+
+
 }

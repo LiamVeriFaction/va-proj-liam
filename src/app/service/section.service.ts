@@ -4,6 +4,7 @@ import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
 import { switchMap, tap } from 'rxjs/operators';
 import { APIUrl } from '../models/api';
+import { SectionData } from '../models/dialog-data/section-data';
 import { TaskData } from '../models/dialog-data/task-data';
 import { Section } from '../models/section';
 import { Task } from '../models/task';
@@ -91,6 +92,14 @@ export class SectionService {
           }
         })
       );
+  }
+
+  editSection(id:number, section:SectionData){
+    return this.http.patch(`${APIUrl}/section/${id}/`,section);
+  }
+
+  deleteSection(id:number){
+    return this.http.delete(`${APIUrl}/section/${id}/`);
   }
 
 }

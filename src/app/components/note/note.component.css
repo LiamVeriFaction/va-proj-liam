@@ -14,13 +14,13 @@
 .content{
     padding: 0px 5px;
     margin: auto;
-    margin-left: 10px
+    margin-left: 10px;
 }
 
 .material-icons{
     cursor: pointer;
-    margin: 2px;
-    color: white !important
+    margin: 5px;
+    color: white !important;
 }
 
 .material-icons:hover{

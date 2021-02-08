@@ -17,8 +17,8 @@ export class TaskInputBoxComponent {
     public dialogRef: MatDialogRef<TaskInputBoxComponent>,
     @Inject(MAT_DIALOG_DATA) public data: TaskData
   ) {
-    this.heading = new FormControl('', Validators.required);
-    this.description = new FormControl('', Validators.required);
+    this.heading = new FormControl(data.heading, Validators.required);
+    this.description = new FormControl(data.description, Validators.required);
 
     this.form = new FormGroup({
       heading: this.heading,

@@ -18,7 +18,7 @@
   font-weight: 600;
 }
 
-.material-icons{
+.drop-down{
   color: black;
   margin-left: auto;
 }
@@ -35,7 +35,15 @@
 }
 
 .task-options {
+  margin-top: 15px;
+  color: black;
   display: flex;
   justify-content: space-evenly;
 }
+
+.material-icons:hover{
+  color: white;
+  cursor: pointer;
+}
+
 

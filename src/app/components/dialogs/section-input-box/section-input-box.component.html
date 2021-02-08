@@ -1,5 +1,5 @@
 <form [formGroup]="form" (ngSubmit)="submit()">
-  <h1 mat-dialog-title>Create a Section</h1>
+  <h1 mat-dialog-title>{{data.heading ? 'Edit Section' : 'Create A Section'}}</h1>
   <div mat-dialog-content>
     <mat-form-field class="field">
       <mat-label>Heading</mat-label>
@@ -16,7 +16,7 @@
   <div mat-dialog-actions class="options">
     <button mat-stroked-button (click)="onNoClick()">Cancel</button>
     <button mat-stroked-button type="submit" [disabled]="form.invalid">
-      Create
+      {{data.heading ? 'Save Edit' : 'Create'}}
     </button>
   </div>
 </form>

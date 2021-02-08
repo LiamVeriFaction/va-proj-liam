@@ -1,4 +1,4 @@
-import { Component, Input, OnInit } from '@angular/core';
+import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
 import { NoteData } from 'src/app/models/dialog-data/note-data';
 import { Note } from 'src/app/models/note';
@@ -19,6 +19,7 @@ export class TaskComponent implements OnInit {
   panelOpenState = false;
   noteList!: Note[];
   userSession!: UserSession;
+  @Output() changeTask : EventEmitter<[string,Task]> = new EventEmitter();
   constructor(
     private taskService: TaskService,
     private dialog: MatDialog,
@@ -56,15 +57,19 @@ export class TaskComponent implements OnInit {
       .subscribe((notes) => (this.noteList = notes));
   }
 
+  //The emitter either emits edit or delete to first argument.
   changeNote(event: [string, Note]) {
+
+    //On edit, reopen the dialog for input but put current value in data
     if (event[0] === 'edit') {
 
-      let taskDialog = this.dialog.open(NoteInputBoxComponent, {
+      let noteDialog = this.dialog.open(NoteInputBoxComponent, {
         width: '250px',
         data: { content: event[1].content },
       });
   
-      taskDialog.afterClosed().subscribe((note: NoteData) => {
+      noteDialog.afterClosed().subscribe((note: NoteData) => {
+
         if (note.content) {
           note.user = this.userSession.id;
           this.noteService.editNote(event[1].id,note).subscribe(() => this.refreshNotes());
@@ -78,4 +83,13 @@ export class TaskComponent implements OnInit {
         .subscribe(() => this.refreshNotes());
     }
   }
+
+  editTask(){
+    this.changeTask.emit(["edit",this.task]);
+  }
+
+  deleteTask(){
+    this.changeTask.emit(["delete",this.task]);
+  }
+
 }

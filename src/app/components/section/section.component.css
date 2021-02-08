@@ -31,3 +31,12 @@
   justify-content: space-evenly;
 }
 
+.material-icons{
+  color:white;
+}
+
+.material-icons:hover{
+  color: var(--orange);
+  cursor: pointer;
+}
+

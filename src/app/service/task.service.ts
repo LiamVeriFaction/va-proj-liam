@@ -4,6 +4,7 @@ import { Observable } from 'rxjs';
 import { switchMap } from 'rxjs/operators';
 import { APIUrl } from '../models/api';
 import { NoteData } from '../models/dialog-data/note-data';
+import { TaskData } from '../models/dialog-data/task-data';
 import { Note } from '../models/note';
 import { Task } from '../models/task';
 
@@ -34,6 +35,15 @@ export class TaskService {
         })
       );
   }
+
+  editTask(id:number, task:TaskData){
+    return this.http.patch(`${APIUrl}/task/${id}/`,task);
+  }
+
+  deleteTask(id:number){
+    return this.http.delete(`${APIUrl}/task/${id}/`);
+  }
+
 
   
 }

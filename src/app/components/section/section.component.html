@@ -11,17 +11,13 @@
   >
     <div *ngFor="let task of taskList">
       <div cdkDrag>
-        <task [task]="task"></task>
+        <task [task]="task" (changeTask) ="changeTask($event)"></task>
       </div>
     </div>
   </div>
   <div class="section-options">
-    <button
-      mat-stroked-button
-      class="addButton"
-      (click)="addTaskDialog(section.id)"
-    >
-      Add Task
-    </button>
+    <span class="material-icons"(click)="addTaskDialog(section.id)" > add_box </span>
+    <span class="material-icons" (click)="editSection()"> create</span>
+    <span class="material-icons" (click)="deleteSection()"> delete </span>
   </div>
 </div>
