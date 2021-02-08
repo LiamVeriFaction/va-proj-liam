@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
 import { ActivatedRoute, Params } from '@angular/router';
+import { SectionData } from 'src/app/models/dialog-data/section-data';
 import { Project } from 'src/app/models/project';
 import { Section } from 'src/app/models/section';
 import { ProjectService } from 'src/app/service/project.service';
@@ -43,8 +44,8 @@ export class ProjectPageComponent implements OnInit {
       data: { heading: '', description: '' },
     });
 
-    projectDialog.afterClosed().subscribe((section) => {
-      if (section) {
+    projectDialog.afterClosed().subscribe((section: SectionData) => {
+      if (section.heading) {
         this.projectService
           .addSection(section, this.project.id)
           .subscribe((sections: Section[]) => {

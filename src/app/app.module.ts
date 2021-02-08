@@ -27,6 +27,9 @@ import { MatNativeDateModule } from '@angular/material/core';
 import { SectionInputBoxComponent } from './components/dialogs/section-input-box/section-input-box.component';
 import { ErrorInterceptor } from './helpers/error.interceptor';
 import { DragDropModule } from '@angular/cdk/drag-drop';
+import {MatExpansionModule} from '@angular/material/expansion';
+import { NoteComponent } from './components/note/note.component';
+import { NoteInputBoxComponent } from './components/dialogs/note-input-box/note-input-box.component';
 
 @NgModule({
   declarations: [
@@ -42,6 +45,8 @@ import { DragDropModule } from '@angular/cdk/drag-drop';
     TaskInputBoxComponent,
     ProjectInputBoxComponent,
     SectionInputBoxComponent,
+    NoteComponent,
+    NoteInputBoxComponent,
   ],
   imports: [
     BrowserModule,
@@ -58,11 +63,14 @@ import { DragDropModule } from '@angular/cdk/drag-drop';
     MatDatepickerModule,
     MatNativeDateModule,
     DragDropModule,
+    MatExpansionModule,
   ],
   providers: [
     { provide: HTTP_INTERCEPTORS, useClass: JwtInterceptor, multi: true },
     { provide: HTTP_INTERCEPTORS, useClass: ErrorInterceptor, multi: true },
     MatDatepickerModule,
+
+
   ],
   bootstrap: [AppComponent],
 })

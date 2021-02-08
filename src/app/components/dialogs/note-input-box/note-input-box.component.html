@@ -1,0 +1,18 @@
+<form [formGroup]="form" (ngSubmit)="submit()">
+    <h1 mat-dialog-title>{{data.content ? 'Edit Note' : 'Create a Note'}}</h1>
+    <div mat-dialog-content>
+      <mat-form-field class="field">
+        <mat-label>Content</mat-label>
+        <mat-error *ngIf="content.invalid">Required</mat-error>
+        <input matInput formControlName="content" />
+      </mat-form-field>
+    </div>
+  
+    <div mat-dialog-actions class="options">
+      <button mat-stroked-button (click)="onNoClick()">Cancel</button>
+      <button mat-stroked-button type="submit" [disabled]="form.invalid">
+        {{data.content ? 'Edit' : 'Create'}}
+      </button>
+    </div>
+  </form>
+  

@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
+import { ProjectData } from 'src/app/models/dialog-data/project.data';
 import { Project } from 'src/app/models/project';
 import { ProjectService } from 'src/app/service/project.service';
 import { ProjectInputBoxComponent } from '../dialogs/project-input-box/project-input-box.component';
@@ -34,8 +35,8 @@ export class MainPageComponent implements OnInit {
       },
     });
 
-    projectDialog.afterClosed().subscribe((project) => {
-      if (project) {
+    projectDialog.afterClosed().subscribe((project: ProjectData) => {
+      if (project.project_name) {
         this.projectService
           .addProject(project)
           .subscribe((projects: Project[]) => {

@@ -27,7 +27,8 @@ export class TaskInputBoxComponent {
   }
 
   onNoClick(): void {
-    this.dialogRef.close();
+    this.form.reset()
+    this.dialogRef.close(this.form.value);
   }
 
   submit() {

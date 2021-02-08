@@ -1,8 +1,8 @@
 .task {
   max-width: 500px;
   background: rgb(232, 232, 248);
-  margin: 15px;
-  margin-bottom: 20px;
+  margin: 10px;
+  color: black;
 }
 
 .task:hover {
@@ -10,10 +10,32 @@
 }
 
 .title {
-  color: rgb(0, 0, 0);
+  color: black;
   font-family: "Open Sans", sans-serif;
   font-size: 18px;
   padding: 5px;
   padding-left: 15px;
   font-weight: 600;
 }
+
+.material-icons{
+  color: black;
+  margin-left: auto;
+}
+
+.addButton{
+  color: black !important;;
+  border-color: black !important;
+}
+
+.addButton:hover{
+  background-color: var(--blue) !important;
+  border-color: var(--blue) !important;
+  color: white !important;
+}
+
+.task-options {
+  display: flex;
+  justify-content: space-evenly;
+}
+

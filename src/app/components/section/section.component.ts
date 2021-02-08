@@ -54,7 +54,7 @@ export class SectionComponent implements OnInit {
     });
 
     taskDialog.afterClosed().subscribe((task: TaskData) => {
-      if (task) {
+      if (task.heading) {
         task.user = this.userSession.id;
         this.sectionService
           .addTask(task, id)
