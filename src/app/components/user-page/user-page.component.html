@@ -1,1 +1,44 @@
-<div class="user-page">USER DETAILS HERE</div>
+<div class="user-page" *ngIf="user">
+  <form [formGroup]="form" class="user-info" (ngSubmit)="submit()">
+    <mat-form-field class="user-field">
+      <mat-label>Username</mat-label>
+      <input matInput formControlName="username" required />
+    </mat-form-field>
+
+    <mat-form-field class="user-field">
+      <mat-label>First Name</mat-label>
+      <input matInput formControlName="first_name" />
+    </mat-form-field>
+
+    <mat-form-field class="user-field">
+      <mat-label>Last Name</mat-label>
+      <input matInput formControlName="last_name" />
+    </mat-form-field>
+
+    <mat-form-field class="user-field">
+      <mat-label>Email</mat-label>
+      <input matInput formControlName="email" />
+    </mat-form-field>
+    <div class="options">
+      <button
+        mat-stroked-button
+        class="button"
+        *ngIf="disabled"
+        (click)="editDetails()"
+      >
+        Edit Details
+      </button>
+      <button
+        mat-stroked-button
+        class="button"
+        *ngIf="!disabled"
+        (click)="cancelEdit()"
+      >
+        Cancel
+      </button>
+      <button  mat-stroked-button type="submit" *ngIf ="!disabled" [disabled]="form.invalid" class="button">
+        Save Changes
+      </button>
+    </div>
+  </form>
+</div>

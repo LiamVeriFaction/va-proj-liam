@@ -25,4 +25,5 @@ export class AlertService {
   tasksUpdate(id: number, type: string, taskList: Task[]) {
     this.updateTasksAlertSubject.next([id, type, taskList]);
   }
+
 }

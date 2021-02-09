@@ -41,6 +41,20 @@ export class AuthenticationService {
     this.currentSessionSubject.next({} as UserSession);
   }
 
+  public updateUserInfo() {
+    return this.http.get<User>(`${APIUrl}/currentuser/`).pipe(
+      tap((user: User) => {
+        let currentSession = this.currentSessionSubject.value;
+        currentSession.username = user.username;
+        currentSession.first_name = user.first_name;
+        currentSession.last_name = user.last_name;
+        currentSession.email = user.email;
+        this.currentSessionSubject.next(currentSession);
+        localStorage.setItem('currentSession', JSON.stringify(currentSession));
+      })
+    );
+  }
+
   //Joins together user token and user info into single user session object
   //Populates the loggedInSubject with true and currentSessionSubject with the user session
   login(username: string, password: string) {

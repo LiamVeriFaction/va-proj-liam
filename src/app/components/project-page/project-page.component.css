@@ -50,6 +50,14 @@
   justify-content: center;
 }
 
-.button {
-  margin: 0px 20px;
+
+.material-icons{
+  color:white;
+  margin: 20px;
 }
+
+.material-icons:hover{
+  color: var(--orange);
+  cursor: pointer;
+}
+

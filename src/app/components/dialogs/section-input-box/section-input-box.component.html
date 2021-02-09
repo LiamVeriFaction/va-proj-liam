@@ -4,12 +4,12 @@
     <mat-form-field class="field">
       <mat-label>Heading</mat-label>
       <mat-error *ngIf="heading.invalid">Required</mat-error>
-      <input matInput formControlName="heading" />
+      <input matInput formControlName="heading" required/>
     </mat-form-field>
     <mat-form-field class="field">
       <mat-label>Description</mat-label>
       <mat-error *ngIf="description.invalid">Required</mat-error>
-      <input matInput formControlName="description" />
+      <input matInput formControlName="description" required/>
     </mat-form-field>
   </div>
 

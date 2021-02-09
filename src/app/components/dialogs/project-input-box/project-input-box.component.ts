@@ -24,10 +24,10 @@ export class ProjectInputBoxComponent {
     public dialogRef: MatDialogRef<ProjectInputBoxComponent>,
     @Inject(MAT_DIALOG_DATA) public data: ProjectData
   ) {
-    this.project_name = new FormControl('', Validators.required);
-    this.description = new FormControl('', Validators.required);
-    this.start_date = new FormControl('', Validators.required);
-    this.target_date = new FormControl('', Validators.required);
+    this.project_name = new FormControl(data.project_name, Validators.required);
+    this.description = new FormControl(data.description, Validators.required);
+    this.start_date = new FormControl(data.start_date, Validators.required);
+    this.target_date = new FormControl(data.target_date, Validators.required);
 
     this.form = new FormGroup({
       project_name: this.project_name,

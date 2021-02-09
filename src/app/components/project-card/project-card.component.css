@@ -8,6 +8,7 @@
 
 .project:hover {
   background-color: var(--orange);
+  cursor: pointer;
 }
 
 .title {

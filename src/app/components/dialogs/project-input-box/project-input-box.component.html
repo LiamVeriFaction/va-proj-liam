@@ -1,5 +1,5 @@
 <form [formGroup]="form" (ngSubmit)="submit()">
-  <h1 mat-dialog-title>Create a Project</h1>
+  <h1 mat-dialog-title>{{data.project_name ? 'Edit Project' : 'Create a Project'}}</h1>
   <div mat-dialog-content class="dialog">
     <mat-form-field class="field">
       <mat-label>Project Name</mat-label>
@@ -19,9 +19,9 @@
         >Start and End Date Required</mat-error
       >
       <mat-date-range-input [rangePicker]="picker">
-        <input matStartDate formControlName="start_date" />
+        <input matStartDate formControlName="start_date" required />
 
-        <input matEndDate formControlName="target_date" />
+        <input matEndDate formControlName="target_date" required />
       </mat-date-range-input>
       <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
       <mat-date-range-picker #picker></mat-date-range-picker>
@@ -37,7 +37,7 @@
         [disabled]="form.invalid"
         class="button"
       >
-        Create
+      {{data.project_name ? 'Save Edit' : 'Create'}}
       </button>
     </div>
   </div>

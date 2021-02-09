@@ -4,13 +4,29 @@
   height: 100%;
   overflow: auto;
   color: white;
+  display: flex;
+  justify-content: center;
 }
 
-em {
-  float: right;
-  color: #e05c65;
-  padding-left: 10px;
+.user-info {
+  transform: translate(0px, -100px);
+  margin: auto;
+  display: flex;
+  flex-direction: column;
 }
-.error input {
-  background-color: #e3c3c5;
+
+.user-field {
+  width: 300px;
+  margin: 20px 0px;
+  font-size: large;
+}
+
+.options {
+  display: flex;
+  justify-content: center;
+
+}
+
+.button{
+  margin: 0px 20px;
 }

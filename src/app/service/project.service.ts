@@ -43,4 +43,12 @@ export class ProjectService {
   getSections(id: number): Observable<Section[]> {
     return this.http.get<Section[]>(`${APIUrl}/project/${id}/section/`);
   }
+
+  editProject(id:number, project: ProjectData){
+    return this.http.patch<Project>(`${APIUrl}/project/${id}/`,project);
+  }
+
+  deleteProject(id:number){
+    return this.http.delete(`${APIUrl}/project/${id}/`);
+  }
 }
