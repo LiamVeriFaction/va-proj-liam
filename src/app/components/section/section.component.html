@@ -10,7 +10,7 @@
     class="tasklist"
   >
     <div *ngFor="let task of taskList">
-      <div cdkDrag>
+      <div cdkDrag [cdkDragDisabled]="!dragAllowed">
         <task [task]="task" (changeTask) ="changeTask($event)"></task>
       </div>
     </div>

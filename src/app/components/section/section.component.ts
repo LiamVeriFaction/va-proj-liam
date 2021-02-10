@@ -9,6 +9,7 @@ import { AlertService } from 'src/app/service/alert.service';
 import { AuthenticationService } from 'src/app/service/authentication.service';
 import { SectionService } from 'src/app/service/section.service';
 import { TaskService } from 'src/app/service/task.service';
+import { ConfirmBoxComponent } from '../dialogs/confirm-box/confirm-box.component';
 import { TaskInputBoxComponent } from '../dialogs/task-input-box/task-input-box.component';
 
 @Component({
@@ -23,6 +24,8 @@ export class SectionComponent implements OnInit {
 
   userSession!: UserSession;
   taskList!: Task[];
+  //Between local change and api result, don't allow additional drags
+  dragAllowed = true; 
 
   constructor(
     private sectionService: SectionService,
@@ -38,7 +41,8 @@ export class SectionComponent implements OnInit {
       .getCurrentSession()
       .subscribe((session: UserSession) => (this.userSession = session));
 
-    //Based on alert service either update local sectinlist or fetch new one from API
+    //Based on alert service either update local sectionlist or fetch new one from API
+    //Update comes in the form [section.id, code:string, taskList[]]
     this.alertService.getTaskUpdateAlert().subscribe((update) => {
       if (update[0] === this.section.id) {
         if (update[1] === 'update') {
@@ -50,6 +54,7 @@ export class SectionComponent implements OnInit {
     });
   }
 
+  //Opens a task dialog that makes a new task if a task is returned (task.heading exists)
   addTaskDialog(id: number) {
     let taskDialog = this.dialog.open(TaskInputBoxComponent, {
       width: '250px',
@@ -61,13 +66,14 @@ export class SectionComponent implements OnInit {
         task.user = this.userSession.id;
         this.sectionService
           .addTask(task, id)
-          .subscribe(() => this.refreshTasks());
+          .subscribe((tasks : Task[]) => (this.taskList = tasks));
       }
     });
   }
 
   //Called when task is dropped
   drop(event: CdkDragDrop<Task[]>) {
+    this.dragAllowed = false;
     this.sectionService.moveTask(event).subscribe();
   }
 
@@ -75,15 +81,29 @@ export class SectionComponent implements OnInit {
   refreshTasks() {
     this.sectionService
       .getTasks(this.section.id)
-      .subscribe((taskList: Task[]) => (this.taskList = taskList));
+      .subscribe((taskList: Task[]) => {
+        this.taskList = taskList
+        this.dragAllowed = true;});
   }
 
+  //Project-Page will open Edit Dialog to change details of section
   editSection(){
     this.changeSection.emit(["edit",this.section]);
   }
 
+  //Dialog Box to Confirm Delete, if true emit delete to the Project-Page
   deleteSection(){
-    this.changeSection.emit(["delete",this.section]);
+    let confirmDialog = this.dialog.open(ConfirmBoxComponent, {
+      width: '250px',
+      data: {heading: 'Delete Section', message : 'Are you sure you want to delete this section?'}
+    })
+
+    confirmDialog.afterClosed().subscribe(result => {
+      if(result){
+        this.changeSection.emit(["delete",this.section]);
+      }
+    })
+    
   }
 
   changeTask(event: [string, Task]) {
@@ -104,7 +124,7 @@ export class SectionComponent implements OnInit {
         }
       });
 
-
+    //On Delete, call delete from taskService, then refresh tasks
     } else if (event[0] === 'delete') {
       this.taskService
         .deleteTask(event[1].id)

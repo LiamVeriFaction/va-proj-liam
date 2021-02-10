@@ -21,6 +21,7 @@ export class JwtInterceptor implements HttpInterceptor {
     //Interceptor used on correct APICalls and once logged in
     if (isApiUrl && this.authService.currentSessionSubject.value.access) {
       let token = this.authService.currentSessionSubject.value;
+      //Add token to every http request
       request = request.clone({
         setHeaders: {
           Authorization: `Bearer ${token.access}`,

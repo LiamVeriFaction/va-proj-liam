@@ -24,6 +24,7 @@ export class MainPageComponent implements OnInit {
     });
   }
 
+   //Opens a project dialog that makes a new project if a project is returned (project.project_name exists)
   addProjectDialog() {
     let projectDialog = this.dialog.open(ProjectInputBoxComponent, {
       width: '400px',

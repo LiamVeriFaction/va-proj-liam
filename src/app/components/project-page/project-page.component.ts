@@ -8,6 +8,7 @@ import { Project } from 'src/app/models/project';
 import { Section } from 'src/app/models/section';
 import { ProjectService } from 'src/app/service/project.service';
 import { SectionService } from 'src/app/service/section.service';
+import { ConfirmBoxComponent } from '../dialogs/confirm-box/confirm-box.component';
 import { ProjectInputBoxComponent } from '../dialogs/project-input-box/project-input-box.component';
 import { SectionInputBoxComponent } from '../dialogs/section-input-box/section-input-box.component';
 
@@ -117,8 +118,23 @@ export class ProjectPageComponent implements OnInit {
     });
   }
 
+    //On Delete, call delete from projectservice, then route to main page
   deleteProject(){
-    this.projectService.deleteProject(this.project.id).subscribe(()=>(this.router.navigate(['/main'])))
+    let confirmDialog = this.dialog.open(ConfirmBoxComponent, {
+      width: '250px',
+      data: {
+        heading: 'Delete Project',
+        message: 'Are you sure you want to delete this project?',
+      },
+    });
+
+    confirmDialog.afterClosed().subscribe((result) => {
+      if (result) {
+        this.projectService.deleteProject(this.project.id).subscribe(()=>(this.router.navigate(['/main'])))
+      }
+    });
+
+
   }
 
   refreshProject(){
@@ -128,12 +144,11 @@ export class ProjectPageComponent implements OnInit {
   dropSection(event: CdkDragDrop<any>){
     let followID 
     if(event.previousIndex<event.currentIndex){
-    followID= event.container.data[event.currentIndex]? event.container.data[event.currentIndex] : 0;
+    followID= event.container.data[event.currentIndex]? event.container.data[event.currentIndex].id : 0;
     }else{
-      followID= event.container.data[event.currentIndex-1]? event.container.data[event.currentIndex-1] : 0;
+      followID= event.container.data[event.currentIndex-1]? event.container.data[event.currentIndex-1].id : 0;
     }
     
-    console.log()
     console.log(followID)
 
     moveItemInArray(this.sectionList, event.previousIndex, event.currentIndex);

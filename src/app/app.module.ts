@@ -30,6 +30,7 @@ import { DragDropModule } from '@angular/cdk/drag-drop';
 import {MatExpansionModule} from '@angular/material/expansion';
 import { NoteComponent } from './components/note/note.component';
 import { NoteInputBoxComponent } from './components/dialogs/note-input-box/note-input-box.component';
+import { ConfirmBoxComponent } from './components/dialogs/confirm-box/confirm-box.component';
 
 @NgModule({
   declarations: [
@@ -47,6 +48,7 @@ import { NoteInputBoxComponent } from './components/dialogs/note-input-box/note-
     SectionInputBoxComponent,
     NoteComponent,
     NoteInputBoxComponent,
+    ConfirmBoxComponent,
   ],
   imports: [
     BrowserModule,

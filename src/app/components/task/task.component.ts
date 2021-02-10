@@ -7,6 +7,7 @@ import { UserSession } from 'src/app/models/user-session';
 import { AuthenticationService } from 'src/app/service/authentication.service';
 import { NoteService } from 'src/app/service/note.service';
 import { TaskService } from 'src/app/service/task.service';
+import { ConfirmBoxComponent } from '../dialogs/confirm-box/confirm-box.component';
 import { NoteInputBoxComponent } from '../dialogs/note-input-box/note-input-box.component';
 
 @Component({
@@ -16,10 +17,9 @@ import { NoteInputBoxComponent } from '../dialogs/note-input-box/note-input-box.
 })
 export class TaskComponent implements OnInit {
   @Input() task!: Task;
-  panelOpenState = false;
   noteList!: Note[];
   userSession!: UserSession;
-  @Output() changeTask : EventEmitter<[string,Task]> = new EventEmitter();
+  @Output() changeTask: EventEmitter<[string, Task]> = new EventEmitter();
   constructor(
     private taskService: TaskService,
     private dialog: MatDialog,
@@ -32,11 +32,10 @@ export class TaskComponent implements OnInit {
       .getCurrentSession()
       .subscribe((session: UserSession) => (this.userSession = session));
 
-    this.taskService
-      .getNotes(this.task.id)
-      .subscribe((notes) => (this.noteList = notes));
+    this.refreshNotes();
   }
 
+    //Opens a note dialog that makes a new note if a note is returned (note.content exists)
   addNoteDialog(id: number) {
     let taskDialog = this.dialog.open(NoteInputBoxComponent, {
       width: '250px',
@@ -46,7 +45,7 @@ export class TaskComponent implements OnInit {
     taskDialog.afterClosed().subscribe((note: NoteData) => {
       if (note.content) {
         note.user = this.userSession.id;
-        this.taskService.addNote(note, id).subscribe(() => this.refreshNotes());
+        this.taskService.addNote(note, id).subscribe((notes : Note[]) => (this.noteList = notes));
       }
     });
   }
@@ -59,24 +58,23 @@ export class TaskComponent implements OnInit {
 
   //The emitter either emits edit or delete to first argument.
   changeNote(event: [string, Note]) {
-
     //On edit, reopen the dialog for input but put current value in data
     if (event[0] === 'edit') {
-
       let noteDialog = this.dialog.open(NoteInputBoxComponent, {
         width: '250px',
         data: { content: event[1].content },
       });
-  
-      noteDialog.afterClosed().subscribe((note: NoteData) => {
 
+      noteDialog.afterClosed().subscribe((note: NoteData) => {
         if (note.content) {
           note.user = this.userSession.id;
-          this.noteService.editNote(event[1].id,note).subscribe(() => this.refreshNotes());
+          this.noteService
+            .editNote(event[1].id, note)
+            .subscribe(() => this.refreshNotes());
         }
       });
 
-
+      //On Delete, call delete from noteService, then refresh tasks
     } else if (event[0] === 'delete') {
       this.noteService
         .deleteNote(event[1].id)
@@ -84,12 +82,25 @@ export class TaskComponent implements OnInit {
     }
   }
 
-  editTask(){
-    this.changeTask.emit(["edit",this.task]);
+  //Section-Component will open Edit Dialog to change details of task
+  editTask() {
+    this.changeTask.emit(['edit', this.task]);
   }
 
-  deleteTask(){
-    this.changeTask.emit(["delete",this.task]);
-  }
+  //Dialog Box to Confirm Delete, if true emit delete to the Section-Component
+  deleteTask() {
+    let confirmDialog = this.dialog.open(ConfirmBoxComponent, {
+      width: '250px',
+      data: {
+        heading: 'Delete Task',
+        message: 'Are you sure you want to delete this task?',
+      },
+    });
 
+    confirmDialog.afterClosed().subscribe((result) => {
+      if (result) {
+        this.changeTask.emit(['delete', this.task]);
+      }
+    });
+  }
 }

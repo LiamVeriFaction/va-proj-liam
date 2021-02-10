@@ -12,7 +12,7 @@ import { UserService } from 'src/app/service/user.service';
 })
 export class UserPageComponent implements OnInit {
   user!: User;
-  disabled = true;
+  disabled = true; //Controls if edit or save/cancel buttons showing
 
   form = new FormGroup({
     username: new FormControl(),
@@ -45,6 +45,7 @@ export class UserPageComponent implements OnInit {
   }
 
   cancelEdit(){
+    //Reset form back to original values
     this.form = this.formBuilder.group({
       username: [this.user.username,Validators.required],
       first_name:  [this.user.first_name],

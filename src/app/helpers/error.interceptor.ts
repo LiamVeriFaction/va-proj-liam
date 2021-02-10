@@ -13,6 +13,7 @@ import { catchError, retry } from 'rxjs/operators';
 export class ErrorInterceptor implements HttpInterceptor {
   constructor() {}
 
+  //Catches any HTTP errors and displays them
   intercept(
     request: HttpRequest<unknown>,
     next: HttpHandler
