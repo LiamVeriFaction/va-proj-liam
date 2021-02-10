@@ -51,4 +51,8 @@ export class ProjectService {
   deleteProject(id:number){
     return this.http.delete(`${APIUrl}/project/${id}/`);
   }
+
+  moveSection(){
+
+  }
 }

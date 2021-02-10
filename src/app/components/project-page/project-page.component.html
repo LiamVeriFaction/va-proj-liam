@@ -12,17 +12,23 @@
       </div>
     </div>
   </div>
-  <div class="section-list">
-    <div *ngFor="let section of sectionList">
+  <div
+    cdkDropList
+    cdkDropListOrientation="horizontal"
+    (cdkDropListDropped)="dropSection($event)"
+    [cdkDropListData]="sectionList"
+    class="section-list"
+  >
+    <div *ngFor="let section of sectionList" cdkDrag>
       <section
         [section]="section"
         [connectedLists]="getSectionIDs(sectionList)"
-        (changeSection) = "changeSection($event)"
+        (changeSection)="changeSection($event)"
       ></section>
     </div>
   </div>
   <div class="section-list-options">
-    <span class="material-icons"(click)="addSectionDialog()" > add_box </span>
+    <span class="material-icons" (click)="addSectionDialog()"> add_box </span>
     <span class="material-icons" (click)="editProject()"> create</span>
     <span class="material-icons" (click)="deleteProject()"> delete </span>
   </div>

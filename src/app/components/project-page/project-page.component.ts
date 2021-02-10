@@ -1,3 +1,4 @@
+import { CdkDragDrop, moveItemInArray } from '@angular/cdk/drag-drop';
 import { Component, OnInit } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
 import { ActivatedRoute, Params, Router } from '@angular/router';
@@ -122,5 +123,20 @@ export class ProjectPageComponent implements OnInit {
 
   refreshProject(){
     this.projectService.getProject(this.project.id).subscribe((project:Project) => (this.project = project));
+  }
+
+  dropSection(event: CdkDragDrop<any>){
+    let followID 
+    if(event.previousIndex<event.currentIndex){
+    followID= event.container.data[event.currentIndex]? event.container.data[event.currentIndex] : 0;
+    }else{
+      followID= event.container.data[event.currentIndex-1]? event.container.data[event.currentIndex-1] : 0;
+    }
+    
+    console.log()
+    console.log(followID)
+
+    moveItemInArray(this.sectionList, event.previousIndex, event.currentIndex);
+    this.projectService.moveSection();
   }
 }
