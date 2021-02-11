@@ -31,18 +31,16 @@ export class ProjectPageComponent implements OnInit {
 
   //Use the routed parameter to get the project and sections, storing both locally
   ngOnInit(): void {
-    this.route.paramMap.subscribe((params: Params) => {
+
+    this.route.data.subscribe((data) => {
+      this.project = data.project;
       this.projectService
-        .getProject(+params.get('id'))
-        .subscribe((project: Project) => {
-          this.project = project;
-          this.projectService
-            .getSections(project.id)
-            .subscribe((sections: Section[]) => {
-              this.sectionList = sections;
-            });
-        });
-    });
+      .getSections(this.project.id)
+      .subscribe((sections: Section[]) => {
+        this.sectionList = sections;
+      });
+    })
+
   }
 
   addSectionDialog() {
