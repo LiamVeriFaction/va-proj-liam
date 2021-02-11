@@ -19,6 +19,7 @@ export class TaskComponent implements OnInit {
   @Input() task!: Task;
   noteList!: Note[];
   userSession!: UserSession;
+  panelOpenState= false;
   @Output() changeTask: EventEmitter<[string, Task]> = new EventEmitter();
   constructor(
     private taskService: TaskService,
