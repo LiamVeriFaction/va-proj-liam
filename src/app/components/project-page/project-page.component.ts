@@ -2,6 +2,7 @@ import { CdkDragDrop, moveItemInArray } from '@angular/cdk/drag-drop';
 import { Component, OnInit } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
 import { ActivatedRoute, Params, Router } from '@angular/router';
+import { map } from 'rxjs/operators';
 import { ProjectData } from 'src/app/models/dialog-data/project.data';
 import { SectionData } from 'src/app/models/dialog-data/section-data';
 import { Project } from 'src/app/models/project';
@@ -26,21 +27,19 @@ export class ProjectPageComponent implements OnInit {
     private projectService: ProjectService,
     private dialog: MatDialog,
     private sectionService: SectionService,
-    private router : Router,
+    private router: Router
   ) {}
 
   //Use the routed parameter to get the project and sections, storing both locally
   ngOnInit(): void {
-
     this.route.data.subscribe((data) => {
       this.project = data.project;
       this.projectService
-      .getSections(this.project.id)
-      .subscribe((sections: Section[]) => {
-        this.sectionList = sections;
-      });
-    })
-
+        .getSections(this.project.id)
+        .subscribe((sections: Section[]) => {
+          this.sectionList = sections;
+        });
+    });
   }
 
   addSectionDialog() {
@@ -90,10 +89,19 @@ export class ProjectPageComponent implements OnInit {
     }
   }
 
+  //Update the local list with new section orders, if they dont match after the map, refresh local storage which reloads page
   refreshSections() {
-    this.projectService
-      .getSections(this.project.id)
-      .subscribe((sections) => (this.sectionList = sections));
+    this.projectService.getSections(this.project.id).subscribe((sections:Section[]) => {
+      sections.map((section: Section, i) => {
+        if (this.sectionList[i] !== section) {
+          this.sectionList[i].section_order = section.section_order;
+        }
+      });
+
+      if(JSON.stringify(sections) !== JSON.stringify(this.sectionList)){
+        this.sectionList = sections;
+      }
+    });
   }
 
   editProject() {
@@ -116,8 +124,8 @@ export class ProjectPageComponent implements OnInit {
     });
   }
 
-    //On Delete, call delete from projectservice, then route to main page
-  deleteProject(){
+  //On Delete, call delete from projectservice, then route to main page
+  deleteProject() {
     let confirmDialog = this.dialog.open(ConfirmBoxComponent, {
       width: '250px',
       data: {
@@ -128,28 +136,34 @@ export class ProjectPageComponent implements OnInit {
 
     confirmDialog.afterClosed().subscribe((result) => {
       if (result) {
-        this.projectService.deleteProject(this.project.id).subscribe(()=>(this.router.navigate(['/main'])))
+        this.projectService
+          .deleteProject(this.project.id)
+          .subscribe(() => this.router.navigate(['/main']));
       }
     });
-
-
   }
 
-  refreshProject(){
-    this.projectService.getProject(this.project.id).subscribe((project:Project) => (this.project = project));
+  refreshProject() {
+    this.projectService
+      .getProject(this.project.id)
+      .subscribe((project: Project) => (this.project = project));
   }
 
-  dropSection(event: CdkDragDrop<any>){
-    let followID 
-    if(event.previousIndex<event.currentIndex){
-    followID= event.container.data[event.currentIndex]? event.container.data[event.currentIndex].id : 0;
-    }else{
-      followID= event.container.data[event.currentIndex-1]? event.container.data[event.currentIndex-1].id : 0;
+  dropSection(event: CdkDragDrop<any>) {
+    let followID;
+    if (event.previousIndex < event.currentIndex) {
+      followID = event.container.data[event.currentIndex]
+        ? event.container.data[event.currentIndex].id
+        : 0;
+    } else {
+      followID = event.container.data[event.currentIndex - 1]
+        ? event.container.data[event.currentIndex - 1].id
+        : 0;
     }
-    
-    console.log(followID)
 
     moveItemInArray(this.sectionList, event.previousIndex, event.currentIndex);
-    this.projectService.moveSection();
+    this.sectionService
+      .moveSection(event.container.data[event.currentIndex], followID)
+      .subscribe(() => this.refreshSections());
   }
 }

@@ -102,4 +102,9 @@ export class SectionService {
     return this.http.delete(`${APIUrl}/section/${id}/`);
   }
 
+  moveSection(section : Section, followID : number){
+    return this.http.patch(`${APIUrl}/section/${section.id}/insert_after/${followID}/`,section);
+
+  }
+
 }

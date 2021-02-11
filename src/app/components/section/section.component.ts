@@ -20,23 +20,25 @@ import { TaskInputBoxComponent } from '../dialogs/task-input-box/task-input-box.
 export class SectionComponent implements OnInit {
   @Input() section!: Section;
   @Input() connectedLists!: string[];
-  @Output() changeSection : EventEmitter<[string,Section]> = new EventEmitter();
+  @Output() changeSection: EventEmitter<[string, Section]> = new EventEmitter();
 
   userSession!: UserSession;
   taskList!: Task[];
   //Between local change and api result, don't allow additional drags
-  dragAllowed = true; 
+  dragAllowed = true;
 
   constructor(
     private sectionService: SectionService,
     private dialog: MatDialog,
     private authService: AuthenticationService,
     private alertService: AlertService,
-    private taskService: TaskService,
+    private taskService: TaskService
   ) {}
 
   ngOnInit(): void {
-    this.refreshTasks();
+    this.sectionService
+      .getTasks(this.section.id)
+      .subscribe((taskList: Task[]) => (this.taskList = taskList));
     this.authService
       .getCurrentSession()
       .subscribe((session: UserSession) => (this.userSession = session));
@@ -66,7 +68,7 @@ export class SectionComponent implements OnInit {
         task.user = this.userSession.id;
         this.sectionService
           .addTask(task, id)
-          .subscribe((tasks : Task[]) => (this.taskList = tasks));
+          .subscribe((tasks: Task[]) => (this.taskList = tasks));
       }
     });
   }
@@ -77,60 +79,69 @@ export class SectionComponent implements OnInit {
     this.sectionService.moveTask(event).subscribe();
   }
 
-  //Fetch tasklist from API
+  //Update the local list with new task orders, if they dont match after the map, refresh local storage which reloads page
   refreshTasks() {
     this.sectionService
       .getTasks(this.section.id)
       .subscribe((taskList: Task[]) => {
-        this.taskList = taskList
-        this.dragAllowed = true;});
+        taskList.map((task: Task, i) => {
+          if (this.taskList[i] !== task) {
+            this.taskList[i].task_order = task.task_order;
+          }
+        });
+
+        if (JSON.stringify(taskList) !== JSON.stringify(this.taskList)) {
+          this.taskList = taskList;
+        }
+
+        this.dragAllowed = true;
+      });
   }
 
   //Project-Page will open Edit Dialog to change details of section
-  editSection(){
-    this.changeSection.emit(["edit",this.section]);
+  editSection() {
+    this.changeSection.emit(['edit', this.section]);
   }
 
   //Dialog Box to Confirm Delete, if true emit delete to the Project-Page
-  deleteSection(){
+  deleteSection() {
     let confirmDialog = this.dialog.open(ConfirmBoxComponent, {
       width: '250px',
-      data: {heading: 'Delete Section', message : 'Are you sure you want to delete this section?'}
-    })
+      data: {
+        heading: 'Delete Section',
+        message: 'Are you sure you want to delete this section?',
+      },
+    });
 
-    confirmDialog.afterClosed().subscribe(result => {
-      if(result){
-        this.changeSection.emit(["delete",this.section]);
+    confirmDialog.afterClosed().subscribe((result) => {
+      if (result) {
+        this.changeSection.emit(['delete', this.section]);
       }
-    })
-    
+    });
   }
 
   changeTask(event: [string, Task]) {
-
     //On edit, reopen the dialog for input but put current value in data
     if (event[0] === 'edit') {
-
       let taskDialog = this.dialog.open(TaskInputBoxComponent, {
         width: '250px',
         data: { heading: event[1].heading, description: event[1].description },
       });
-  
-      taskDialog.afterClosed().subscribe((task: TaskData) => {
 
+      taskDialog.afterClosed().subscribe((task: TaskData) => {
         if (task.heading) {
           task.user = this.userSession.id;
-          this.taskService.editTask(event[1].id,task).subscribe(() => this.refreshTasks());
+          this.taskService
+            .editTask(event[1].id, task)
+            .subscribe(() => this.refreshTasks());
         }
       });
 
-    //On Delete, call delete from taskService, then refresh tasks
+      //On Delete, call delete from taskService, then refresh tasks
     } else if (event[0] === 'delete') {
       this.taskService
         .deleteTask(event[1].id)
         .subscribe(() => this.refreshTasks());
     }
   }
-
-
 }
