@@ -2,6 +2,7 @@ import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
 import { switchMap } from 'rxjs/operators';
+
 import { APIUrl } from '../models/api';
 import { NoteData } from '../models/dialog-data/note-data';
 import { TaskData } from '../models/dialog-data/task-data';
@@ -45,5 +46,5 @@ export class TaskService {
   }
 
 
-  
+
 }

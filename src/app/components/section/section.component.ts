@@ -24,7 +24,7 @@ export class SectionComponent implements OnInit {
 
   userSession!: UserSession;
   taskList!: Task[];
-  //Between local change and api result, don't allow additional drags
+  // Between local change and api result, don't allow additional drags
   dragAllowed = true;
 
   constructor(
@@ -39,12 +39,12 @@ export class SectionComponent implements OnInit {
     this.sectionService
       .getTasks(this.section.id)
       .subscribe((taskList: Task[]) => (this.taskList = taskList));
-    this.authService
-      .getCurrentSession()
-      .subscribe((session: UserSession) => (this.userSession = session));
+    this.authService.currentSession$.subscribe(
+      (session) => (this.userSession = session)
+    );
 
-    //Based on alert service either update local sectionlist or fetch new one from API
-    //Update comes in the form [section.id, code:string, taskList[]]
+    // Based on alert service either update local sectionlist or fetch new one from API
+    // Update comes in the form [section.id, code:string, taskList[]]
     this.alertService.getTaskUpdateAlert().subscribe((update) => {
       if (update[0] === this.section.id) {
         if (update[1] === 'update') {
@@ -56,7 +56,7 @@ export class SectionComponent implements OnInit {
     });
   }
 
-  //Opens a task dialog that makes a new task if a task is returned (task.heading exists)
+  // Opens a task dialog that makes a new task if a task is returned (task.heading exists)
   addTaskDialog(id: number) {
     let taskDialog = this.dialog.open(TaskInputBoxComponent, {
       width: '250px',

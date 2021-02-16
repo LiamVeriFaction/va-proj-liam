@@ -14,7 +14,10 @@ import { ProjectPageComponent } from './components/project-page/project-page.com
 import { MatCardModule } from '@angular/material/card';
 import { MatInputModule } from '@angular/material/input';
 import { MatButtonModule } from '@angular/material/button';
-import { MatSnackBarModule } from '@angular/material/snack-bar';
+import {
+  MatSnackBarModule,
+  MAT_SNACK_BAR_DEFAULT_OPTIONS,
+} from '@angular/material/snack-bar';
 import { JwtInterceptor } from './helpers/jwt.interceptor';
 import { UserPageComponent } from './components/user-page/user-page.component';
 import { LoginComponent } from './components/login/login.component';
@@ -27,7 +30,7 @@ import { MatNativeDateModule } from '@angular/material/core';
 import { SectionInputBoxComponent } from './components/dialogs/section-input-box/section-input-box.component';
 import { ErrorInterceptor } from './helpers/error.interceptor';
 import { DragDropModule } from '@angular/cdk/drag-drop';
-import {MatExpansionModule} from '@angular/material/expansion';
+import { MatExpansionModule } from '@angular/material/expansion';
 import { NoteComponent } from './components/note/note.component';
 import { NoteInputBoxComponent } from './components/dialogs/note-input-box/note-input-box.component';
 import { ConfirmBoxComponent } from './components/dialogs/confirm-box/confirm-box.component';
@@ -68,11 +71,10 @@ import { ConfirmBoxComponent } from './components/dialogs/confirm-box/confirm-bo
     MatExpansionModule,
   ],
   providers: [
+    { provide: MAT_SNACK_BAR_DEFAULT_OPTIONS, useValue: { duration: 2000 } },
     { provide: HTTP_INTERCEPTORS, useClass: JwtInterceptor, multi: true },
     { provide: HTTP_INTERCEPTORS, useClass: ErrorInterceptor, multi: true },
     MatDatepickerModule,
-
-
   ],
   bootstrap: [AppComponent],
 })

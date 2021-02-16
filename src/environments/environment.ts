@@ -4,6 +4,7 @@
 
 export const environment = {
   production: false,
+  apiUrl: 'https://vaproj.itstudio.ie/api',
 };
 
 /*

@@ -13,7 +13,7 @@ import { catchError, retry } from 'rxjs/operators';
 export class ErrorInterceptor implements HttpInterceptor {
   constructor() {}
 
-  //Catches any HTTP errors and displays them
+  // Catches any HTTP errors and displays them
   intercept(
     request: HttpRequest<unknown>,
     next: HttpHandler
@@ -23,10 +23,10 @@ export class ErrorInterceptor implements HttpInterceptor {
       catchError((error: HttpErrorResponse) => {
         let errorMessage = '';
         if (error.error instanceof ErrorEvent) {
-          //Client Side
+          // Client Side
           errorMessage = `Error: ${error.error.message}`;
         } else {
-          //Server Side
+          // Server Side
           errorMessage = `Error Code: ${error.status}\nMessage: ${error.message}`;
         }
         window.alert(errorMessage);

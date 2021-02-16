@@ -1,7 +1,8 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
-import { APIUrl } from '../models/api';
+import { environment } from '../../environments/environment';
+
 import { User } from '../models/user';
 
 @Injectable({
@@ -10,15 +11,14 @@ import { User } from '../models/user';
 export class UserService {
   constructor(private http: HttpClient) {}
 
-
-  getUser() : Observable<User>{
-    return this.http.get<User>(`${APIUrl}/currentuser/`);
+  getUser(): Observable<User> {
+    return this.http.get<User>(`${environment.apiUrl}/currentuser/`);
   }
 
-  editUser(user :User) : Observable<User>{
-    return this.http.patch<User>(`${APIUrl}/user/${user.id}/`,user);
+  editUser(user: User): Observable<User> {
+    return this.http.patch<User>(
+      `${environment.apiUrl}/user/${user.id}/`,
+      user
+    );
   }
-
-
-
 }

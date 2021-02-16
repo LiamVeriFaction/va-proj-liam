@@ -19,7 +19,7 @@ export class TaskComponent implements OnInit {
   @Input() task!: Task;
   noteList!: Note[];
   userSession!: UserSession;
-  panelOpenState= false;
+  panelOpenState = false;
   @Output() changeTask: EventEmitter<[string, Task]> = new EventEmitter();
   constructor(
     private taskService: TaskService,
@@ -29,16 +29,16 @@ export class TaskComponent implements OnInit {
   ) {}
 
   ngOnInit(): void {
-    this.authService
-      .getCurrentSession()
-      .subscribe((session: UserSession) => (this.userSession = session));
+    this.authService.currentSession$.subscribe(
+      (session) => (this.userSession = session)
+    );
 
     this.refreshNotes();
   }
 
-    //Opens a note dialog that makes a new note if a note is returned (note.content exists)
-  addNoteDialog(id: number) {
-    let taskDialog = this.dialog.open(NoteInputBoxComponent, {
+  // Opens a note dialog that makes a new note if a note is returned (note.content exists)
+  addNoteDialog(id: number): void {
+    const taskDialog = this.dialog.open(NoteInputBoxComponent, {
       width: '250px',
       data: { content: '' },
     });
@@ -46,22 +46,24 @@ export class TaskComponent implements OnInit {
     taskDialog.afterClosed().subscribe((note: NoteData) => {
       if (note.content) {
         note.user = this.userSession.id;
-        this.taskService.addNote(note, id).subscribe((notes : Note[]) => (this.noteList = notes));
+        this.taskService
+          .addNote(note, id)
+          .subscribe((notes: Note[]) => (this.noteList = notes));
       }
     });
   }
 
-  refreshNotes() {
+  refreshNotes(): void {
     this.taskService
       .getNotes(this.task.id)
       .subscribe((notes) => (this.noteList = notes));
   }
 
-  //The emitter either emits edit or delete to first argument.
-  changeNote(event: [string, Note]) {
-    //On edit, reopen the dialog for input but put current value in data
+  // The emitter either emits edit or delete to first argument.
+  changeNote(event: [string, Note]): void {
+    // On edit, reopen the dialog for input but put current value in data
     if (event[0] === 'edit') {
-      let noteDialog = this.dialog.open(NoteInputBoxComponent, {
+      const noteDialog = this.dialog.open(NoteInputBoxComponent, {
         width: '250px',
         data: { content: event[1].content },
       });
@@ -75,7 +77,7 @@ export class TaskComponent implements OnInit {
         }
       });
 
-      //On Delete, call delete from noteService, then refresh tasks
+      // On Delete, call delete from noteService, then refresh tasks
     } else if (event[0] === 'delete') {
       this.noteService
         .deleteNote(event[1].id)
@@ -83,14 +85,14 @@ export class TaskComponent implements OnInit {
     }
   }
 
-  //Section-Component will open Edit Dialog to change details of task
-  editTask() {
+  // Section-Component will open Edit Dialog to change details of task
+  editTask(): void {
     this.changeTask.emit(['edit', this.task]);
   }
 
-  //Dialog Box to Confirm Delete, if true emit delete to the Section-Component
-  deleteTask() {
-    let confirmDialog = this.dialog.open(ConfirmBoxComponent, {
+  // Dialog Box to Confirm Delete, if true emit delete to the Section-Component
+  deleteTask(): void {
+    const confirmDialog = this.dialog.open(ConfirmBoxComponent, {
       width: '250px',
       data: {
         heading: 'Delete Task',
