@@ -8,14 +8,13 @@ import { AuthenticationService } from 'src/app/service/authentication.service';
   styleUrls: ['./nav-bar.component.css'],
 })
 export class NavBarComponent implements OnInit {
-  currentUserSession!: UserSession;
-  loggedIn!: boolean;
+  session!: UserSession;
 
   constructor(private authService: AuthenticationService) {}
 
   ngOnInit(): void {
     this.authService
       .getCurrentSession()
-      .subscribe((session) => (this.currentUserSession = session));
+      .subscribe((session) => (this.session = session));
   }
 }

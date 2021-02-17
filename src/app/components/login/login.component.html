@@ -6,7 +6,7 @@
         <div class="input-field">
           <mat-form-field>
             <mat-label> Username </mat-label>
-            <mat-error *ngIf="username.invalid"
+            <mat-error *ngIf="f.username.invalid"
               >Username cannot be blank</mat-error
             >
             <input
@@ -21,7 +21,7 @@
         <div class="input-field">
           <mat-form-field>
             <mat-label> Password </mat-label>
-            <mat-error *ngIf="password.invalid"
+            <mat-error *ngIf="f.password.invalid"
               >Password cannot be blank</mat-error
             >
             <input

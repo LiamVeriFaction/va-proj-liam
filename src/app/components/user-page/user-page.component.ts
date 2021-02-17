@@ -71,9 +71,7 @@ export class UserPageComponent implements OnInit {
     this.user.email= this.form.get('email')?.value;
     this.userService.editUser(this.user).subscribe((user) => {
       
-      this.snackBar.open('Changes Succesful', '', {
-        duration: 2000,
-      });
+      this.snackBar.open('Changes Succesful');
       this.user = user
       this.form.disable();
       this.disabled=true;

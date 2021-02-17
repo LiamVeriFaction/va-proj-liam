@@ -1,18 +1,18 @@
 <div
   class="navbar"
   [ngStyle]="{
-    'justify-content': currentUserSession.access ? 'space-between' : 'center'
+    'justify-content': session.access ? 'space-between' : 'center'
   }"
 >
-  <div class="navbar-left" *ngIf="currentUserSession.access">
+  <div class="navbar-left" *ngIf="session.access">
     <a routerLink="/main">Home</a>
     <a routerLink="/main">Projects</a>
   </div>
 
   <div class="title">Liam's Trello Clone</div>
 
-  <div class="navbar-right" *ngIf="currentUserSession.access">
-    <a routerLink="/user"> {{ currentUserSession.username }}</a>
+  <div class="navbar-right" *ngIf="session.access">
+    <a routerLink="/user"> {{ session.username }}</a>
     <a routerLink="/login"> Logout </a>
   </div>
 </div>

@@ -25,9 +25,7 @@ export class AuthGuardService implements CanActivate {
     if (this.userSession.access) {
       return true;
     } else {
-      this.snackBar.open('Please login first', '', {
-        duration: 2000,
-      });
+      this.snackBar.open('Please login first');
       this.router.navigate(['/login']);
       return false;
     }

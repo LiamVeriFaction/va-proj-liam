@@ -1,5 +1,11 @@
 import { Component, OnInit } from '@angular/core';
-import { FormControl, FormGroup, Validators } from '@angular/forms';
+import {
+  AbstractControl,
+  FormBuilder,
+  FormControl,
+  FormGroup,
+  Validators,
+} from '@angular/forms';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { Router } from '@angular/router';
 import { AuthenticationService } from 'src/app/service/authentication.service';
@@ -10,38 +16,40 @@ import { AuthenticationService } from 'src/app/service/authentication.service';
   styleUrls: ['./login.component.css'],
 })
 export class LoginComponent implements OnInit {
-  loginForm!: FormGroup;
-  username!: FormControl;
-  password!: FormControl;
-  color = '';
+  loginForm: FormGroup;
 
   constructor(
     private authService: AuthenticationService,
     private router: Router,
-    private snackBar: MatSnackBar
+    private snackBar: MatSnackBar,
+    private formBuilder: FormBuilder
   ) {
-    localStorage.clear();
+    this.loginForm = this.formBuilder.group({
+      username: ['liam', Validators.required],
+      password: ['9ZmvnqK1G4rgPrTCJX', Validators.required],
+    });
   }
 
   ngOnInit(): void {
     this.authService.logout();
-    this.username = new FormControl('liam', Validators.required);
-    this.password = new FormControl('9ZmvnqK1G4rgPrTCJX', Validators.required);
-
-    this.loginForm = new FormGroup({
-      username: this.username,
-      password: this.password,
-    });
   }
 
+  /**
+   * Easy way to access formcontrols
+   */
+  public get f(): { [key: string]: AbstractControl } {
+    return this.loginForm.controls;
+  }
+
+  /**
+   * Perform login, if succesful navigate to main page
+   */
   onSubmit() {
     this.authService
-      .login(this.username.value, this.password.value)
+      .login(this.f.username.value, this.f.password.value)
       .subscribe((user) => {
         if (user) {
-          this.snackBar.open('Login Successful', '', {
-            duration: 2000,
-          });
+          this.snackBar.open('Login Successful');
           this.router.navigate(['/main']);
         }
       }),

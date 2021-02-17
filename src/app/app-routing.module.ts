@@ -8,7 +8,7 @@ import { AuthGuardService } from './service/auth-guard.service';
 import { ProjectResolverService } from './service/project-resolver.service';
 
 const routes: Routes = [
-  { path: '', redirectTo: 'login', pathMatch: 'full' },
+  { path: '', redirectTo: 'main', pathMatch: 'full' },
   { path: 'login', component: LoginComponent },
   {
     path: 'main',

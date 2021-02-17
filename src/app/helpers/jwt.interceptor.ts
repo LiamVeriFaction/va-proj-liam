@@ -7,6 +7,7 @@ import {
 } from '@angular/common/http';
 import { Observable } from 'rxjs';
 import { AuthenticationService } from '../service/authentication.service';
+import { mergeMap, take } from 'rxjs/operators';
 
 @Injectable()
 export class JwtInterceptor implements HttpInterceptor {
@@ -18,16 +19,24 @@ export class JwtInterceptor implements HttpInterceptor {
   ): Observable<HttpEvent<unknown>> {
     const isApiUrl = request.url.startsWith('https://vaproj.itstudio.ie/api');
 
-    //Interceptor used on correct APICalls and once logged in
-    if (isApiUrl && this.authService.currentSessionSubject.value.access) {
-      let token = this.authService.currentSessionSubject.value;
-      //Add token to every http request
-      request = request.clone({
-        setHeaders: {
-          Authorization: `Bearer ${token.access}`,
-        },
-      });
+    if(!isApiUrl){
+      return next.handle(request);
     }
-    return next.handle(request);
+
+    //Interceptor used on correct APICalls
+      return this.authService.getCurrentSession().pipe(
+        take(1),
+        mergeMap((session) => {
+          if (session && session.access) {
+            request = request.clone({
+              setHeaders: {
+                Authorization: `Bearer ${session?.access}`,
+              },
+            });
+          }
+          return next.handle(request);
+        })
+      );
+    
   }
 }
