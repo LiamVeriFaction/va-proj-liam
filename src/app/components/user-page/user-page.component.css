@@ -24,9 +24,8 @@
 .options {
   display: flex;
   justify-content: center;
-
 }
 
-.button{
+.button {
   margin: 0px 20px;
 }

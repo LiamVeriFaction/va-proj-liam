@@ -16,12 +16,16 @@ export class NoteComponent implements OnInit {
 
   ngOnInit(): void {}
 
-  //Task-Component will open Edit Dialog to change details of note
+  /**
+   * Task-Component will open Edit Dialog to change details of note
+   */
   editNote() {
     this.changeNote.emit(['edit', this.note]);
   }
 
-  //Dialog Box to Confirm Delete, if true emit delete to the Task-Component
+  /**
+   * Dialog Box to Confirm Delete, if true emit delete to the Task-Component
+   */
   deleteNote() {
     let confirmDialog = this.dialog.open(ConfirmBoxComponent, {
       width: '250px',

@@ -18,17 +18,17 @@
   font-weight: 600;
 }
 
-.drop-down{
+.drop-down {
   color: black;
   margin-left: auto;
 }
 
-.addButton{
-  color: black !important;;
+.addButton {
+  color: black !important;
   border-color: black !important;
 }
 
-.addButton:hover{
+.addButton:hover {
   background-color: var(--blue) !important;
   border-color: var(--blue) !important;
   color: white !important;
@@ -41,9 +41,7 @@
   justify-content: space-evenly;
 }
 
-.material-icons:hover{
+.material-icons:hover {
   color: white;
   cursor: pointer;
 }
-
-

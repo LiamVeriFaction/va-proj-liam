@@ -43,8 +43,10 @@ export class SectionComponent implements OnInit {
       .getCurrentSession()
       .subscribe((session: UserSession) => (this.userSession = session));
 
-    //Based on alert service either update local sectionlist or fetch new one from API
-    //Update comes in the form [section.id, code:string, taskList[]]
+    /**
+     * Based on alert service either update local sectionlist or fetch new one from API
+     * Update comes in the form [section.id, code:string, taskList[]]
+     */
     this.alertService.getTaskUpdateAlert().subscribe((update) => {
       if (update[0] === this.section.id) {
         if (update[1] === 'update') {
@@ -56,7 +58,10 @@ export class SectionComponent implements OnInit {
     });
   }
 
-  //Opens a task dialog that makes a new task if a task is returned (task.heading exists)
+  /**
+   * Opens a task dialog that makes a new task if a task is returned (task.heading exists)
+   * @param id the user id, needed to add tasks
+   */
   addTaskDialog(id: number) {
     let taskDialog = this.dialog.open(TaskInputBoxComponent, {
       width: '250px',
@@ -73,13 +78,21 @@ export class SectionComponent implements OnInit {
     });
   }
 
-  //Called when task is dropped
+  /**
+   * Called when a task is dropped, uses sectionService to perform move
+   * No moving allowed until API has confirmed move (dragAllowed=false)
+   * @param event contains information about the move
+   */
   drop(event: CdkDragDrop<Task[]>) {
     this.dragAllowed = false;
     this.sectionService.moveTask(event).subscribe();
   }
 
-  //Update the local list with new task orders, if they dont match after the map, refresh local storage which reloads page
+  /**
+   * Update the local list with new task orders
+   * if they dont match after the map, refresh local storage which reloads page
+   *
+   */
   refreshTasks() {
     this.sectionService
       .getTasks(this.section.id)
@@ -98,12 +111,16 @@ export class SectionComponent implements OnInit {
       });
   }
 
-  //Project-Page will open Edit Dialog to change details of section
+  /**
+   * Project-Page will open Edit Dialog to change details of section
+   */
   editSection() {
     this.changeSection.emit(['edit', this.section]);
   }
 
-  //Dialog Box to Confirm Delete, if true emit delete to the Project-Page
+  /**
+   * Dialog Box to Confirm Delete, if true emit delete to the Project-Page
+   */
   deleteSection() {
     let confirmDialog = this.dialog.open(ConfirmBoxComponent, {
       width: '250px',
@@ -120,6 +137,10 @@ export class SectionComponent implements OnInit {
     });
   }
 
+  /**
+   * Opens an edit dialog or a confirm delete dialog based on the icon pressed
+   * @param event event has a type (edit/delete) and the task that is affected
+   */
   changeTask(event: [string, Task]) {
     //On edit, reopen the dialog for input but put current value in data
     if (event[0] === 'edit') {

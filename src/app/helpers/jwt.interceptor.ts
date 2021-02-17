@@ -19,24 +19,23 @@ export class JwtInterceptor implements HttpInterceptor {
   ): Observable<HttpEvent<unknown>> {
     const isApiUrl = request.url.startsWith('https://vaproj.itstudio.ie/api');
 
-    if(!isApiUrl){
+    if (!isApiUrl) {
       return next.handle(request);
     }
 
     //Interceptor used on correct APICalls
-      return this.authService.getCurrentSession().pipe(
-        take(1),
-        mergeMap((session) => {
-          if (session && session.access) {
-            request = request.clone({
-              setHeaders: {
-                Authorization: `Bearer ${session?.access}`,
-              },
-            });
-          }
-          return next.handle(request);
-        })
-      );
-    
+    return this.authService.getCurrentSession().pipe(
+      take(1),
+      mergeMap((session) => {
+        if (session && session.access) {
+          request = request.clone({
+            setHeaders: {
+              Authorization: `Bearer ${session?.access}`,
+            },
+          });
+        }
+        return next.handle(request);
+      })
+    );
   }
 }

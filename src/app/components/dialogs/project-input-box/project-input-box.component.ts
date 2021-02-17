@@ -38,7 +38,7 @@ export class ProjectInputBoxComponent {
   }
 
   onNoClick(): void {
-    this.form.reset()
+    this.form.reset();
     this.dialogRef.close(this.form.value);
   }
 

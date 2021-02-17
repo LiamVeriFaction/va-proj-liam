@@ -19,7 +19,7 @@ export class TaskComponent implements OnInit {
   @Input() task!: Task;
   noteList!: Note[];
   userSession!: UserSession;
-  panelOpenState= false;
+  panelOpenState = false;
   @Output() changeTask: EventEmitter<[string, Task]> = new EventEmitter();
   constructor(
     private taskService: TaskService,
@@ -36,7 +36,10 @@ export class TaskComponent implements OnInit {
     this.refreshNotes();
   }
 
-    //Opens a note dialog that makes a new note if a note is returned (note.content exists)
+  /**
+   * Opens a note dialog that makes a new note if a note is returned (note.heading exists)
+   * @param id the task id, needed to add notes
+   */
   addNoteDialog(id: number) {
     let taskDialog = this.dialog.open(NoteInputBoxComponent, {
       width: '250px',
@@ -46,18 +49,26 @@ export class TaskComponent implements OnInit {
     taskDialog.afterClosed().subscribe((note: NoteData) => {
       if (note.content) {
         note.user = this.userSession.id;
-        this.taskService.addNote(note, id).subscribe((notes : Note[]) => (this.noteList = notes));
+        this.taskService
+          .addNote(note, id)
+          .subscribe((notes: Note[]) => (this.noteList = notes));
       }
     });
   }
 
+  /**
+   * Refresh the notes from the API
+   */
   refreshNotes() {
     this.taskService
       .getNotes(this.task.id)
       .subscribe((notes) => (this.noteList = notes));
   }
 
-  //The emitter either emits edit or delete to first argument.
+  /**
+   * Opens an edit dialog or a confirm delete dialog based on the icon pressed
+   * @param event event has a type (edit/delete) and the note that is affected
+   */
   changeNote(event: [string, Note]) {
     //On edit, reopen the dialog for input but put current value in data
     if (event[0] === 'edit') {
@@ -83,12 +94,16 @@ export class TaskComponent implements OnInit {
     }
   }
 
-  //Section-Component will open Edit Dialog to change details of task
+  /**
+   * Section-Component will open Edit Dialog to change details of section
+   */
   editTask() {
     this.changeTask.emit(['edit', this.task]);
   }
 
-  //Dialog Box to Confirm Delete, if true emit delete to the Section-Component
+  /**
+   * Dialog Box to Confirm Delete, if true emit delete to the Section-Component
+   */
   deleteTask() {
     let confirmDialog = this.dialog.open(ConfirmBoxComponent, {
       width: '250px',

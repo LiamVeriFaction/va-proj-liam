@@ -17,6 +17,6 @@ export function appInitializer(
      * we refresh and store the new access token.
      */
     new Promise<void>((resolve, reject) => {
-        authService.refreshToken().subscribe().add(resolve);
+      authService.refreshToken().subscribe().add(resolve);
     });
 }

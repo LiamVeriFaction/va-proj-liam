@@ -36,7 +36,13 @@
       >
         Cancel
       </button>
-      <button  mat-stroked-button type="submit" *ngIf ="!disabled" [disabled]="form.invalid" class="button">
+      <button
+        mat-stroked-button
+        type="submit"
+        *ngIf="!disabled"
+        [disabled]="form.invalid"
+        class="button"
+      >
         Save Changes
       </button>
     </div>

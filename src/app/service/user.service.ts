@@ -10,15 +10,18 @@ import { User } from '../models/user';
 export class UserService {
   constructor(private http: HttpClient) {}
 
-
-  getUser() : Observable<User>{
+  /**
+   * get the current usser
+   */
+  getUser(): Observable<User> {
     return this.http.get<User>(`${APIUrl}/currentuser/`);
   }
 
-  editUser(user :User) : Observable<User>{
-    return this.http.patch<User>(`${APIUrl}/user/${user.id}/`,user);
+  /**
+   * Edit the details of the current user
+   * @param user the new UserData
+   */
+  editUser(user: User): Observable<User> {
+    return this.http.patch<User>(`${APIUrl}/user/${user.id}/`, user);
   }
-
-
-
 }

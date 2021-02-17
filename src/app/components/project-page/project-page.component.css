@@ -50,14 +50,12 @@
   justify-content: center;
 }
 
-
-.material-icons{
-  color:white;
+.material-icons {
+  color: white;
   margin: 20px;
 }
 
-.material-icons:hover{
+.material-icons:hover {
   color: var(--orange);
   cursor: pointer;
 }
-

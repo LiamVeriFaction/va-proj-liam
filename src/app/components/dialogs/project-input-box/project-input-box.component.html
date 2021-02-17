@@ -1,5 +1,7 @@
 <form [formGroup]="form" (ngSubmit)="submit()">
-  <h1 mat-dialog-title>{{data.project_name ? 'Edit Project' : 'Create a Project'}}</h1>
+  <h1 mat-dialog-title>
+    {{ data.project_name ? "Edit Project" : "Create a Project" }}
+  </h1>
   <div mat-dialog-content class="dialog">
     <mat-form-field class="field">
       <mat-label>Project Name</mat-label>
@@ -37,7 +39,7 @@
         [disabled]="form.invalid"
         class="button"
       >
-      {{data.project_name ? 'Save Edit' : 'Create'}}
+        {{ data.project_name ? "Save Edit" : "Create" }}
       </button>
     </div>
   </div>

@@ -27,7 +27,7 @@ export class SectionInputBoxComponent {
   }
 
   onNoClick(): void {
-    this.form.reset()
+    this.form.reset();
     this.dialogRef.close(this.form.value);
   }
 

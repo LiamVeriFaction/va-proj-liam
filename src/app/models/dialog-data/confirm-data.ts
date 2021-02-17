@@ -1,4 +1,4 @@
-export interface ConfirmData{
-    heading : string,
-    message : string,
+export interface ConfirmData {
+  heading: string;
+  message: string;
 }

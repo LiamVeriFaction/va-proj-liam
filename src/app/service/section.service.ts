@@ -16,10 +16,18 @@ import { AlertService } from './alert.service';
 export class SectionService {
   constructor(private http: HttpClient, private alertService: AlertService) {}
 
+  /**
+   * Get a single section using its id
+   * @param id the sectionID of the section you want
+   */
   getSection(id: number): Observable<Section> {
     return this.http.get<Section>(`${APIUrl}/section/${id}/`);
   }
 
+  /**
+   * Get all the tasks assigned to a section
+   * @param id the sectionID who's tasks you want
+   */
   getTasks(id: number): Observable<Task[]> {
     let p = new HttpParams().set('ordering', 'task_order');
     return this.http.get<Task[]>(`${APIUrl}/section/${id}/task/`, {
@@ -27,6 +35,11 @@ export class SectionService {
     });
   }
 
+  /**
+   * Add a new task to a section
+   * @param task the TaskData of the new Task
+   * @param id the section the task is assigned to
+   */
   addTask(task: TaskData, id: number): Observable<Task[]> {
     return this.http.post<Task>(`${APIUrl}/section/${id}/task/`, task).pipe(
       switchMap(() => {
@@ -35,6 +48,15 @@ export class SectionService {
     );
   }
 
+  /**
+   * Moves a task between two sections or within a single section
+   * In order to perform a move
+   *  -Determine the followID of the moved task, this depends on where the move is being made
+   *  -Make a tempUpdate to allow an animated move to be done locally
+   *  -Send the move to the api
+   *  -Refresh the affected sections
+   * @param event the event data of the move event
+   */
   moveTask(event: CdkDragDrop<Task[]>) {
     let prevSectionID = +event.previousContainer.id;
     let sectionID = event.container.id;
@@ -94,17 +116,32 @@ export class SectionService {
       );
   }
 
-  editSection(id:number, section:SectionData){
-    return this.http.patch(`${APIUrl}/section/${id}/`,section);
+  /**
+   * Edit a section
+   * @param id The ID of the section
+   * @param section The new SectionData
+   */
+  editSection(id: number, section: SectionData) {
+    return this.http.patch(`${APIUrl}/section/${id}/`, section);
   }
 
-  deleteSection(id:number){
+  /**
+   * Delete a section
+   * @param id The ID of the section you want to delete
+   */
+  deleteSection(id: number) {
     return this.http.delete(`${APIUrl}/section/${id}/`);
   }
 
-  moveSection(section : Section, followID : number){
-    return this.http.patch(`${APIUrl}/section/${section.id}/insert_after/${followID}/`,section);
-
+  /**
+   * Move a section's order within a project
+   * @param section The section you want to move
+   * @param followID The followID of that section
+   */
+  moveSection(section: Section, followID: number) {
+    return this.http.patch(
+      `${APIUrl}/section/${section.id}/insert_after/${followID}/`,
+      section
+    );
   }
-
 }

@@ -1,4 +1,4 @@
-export interface NoteData{
-    content: string;
-    user: number;
+export interface NoteData {
+  content: string;
+  user: number;
 }

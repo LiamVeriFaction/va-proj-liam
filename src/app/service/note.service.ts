@@ -4,21 +4,25 @@ import { APIUrl } from '../models/api';
 import { NoteData } from '../models/dialog-data/note-data';
 
 @Injectable({
-  providedIn: 'root'
+  providedIn: 'root',
 })
 export class NoteService {
+  constructor(private http: HttpClient) {}
 
-  constructor(private http: HttpClient) { }
-
-  deleteNote(id : number){
+  /**
+   * Deletes a note
+   * @param id ID of the note to be deleted
+   */
+  deleteNote(id: number) {
     return this.http.delete(`${APIUrl}/note/${id}/`);
   }
 
-  editNote(id : number, note : NoteData){
-    return this.http.patch(`${APIUrl}/note/${id}/`,note);
+  /**
+   * Edits a note
+   * @param id ID of the note to be editted
+   * @param note New Note Data
+   */
+  editNote(id: number, note: NoteData) {
+    return this.http.patch(`${APIUrl}/note/${id}/`, note);
   }
-
-
-
-
 }

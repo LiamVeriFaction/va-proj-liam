@@ -23,7 +23,7 @@ const routes: Routes = [
   {
     path: 'projects/:id',
     component: ProjectPageComponent,
-    resolve: {project : ProjectResolverService},
+    resolve: { project: ProjectResolverService },
     canActivate: [AuthGuardService],
   },
 ];

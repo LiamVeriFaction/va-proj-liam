@@ -16,15 +16,14 @@ export class NoteInputBoxComponent implements OnInit {
     public dialogRef: MatDialogRef<NoteInputBoxComponent>,
     @Inject(MAT_DIALOG_DATA) public data: NoteData
   ) {
-
     this.content = new FormControl(data.content, Validators.required);
     this.form = new FormGroup({
-      content : this.content,
-    })
+      content: this.content,
+    });
   }
 
   onNoClick(): void {
-    this.form.reset()
+    this.form.reset();
     this.dialogRef.close(this.form.value);
   }
 

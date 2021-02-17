@@ -1,5 +1,10 @@
 import { Component, OnInit } from '@angular/core';
-import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
+import {
+  FormBuilder,
+  FormControl,
+  FormGroup,
+  Validators,
+} from '@angular/forms';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { User } from 'src/app/models/user';
 import { AuthenticationService } from 'src/app/service/authentication.service';
@@ -24,61 +29,55 @@ export class UserPageComponent implements OnInit {
   constructor(
     private userService: UserService,
     private formBuilder: FormBuilder,
-    private snackBar : MatSnackBar,
-    private authService : AuthenticationService,
+    private snackBar: MatSnackBar,
+    private authService: AuthenticationService
   ) {}
 
   ngOnInit(): void {
     this.userService.getUser().subscribe((user) => {
-      
       this.user = user;
 
       this.form = this.formBuilder.group({
-        username: [this.user.username,Validators.required],
-        first_name:  [this.user.first_name],
-        last_name:  [this.user.last_name],
-        email:  [this.user.email],
+        username: [this.user.username, Validators.required],
+        first_name: [this.user.first_name],
+        last_name: [this.user.last_name],
+        email: [this.user.email],
       });
 
       this.form.disable();
     });
   }
 
-  cancelEdit(){
+  cancelEdit() {
     //Reset form back to original values
     this.form = this.formBuilder.group({
-      username: [this.user.username,Validators.required],
-      first_name:  [this.user.first_name],
-      last_name:  [this.user.last_name],
-      email:  [this.user.email],
+      username: [this.user.username, Validators.required],
+      first_name: [this.user.first_name],
+      last_name: [this.user.last_name],
+      email: [this.user.email],
     });
 
     this.form.disable();
-    this.disabled=true;
-  
-
+    this.disabled = true;
   }
 
-  editDetails(){
+  editDetails() {
     this.form.enable();
-    this.disabled=false;
+    this.disabled = false;
   }
 
-  submit(){
+  submit() {
     this.user.username = this.form.get('username')?.value;
     this.user.first_name = this.form.get('first_name')?.value;
     this.user.last_name = this.form.get('last_name')?.value;
-    this.user.email= this.form.get('email')?.value;
+    this.user.email = this.form.get('email')?.value;
     this.userService.editUser(this.user).subscribe((user) => {
-      
       this.snackBar.open('Changes Succesful');
-      this.user = user
+      this.user = user;
       this.form.disable();
-      this.disabled=true;
+      this.disabled = true;
 
       this.authService.updateUserInfo().subscribe();
-
     });
-
   }
 }

@@ -1,22 +1,24 @@
 <form [formGroup]="form" (ngSubmit)="submit()">
-  <h1 mat-dialog-title>{{data.heading ? 'Edit Section' : 'Create A Section'}}</h1>
+  <h1 mat-dialog-title>
+    {{ data.heading ? "Edit Section" : "Create A Section" }}
+  </h1>
   <div mat-dialog-content>
     <mat-form-field class="field">
       <mat-label>Heading</mat-label>
       <mat-error *ngIf="heading.invalid">Required</mat-error>
-      <input matInput formControlName="heading" required/>
+      <input matInput formControlName="heading" required />
     </mat-form-field>
     <mat-form-field class="field">
       <mat-label>Description</mat-label>
       <mat-error *ngIf="description.invalid">Required</mat-error>
-      <input matInput formControlName="description" required/>
+      <input matInput formControlName="description" required />
     </mat-form-field>
   </div>
 
   <div mat-dialog-actions class="options">
     <button mat-stroked-button (click)="onNoClick()">Cancel</button>
     <button mat-stroked-button type="submit" [disabled]="form.invalid">
-      {{data.heading ? 'Save Edit' : 'Create'}}
+      {{ data.heading ? "Save Edit" : "Create" }}
     </button>
   </div>
 </form>
