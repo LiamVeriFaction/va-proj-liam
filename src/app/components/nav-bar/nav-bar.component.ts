@@ -14,4 +14,8 @@ export class NavBarComponent {
   constructor(private authService: AuthenticationService) {
     this.currentUserSession$ = this.authService.currentSession$;
   }
+
+  public logout(): void {
+    this.authService.logout();
+  }
 }

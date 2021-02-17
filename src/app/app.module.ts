@@ -1,5 +1,5 @@
 import { BrowserModule } from '@angular/platform-browser';
-import { NgModule } from '@angular/core';
+import { APP_INITIALIZER, NgModule } from '@angular/core';
 
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
@@ -34,6 +34,8 @@ import { MatExpansionModule } from '@angular/material/expansion';
 import { NoteComponent } from './components/note/note.component';
 import { NoteInputBoxComponent } from './components/dialogs/note-input-box/note-input-box.component';
 import { ConfirmBoxComponent } from './components/dialogs/confirm-box/confirm-box.component';
+import { AuthenticationService } from './service/authentication.service';
+import { appInitializer } from './service/app-initializer';
 
 @NgModule({
   declarations: [
@@ -71,6 +73,12 @@ import { ConfirmBoxComponent } from './components/dialogs/confirm-box/confirm-bo
     MatExpansionModule,
   ],
   providers: [
+    {
+      provide: APP_INITIALIZER,
+      useFactory: appInitializer,
+      multi: true,
+      deps: [AuthenticationService],
+    },
     { provide: MAT_SNACK_BAR_DEFAULT_OPTIONS, useValue: { duration: 2000 } },
     { provide: HTTP_INTERCEPTORS, useClass: JwtInterceptor, multi: true },
     { provide: HTTP_INTERCEPTORS, useClass: ErrorInterceptor, multi: true },

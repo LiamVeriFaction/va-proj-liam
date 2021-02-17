@@ -4,33 +4,30 @@ import {
   HttpHandler,
   HttpEvent,
   HttpInterceptor,
-  HttpErrorResponse,
 } from '@angular/common/http';
-import { Observable, throwError } from 'rxjs';
+import { Observable, of, throwError } from 'rxjs';
 import { catchError, retry } from 'rxjs/operators';
+
+import { AuthenticationService } from '../service/authentication.service';
 
 @Injectable()
 export class ErrorInterceptor implements HttpInterceptor {
-  constructor() {}
+  constructor(private authService: AuthenticationService) {}
 
-  // Catches any HTTP errors and displays them
   intercept(
     request: HttpRequest<unknown>,
     next: HttpHandler
   ): Observable<HttpEvent<unknown>> {
     return next.handle(request).pipe(
       retry(1),
-      catchError((error: HttpErrorResponse) => {
-        let errorMessage = '';
-        if (error.error instanceof ErrorEvent) {
-          // Client Side
-          errorMessage = `Error: ${error.error.message}`;
-        } else {
-          // Server Side
-          errorMessage = `Error Code: ${error.status}\nMessage: ${error.message}`;
+      catchError((error) => {
+        if (error.status === 401) {
+          // If we receive an Unauthorized error response from the server-api, logout the user-session
+          // and do not bubble error up, consider it handled.
+          this.authService.logout();
+          return of(error);
         }
-        window.alert(errorMessage);
-        return throwError(errorMessage);
+        return throwError(error);
       })
     );
   }

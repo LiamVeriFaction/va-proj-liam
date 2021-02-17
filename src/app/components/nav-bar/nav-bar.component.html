@@ -14,6 +14,6 @@
 
   <div class="navbar-right" *ngIf="session.access">
     <a routerLink="/user"> {{ session?.username }}</a>
-    <a routerLink="/login"> Logout </a>
+    <a [routerLink]="" (click)="logout()"> Logout </a>
   </div>
 </div>
